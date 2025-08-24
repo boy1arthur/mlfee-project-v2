@@ -16,14 +16,14 @@
 <body>
     <div id="nav-placeholder"></div>
     <main class="container mx-auto px-4 py-16 sm:py-24 max-w-5xl">
-        <!-- [수정] 그리드 비율을 5단으로 변경하여 이미지 영역을 넓혔습니다. -->
         <div class="grid grid-cols-1 md:grid-cols-5 gap-12 items-center">
             <!-- 이미지 영역 -->
             <div class="md:col-span-2 flex justify-center">
                 <div class="profile-image-container rounded-lg p-1 border border-yellow-400/20">
+                    <!-- [수정] 이미지 높이를 지정하여 세로로 더 길어보이도록 변경했습니다. -->
                     <img src="assets/images/profile.jpg" 
                          alt="MLFEE 개발자 프로필 사진" 
-                         class="rounded-md w-full h-auto object-cover"
+                         class="rounded-md w-full h-[500px] md:h-[550px] object-cover"
                          onerror="this.onerror=null;this.src='https://placehold.co/400x500/1e1e1e/cccccc?text=Image+Error';">
                 </div>
             </div>
