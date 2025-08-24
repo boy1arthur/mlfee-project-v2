@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>레이드 크로니클 | MLFEE</title>
     <meta name="description" content="메이플랜드 레이드 공략의 모든 것. 혼테일 브레이커와 자쿰 타이머로 향하는 관문. 레이드 입장 가능 시간을 확인하고 다음 원정을 계획하세요.">
-    <meta name="keywords" content="레이드 크로니클, 혼테일 브레이커, 자쿰 타이머, 눕클, 레이드, 보스, 입장 시간, MLFEE">
     <link rel="icon" href="../../images/mlfee-logo.png" type="image/png">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8602495420447615" crossorigin="anonymous"></script>
@@ -40,41 +39,60 @@
 </head>
 <body class="dark">
 
-<div id="nav-placeholder"></div>
+<header class="sticky top-0 z-50 bg-gray-900/70 backdrop-blur-lg border-b border-white/10">
+    <div class="container mx-auto px-4 flex justify-between items-center h-16">
+        <a href="../../index.html" class="font-serif text-2xl font-bold tracking-wider text-white">MLFEE</a>
+        <nav class="hidden lg:flex items-center gap-6 font-medium text-slate-300">
+            <a href="../../index.html#tools" class="hover:text-white transition-colors" data-translate="nav_tools">유틸리티</a>
+            <a href="../raid-chronicle/" class="hover:text-white transition-colors" data-translate="nav_raid_chronicle">레이드 크로니클</a>
+            <a href="../../devlog/index.html" class="hover:text-white transition-colors" data-translate="nav_devlog">개발실록</a>
+            <div class="relative">
+                <select id="language-switcher" class="text-sm appearance-none bg-transparent border border-slate-600 rounded-md py-1 pl-2 pr-7 cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option value="ko">🇰🇷 한국어</option>
+                    <option value="en">🇺🇸 English</option>
+                    <option value="ja">🇯🇵 日本語</option>
+                </select>
+                <svg class="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3.75h.008v.008H12v-.008ZM3.75 7.5H7.5m3 12c-.312-.312-.623-.633-.928-.962M12 21c.305-.329.616-.65.928-.962m-3.072-1.462c.312-.312.623-.633.928-.962M12 3.75c.305.329.616-.65.928-.962m-3.072 1.462c.312-.312.623-.633.928-.962M3 12c0 2.485 2.015 4.5 4.5 4.5s4.5-2.015 4.5-4.5S9.985 7.5 7.5 7.5 3 9.515 3 12Zm12 0c0 2.485 2.015 4.5 4.5 4.5s4.5-2.015 4.5-4.5S18.985 7.5 16.5 7.5 12 9.515 12 12Z" /></svg>
+            </div>
+        </nav>
+        <button id="mobile-menu-btn" class="lg:hidden text-2xl text-white" aria-label="모바일 메뉴 열기">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+        </button>
+    </div>
+    <div id="mobile-nav" class="lg:hidden hidden border-t border-slate-800 bg-black/95"></div>
+</header>
 
 <main class="py-12 px-4">
     <div class="w-full max-w-5xl mx-auto space-y-16">
         <header class="text-center space-y-4">
-            <h1 class="main-title tracking-tight">레이드 크로니클</h1>
-            <p class="text-xl text-gray-400 max-w-2xl mx-auto">모든 원정의 시작과 끝. 다음 여정을 계획하고, 최적의 공략을 준비하세요.</p>
+            <h1 class="main-title tracking-tight" data-translate="rc_title">레이드 크로니클</h1>
+            <p class="text-xl text-gray-400 max-w-2xl mx-auto" data-translate="rc_subtitle">모든 원정의 시작과 끝. 다음 여정을 계획하고, 최적의 공략을 준비하세요.</p>
         </header>
 
         <section class="card p-8">
-            <h2 class="text-2xl font-bold text-center mb-6 text-yellow-400">다음 입장 시간 계산기</h2>
+            <h2 class="text-2xl font-bold text-center mb-6 text-yellow-400" data-translate="rc_calc_title">다음 입장 시간 계산기</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- 혼테일 계산기 -->
                 <div class="space-y-3">
-                    <h3 class="text-xl font-bold text-center text-white">혼테일</h3>
+                    <h3 class="text-xl font-bold text-center text-white" data-translate="rc_horntail_title">혼테일</h3>
                     <div class="flex items-center gap-2">
-                        <input type="text" id="horntail-entry-time-input" placeholder="HH:MM (예: 1430)" class="w-full bg-gray-800 border border-gray-600 rounded-md p-3 text-xl text-center">
-                        <button id="horntail-now-btn" class="btn flex-shrink-0 px-4 py-3">현재</button>
+                        <input type="text" id="horntail-entry-time-input" placeholder="HH:MM (예: 1430)" class="w-full bg-gray-800 border border-gray-600 rounded-md p-3 text-xl text-center" data-translate-placeholder="rc_placeholder_time">
+                        <button id="horntail-now-btn" class="btn flex-shrink-0 px-4 py-3" data-translate="rc_btn_now">현재</button>
                     </div>
                     <div class="grid grid-cols-2 gap-2">
-                        <button id="horntail-calculate-btn" class="btn text-lg w-full">기록</button>
-                        <button id="horntail-reset-btn" class="btn btn-secondary text-lg w-full">초기화</button>
+                        <button id="horntail-calculate-btn" class="btn text-lg w-full" data-translate="rc_btn_record">기록</button>
+                        <button id="horntail-reset-btn" class="btn btn-secondary text-lg w-full" data-translate="rc_btn_reset">초기화</button>
                     </div>
                     <div id="horntail-entry-result" class="text-center text-xl font-bold h-14 pt-2"></div>
                 </div>
-                <!-- 자쿰 계산기 -->
                 <div class="space-y-3">
-                    <h3 class="text-xl font-bold text-center text-white">자쿰</h3>
+                    <h3 class="text-xl font-bold text-center text-white" data-translate="rc_zakum_title">자쿰</h3>
                     <div class="flex items-center gap-2">
-                        <input type="text" id="zakum-entry-time-input" placeholder="HH:MM (예: 2100)" class="w-full bg-gray-800 border border-gray-600 rounded-md p-3 text-xl text-center">
-                        <button id="zakum-now-btn" class="btn flex-shrink-0 px-4 py-3">현재</button>
+                        <input type="text" id="zakum-entry-time-input" placeholder="HH:MM (예: 2100)" class="w-full bg-gray-800 border border-gray-600 rounded-md p-3 text-xl text-center" data-translate-placeholder="rc_placeholder_time">
+                        <button id="zakum-now-btn" class="btn flex-shrink-0 px-4 py-3" data-translate="rc_btn_now">현재</button>
                     </div>
                     <div class="grid grid-cols-2 gap-2">
-                        <button id="zakum-calculate-btn" class="btn text-lg w-full">기록</button>
-                        <button id="zakum-reset-btn" class="btn btn-secondary text-lg w-full">초기화</button>
+                        <button id="zakum-calculate-btn" class="btn text-lg w-full" data-translate="rc_btn_record">기록</button>
+                        <button id="zakum-reset-btn" class="btn btn-secondary text-lg w-full" data-translate="rc_btn_reset">초기화</button>
                     </div>
                     <div id="zakum-entry-result" class="text-center text-xl font-bold h-14 pt-2"></div>
                 </div>
@@ -85,38 +103,115 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <a href="../breaker/" class="boss-card card p-8 text-center flex flex-col items-center justify-between">
                     <div>
-                        <h2 class="text-3xl font-bold text-white mb-2">혼테일 브레이커</h2>
-                        <p class="text-gray-400 mb-6">공무, 유혹, 파티 관리까지. 혼테일 공략을 위한 모든 것을 담은 종합 유틸리티.</p>
+                        <h2 class="text-3xl font-bold text-white mb-2" data-translate="rc_horntail_card_title">혼테일 브레이커</h2>
+                        <p class="text-gray-400 mb-6" data-translate="rc_horntail_card_desc">공무, 유혹, 파티 관리까지. 혼테일 공략을 위한 모든 것을 담은 종합 유틸리티.</p>
                     </div>
-                    <span class="btn text-lg mt-4">바로가기 <i class="fas fa-arrow-right ml-2"></i></span>
+                    <span class="btn text-lg mt-4" data-translate="rc_btn_launch">바로가기 <i class="fas fa-arrow-right ml-2"></i></span>
                 </a>
                 <a href="../timer/" class="boss-card card p-8 text-center flex flex-col items-center justify-between">
                     <div>
-                        <h2 class="text-3xl font-bold text-white mb-2">자쿰 타이머</h2>
-                        <p class="text-gray-400 mb-6">리저렉션 쿨타임에 최적화된 직관적인 타이머. 연속 트라이 쿨타임 관리의 핵심.</p>
+                        <h2 class="text-3xl font-bold text-white mb-2" data-translate="rc_zakum_card_title">자쿰 타이머</h2>
+                        <p class="text-gray-400 mb-6" data-translate="rc_zakum_card_desc">리저렉션 쿨타임에 최적화된 직관적인 타이머. 연속 트라이 쿨타임 관리의 핵심.</p>
                     </div>
-                    <span class="btn text-lg mt-4">바로가기 <i class="fas fa-arrow-right ml-2"></i></span>
+                    <span class="btn text-lg mt-4" data-translate="rc_btn_launch">바로가기 <i class="fas fa-arrow-right ml-2"></i></span>
                 </a>
             </div>
         </section>
     </div>
 </main>
 
-<div id="footer-placeholder"></div>
-
-<script>
-  function loadComponent(url, placeholderId) {
-    fetch(url).then(r => r.text()).then(data => {
-        const p = document.getElementById(placeholderId);
-        if(p) p.outerHTML = data;
-    }).catch(e => console.error(`Error loading ${url}:`, e));
-  }
-  loadComponent('../../_includes/navigation.html', 'nav-placeholder');
-  loadComponent('../../_includes/footer.html', 'footer-placeholder');
-</script>
+<footer class="bg-gray-900 border-t border-white/10">
+    <div class="container mx-auto px-4 py-8 text-center text-slate-400 text-sm">
+        <div class="flex justify-center gap-6 mb-4">
+            <a href="../../about.html" class="hover:text-white transition-colors" data-translate="footer_about">소개</a>
+            <a href="../../privacy.html" class="hover:text-white transition-colors" data-translate="footer_privacy">개인정보처리방침</a>
+            <a href="mailto:boy1arthur@gmail.com" class="hover:text-white transition-colors" data-translate="footer_contact">문의하기</a>
+        </div>
+        <p data-translate="footer_copyright">&copy; 2024 MLFEE by 소년아서. All Rights Reserved.</p>
+        <p class="mt-2" data-translate="footer_message">이 사이트는 개인의 열정으로 운영되며, 여러분의 후원과 관심으로 성장합니다.</p>
+    </div>
+</footer>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+    // --- 1. 번역 및 공통 UI 기능 ---
+    const translations = {
+        ko: {
+            nav_tools: "유틸리티", nav_raid_chronicle: "레이드 크로니클", nav_devlog: "개발실록",
+            footer_about: "소개", footer_privacy: "개인정보처리방침", footer_contact: "문의하기",
+            footer_copyright: "&copy; 2024 MLFEE by 소년아서. All Rights Reserved.",
+            footer_message: "이 사이트는 개인의 열정으로 운영되며, 여러분의 후원과 관심으로 성장합니다.",
+            rc_title: "레이드 크로니클", rc_subtitle: "모든 원정의 시작과 끝. 다음 여정을 계획하고, 최적의 공략을 준비하세요.",
+            rc_calc_title: "다음 입장 시간 계산기", rc_horntail_title: "혼테일", rc_zakum_title: "자쿰",
+            rc_placeholder_time: "HH:MM (예: 1430)", rc_btn_now: "현재", rc_btn_record: "기록", rc_btn_reset: "초기화",
+            rc_horntail_card_title: "혼테일 브레이커", rc_horntail_card_desc: "공무, 유혹, 파티 관리까지. 혼테일 공략을 위한 모든 것을 담은 종합 유틸리티.",
+            rc_zakum_card_title: "자쿰 타이머", rc_zakum_card_desc: "리저렉션 쿨타임에 최적화된 직관적인 타이머. 연속 트라이 쿨타임 관리의 핵심.",
+            rc_btn_launch: "바로가기", rc_result_wait: "다음 입장까지:", rc_result_go: "입장 가능!",
+            rc_result_error_format: "HH:MM 형식으로 입력해주세요.", rc_result_error_time: "올바른 시간이 아닙니다.",
+            rc_result_default: "입장 시간을 기록해주세요."
+        },
+        en: { 
+            nav_tools: "Utilities", nav_raid_chronicle: "Raid Chronicle", nav_devlog: "Dev Log",
+            footer_about: "About", footer_privacy: "Privacy Policy", footer_contact: "Contact",
+            footer_copyright: "&copy; 2024 MLFEE by Boy Arthur. All Rights Reserved.",
+            footer_message: "This site is run with personal passion and grows with your support and interest.",
+            rc_title: "Raid Chronicle", rc_subtitle: "The beginning and end of all expeditions. Plan your next journey and prepare the optimal strategy.",
+            rc_calc_title: "Next Entry Time Calculator", rc_horntail_title: "Horntail", rc_zakum_title: "Zakum",
+            rc_placeholder_time: "HH:MM (e.g., 1430)", rc_btn_now: "Now", rc_btn_record: "Record", rc_btn_reset: "Reset",
+            rc_horntail_card_title: "Horntail Breaker", rc_horntail_card_desc: "From dispels to seduction and party management. A comprehensive utility for conquering Horntail.",
+            rc_zakum_card_title: "Zakum Timer", rc_zakum_card_desc: "An intuitive timer optimized for Resurrection cooldown. Key for managing back-to-back attempts.",
+            rc_btn_launch: "Launch", rc_result_wait: "Next entry in:", rc_result_go: "Entry Possible!",
+            rc_result_error_format: "Please enter in HH:MM format.", rc_result_error_time: "Invalid time.",
+            rc_result_default: "Please record the entry time."
+        },
+        ja: { 
+            nav_tools: "ユーティリティ", nav_raid_chronicle: "レイドクロニクル", nav_devlog: "開発ログ",
+            footer_about: "紹介", footer_privacy: "プライバシーポリシー", footer_contact: "お問い合わせ",
+            footer_copyright: "&copy; 2024 MLFEE by ソニョンアーサー. All Rights Reserved.",
+            footer_message: "このサイトは個人の情熱で運営されており、皆様の支援と関心によって成長します。",
+            rc_title: "レイドクロニクル", rc_subtitle: "すべての遠征の始まりと終わり。次の旅を計画し、最適な攻略を準備してください。",
+            rc_calc_title: "次の入場時間計算機", rc_horntail_title: "ホーンテイル", rc_zakum_title: "ジャクム",
+            rc_placeholder_time: "HH:MM (例: 1430)", rc_btn_now: "現在", rc_btn_record: "記録", rc_btn_reset: "リセット",
+            rc_horntail_card_title: "ホーンテイルブレイカー", rc_horntail_card_desc: "デスペル、誘惑、パーティー管理まで。ホーンテイル攻略のためのすべてを盛り込んだ総合ユーティリティ。",
+            rc_zakum_card_title: "ジャクムタイマー", rc_zakum_card_desc: "リザレクションのクールタイムに最適化された直感的なタイマー。連続トライのクールタイム管理の核心。",
+            rc_btn_launch: "起動", rc_result_wait: "次の入場まで:", rc_result_go: "入場可能！",
+            rc_result_error_format: "HH:MM形式で入力してください。", rc_result_error_time: "無効な時間です。",
+            rc_result_default: "入場時間を記録してください。"
+        }
+    };
+    const setLanguage = (lang) => {
+        document.documentElement.lang = lang;
+        localStorage.setItem('mlfee-lang', lang);
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.dataset.translate;
+            if (translations[lang] && translations[lang][key]) { el.innerHTML = translations[lang][key]; } 
+            else if (translations['ko'] && translations['ko'][key]) { el.innerHTML = translations['ko'][key]; }
+        });
+        document.querySelectorAll('[data-translate-placeholder]').forEach(el => {
+            const key = el.dataset.translatePlaceholder;
+            if (translations[lang] && translations[lang][key]) { el.placeholder = translations[lang][key]; }
+            else if (translations['ko'] && translations['ko'][key]) { el.placeholder = translations['ko'][key]; }
+        });
+    };
+    const initializeUi = () => {
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileNavContainer = document.getElementById('mobile-nav');
+        const desktopNav = document.querySelector('nav.hidden.lg\\:flex');
+        const languageSwitcher = document.getElementById('language-switcher');
+        if (mobileMenuBtn && mobileNavContainer && desktopNav) {
+            mobileNavContainer.innerHTML = `<div class="p-4 space-y-2">${desktopNav.innerHTML}</div>`;
+            mobileMenuBtn.addEventListener('click', () => { mobileNavContainer.classList.toggle('hidden'); });
+        }
+        if (languageSwitcher) {
+            const savedLang = localStorage.getItem('mlfee-lang') || 'ko';
+            languageSwitcher.value = savedLang;
+            setLanguage(savedLang);
+            languageSwitcher.addEventListener('change', (e) => { setLanguage(e.target.value); });
+        }
+    };
+    initializeUi();
+
+    // --- 2. 이 페이지의 계산기 기능 ---
     function setupEntryCalculator(bossName) {
         const inputEl = document.getElementById(`${bossName}-entry-time-input`);
         const buttonEl = document.getElementById(`${bossName}-calculate-btn`);
@@ -124,12 +219,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const nowBtn = document.getElementById(`${bossName}-now-btn`);
         const resetBtn = document.getElementById(`${bossName}-reset-btn`);
         const storageKey = `${bossName}_entry_timestamp`;
+        const lang = localStorage.getItem('mlfee-lang') || 'ko';
 
         inputEl.addEventListener('input', (e) => {
             let value = e.target.value.replace(/[^\d]/g, '');
-            if (value.length > 2) {
-                value = value.slice(0, 2) + ':' + value.slice(2, 4);
-            }
+            if (value.length > 2) { value = value.slice(0, 2) + ':' + value.slice(2, 4); }
             e.target.value = value;
         });
 
@@ -141,38 +235,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         function formatRemainingTime(ms) {
+            const currentLang = localStorage.getItem('mlfee-lang') || 'ko';
             if (ms <= 0) {
-                resultEl.innerHTML = `<span class="text-green-400">입장 가능!</span>`;
+                resultEl.innerHTML = `<span class="text-green-400">${translations[currentLang].rc_result_go}</span>`;
                 return;
             }
             const h = Math.floor(ms / 3600000);
             const m = Math.floor((ms % 3600000) / 60000);
             const s = Math.floor((ms % 60000) / 1000);
-            resultEl.innerHTML = `다음 입장까지: <span class="text-cyan-400">${h}시간 ${m}분 ${s}초</span>`;
+            resultEl.innerHTML = `${translations[currentLang].rc_result_wait} <span class="text-cyan-400">${h}h ${m}m ${s}s</span>`;
         }
-
+        
         function calculateAndSave() {
             const inputTime = inputEl.value;
+            const currentLang = localStorage.getItem('mlfee-lang') || 'ko';
             if (!/^\d{2}:\d{2}$/.test(inputTime)) {
-                resultEl.textContent = "HH:MM 형식으로 입력해주세요.";
-                resultEl.classList.add('text-red-500');
-                return;
+                resultEl.textContent = translations[currentLang].rc_result_error_format;
+                resultEl.classList.add('text-red-500'); return;
             }
-
             const [hours, minutes] = inputTime.split(':').map(Number);
             if (hours > 23 || minutes > 59) {
-                resultEl.textContent = "올바른 시간이 아닙니다.";
-                resultEl.classList.add('text-red-500');
-                return;
+                resultEl.textContent = translations[currentLang].rc_result_error_time;
+                resultEl.classList.add('text-red-500'); return;
             }
-            
             const entryDate = new Date();
             entryDate.setHours(hours, minutes, 0, 0);
-            
-            if (entryDate > new Date()) {
-                entryDate.setDate(entryDate.getDate() - 1);
-            }
-
+            if (entryDate > new Date()) { entryDate.setDate(entryDate.getDate() - 1); }
             localStorage.setItem(storageKey, entryDate.getTime());
             resultEl.classList.remove('text-red-500');
             updateDisplay();
@@ -187,19 +275,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function updateDisplay() {
             const savedTimestamp = localStorage.getItem(storageKey);
+            const currentLang = localStorage.getItem('mlfee-lang') || 'ko';
             if (savedTimestamp) {
                 const entryTime = parseInt(savedTimestamp, 10);
                 const nextEntryTime = entryTime + 24 * 60 * 60 * 1000;
                 const remaining = nextEntryTime - Date.now();
                 formatRemainingTime(remaining);
             } else {
-                resultEl.textContent = "입장 시간을 기록해주세요.";
+                resultEl.textContent = translations[currentLang].rc_result_default;
             }
         }
 
         buttonEl.addEventListener('click', calculateAndSave);
         resetBtn.addEventListener('click', reset);
-        
         setInterval(updateDisplay, 1000);
         updateDisplay();
     }
@@ -210,4 +298,4 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 </body>
-</html>
+</ht
