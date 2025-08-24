@@ -206,7 +206,6 @@
 
 <script>
 // 이 스크립트는 '메피 버피'의 모든 기능을 담당합니다.
-// [수정] 누락되었던 전체 자바스크립트 로직을 복원했습니다.
 document.addEventListener('DOMContentLoaded', () => {
     const dom = {
         startBtn: document.getElementById('start-btn'),
@@ -252,9 +251,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const audioAds = [
-        "이 알림은 아이템매니아와 함께합니다.",
-        "사냥의 동반자, 파워엘릭서닷컴.",
-        "오늘의 메소 시세는 메소시세 앱에서 확인하세요."
+        "이 알림은 유튜브 소년아서와 함께합니다.",
+        "메랜의 동반자, MLFEE.닷컴.",
     ];
     let lastAdTime = 0;
     const AD_COOLDOWN = 300 * 1000;
@@ -514,19 +512,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- SMART TOOL RECOMMENDATION ---
     const allTools = [
         { id: 'calc', url: '../calc/' },
-        { id: 'breaker', url: '../breaker/' },
-        { id: 'timer', url: '../timer/' },
-        { id: 'ledger', url: '../ledger/' },
+        { id: 'raid-chronicle', url: '../raid-chronicle/' },
         { id: 'buff', url: './' },
-        { id: 'janus', url: '../janus/roadmap.html' }
     ];
     const toolTranslations = {
         tool_calc: 'N빵마스터', tool_calc_tagline: '수수료 걱정 없는 완벽한 분배',
-        tool_timer: '리저 타이머', tool_timer_tagline: '부활과 버프, 놓치지 마세요',
-        tool_ledger: '혼테일렛저', tool_ledger_tagline: '보상과 기여도 자동 기록',
-        tool_breaker: '혼테일 브레이커', tool_breaker_tagline: '최적의 공략 순서 시뮬레이터',
+        tool_raid-chronicle: '통합! 레이드 크로니클', tool_timer_tagline: '업데이트된 보스 레이드 유틸, 놓치지 마세요',
         tool_buff: '메피 버피', tool_buff_tagline: '최적의 버프 순서와 타이밍',
-        tool_janus: '프로젝트 야누스', tool_janus_desc: '새로운 세계관과 인지 테스트'
     };
     function generateRecommendedTools() {
         const container = document.getElementById('related-tools-container');
