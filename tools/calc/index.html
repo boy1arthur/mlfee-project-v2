@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <!-- 1. SEO 및 기본 페이지 설정 (N빵마스터에 맞게 수정) -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="메이플랜드 N빵마스터! 수수료작, 파티 분배, 택배 정산, 그리고 목표 금액을 위한 역산까지. 가장 정확하고 빠른 자동 계산기로 당신의 소중한 메소를 지키세요.">
+  <meta name="keywords" content="메이플랜드, 메랜, N빵마스터, 수수료 계산기, 수작 계산기, N빵, 분배, 정산, 역산, 소년아서, MLFEE">
+  <title>N빵마스터 - 메이플랜드 수수료·정산·역산 자동 계산기 | MLFEE</title>
+  <link rel="icon" href="../../images/mlfee-logo.png" type="image/png">
+  <meta property="og:title" content="N빵마스터 - 메이플랜드 필수 계산기">
+  <meta property="og:description" content="자쿰, 혼테일 원정 후 복잡한 정산, N빵마스터 하나로 해결하세요! 수수료 '수작'부터 역산까지 완벽 지원.">
+  <meta property="og:image" content="../../images/mlfee-og-calc.png"> <!-- N빵마스터 전용 OG 이미지 -->
+
+  <!-- 2. 외부 라이브러리 및 폰트 (공통) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8602495420447615" crossorigin="anonymous"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- 3. N빵마스터 전용 스타일 (테마 통일) -->
+  <style>
+    :root { --base-bg: #121212; --card-bg: #1e1e1e; --input-bg: #2a2a2a; --border-color: #444; --text-color: #e0e0e0; --gold-color: #ffd700; }
+    body { font-family: 'Inter', 'Noto Sans KR', sans-serif; background-color: var(--base-bg); color: var(--text-color); }
+    .font-serif { font-family: 'Playfair Display', serif; }
+    .summary-highlight { animation: pulse 2.5s infinite; }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.01); } }
+    input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    input[type=number] { -moz-appearance: textfield; }
+    .mode-switch { display: flex; border-bottom: 2px solid var(--border-color); }
+    .mode-switch button { flex: 1; padding: 0.75rem 1rem; font-weight: 700; transition: all 0.3s ease; color: #9ca3af; border-bottom: 2px solid transparent; transform: translateY(2px); }
+    .mode-switch button.active { color: var(--gold-color); border-bottom-color: var(--gold-color); }
+    .collapsible-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out; }
+    .card { background-color: var(--card-bg); border-radius: 0.5rem; border: 1px solid var(--border-color); }
+    .input-field { background-color: var(--input-bg); border: 1px solid #555; color: var(--text-color); }
+    .input-field:focus { border-color: var(--gold-color); }
+  </style>
+</head>
+<body class="dark" data-tool-id="calc">
+
+<!-- 공통 내비게이션 삽입 위치 -->
+<div id="nav-placeholder"></div>
+
+<!-- ▼▼▼ 'N빵마스터' 실제 도구 콘텐츠 시작 ▼▼▼ -->
+<main class="py-8 px-4">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <!-- 메인 도구 영역 -->
+        <div class="lg:col-span-2 space-y-8">
+            <header class="text-center pb-4">
+                <h1 class="text-5xl sm:text-6xl font-black font-serif text-yellow-400">N빵마스터</h1>
+                <p class="text-gray-400 mt-4 text-lg">메이플랜드 수수료 · 정산 · 역산 자동 계산기</p>
+            </header>
+
+            <!-- NEW: 보고서 제안 - 페이지 상단 배너 광고 -->
+            <div class="card text-center p-4 min-h-[100px] flex items-center justify-center">
+                <span class="text-gray-500">광고 영역 (예: 728x90 리더보드)</span>
+            </div>
+
+            <!-- 계산기 입력부 -->
+            <div class="card p-6 sm:p-8">
+                <div class="mode-switch mb-6">
+                    <button id="mode-standard" class="active">정산 모드</button>
+                    <button id="mode-reverse">역산 모드</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+                    <div>
+                        <label for="mainAmount" id="mainAmountLabel" class="block text-sm font-medium text-gray-400 mb-1">총 거래 금액</label>
+                        <input type="text" id="mainAmount" placeholder="예: 100,000,000" class="w-full rounded-md p-2.5 transition input-field">
+                    </div>
+                    <div>
+                        <label for="transactionType" class="block text-sm font-medium text-gray-400 mb-1">거래 방식</label>
+                        <select id="transactionType" class="w-full rounded-md p-2.5 transition input-field">
+                            <option value="general">일반 거래</option>
+                            <option value="parcel">택배 거래</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="numPeople" class="block text-sm font-medium text-gray-400 mb-1">분배 인원</label>
+                        <input type="number" id="numPeople" placeholder="1명 (기본)" class="w-full rounded-md p-2.5 transition input-field">
+                    </div>
+                </div>
+                <div id="parcelOptions" class="mt-4 hidden">
+                    <label class="flex items-center space-x-2 text-sm text-gray-400 cursor-pointer">
+                        <input type="checkbox" id="includeSelf" checked class="w-4 h-4 text-yellow-500 bg-gray-700 border-gray-600 rounded focus:ring-yellow-500">
+                        <span>본인 포함 분배 (총액을 N명으로 나눔)</span>
+                    </label>
+                </div>
+                <div id="error-message" class="text-red-500 text-sm mt-4 text-center h-5"></div>
+                <div class="mt-6">
+                    <button id="calculateBtn" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-6 rounded-md transition duration-300">계산하기</button>
+                </div>
+            </div>
+
+            <!-- 결과 표시 영역 -->
+            <div id="resultArea" class="mt-6"></div>
+
+            <!-- NEW: 보고서 제안 - 사용자 참여도 강화를 위한 내부 링크 -->
+            <div class="mt-16">
+                <h2 class="text-3xl font-bold text-center text-yellow-400 mb-8 font-serif" data-lang-key="relatedTools">이런 도구는 어떠세요?</h2>
+                <div id="related-tools-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+
+            <!-- NEW: 보고서 제안 - 도구 하단 광고 -->
+            <div class="card mt-12 text-center p-4 min-h-[100px] flex items-center justify-center">
+                <span class="text-gray-500">광고 영역 (반응형)</span>
+            </div>
+        </div>
+        
+        <!-- 사이드바 영역 -->
+        <aside class="lg:sticky top-24 h-fit space-y-8">
+            <div id="ad-sidebar-placeholder"></div>
+            <div id="supporters-hub">
+                <div class="card p-6">
+                    <h3 class="text-xl font-bold text-yellow-400 mb-4 border-l-4 border-yellow-400 pl-4">도움말 & 문의</h3>
+                    <p class="text-gray-400 mb-6">N빵마스터 사용법이 궁금하거나, 버그 제보 및 아이디어 제안이 있으신가요?</p>
+                    <button id="guide-link-btn" class="w-full text-center bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded-lg transition">활용 가이드 보기</button>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- 활용 가이드 (숨겨진 콘텐츠) -->
+    <div id="calculator-guide" class="mt-8 hidden transition-all duration-500 max-w-4xl mx-auto">
+        <div class="card p-6 sm:p-8">
+            <h2 class="text-2xl font-bold text-yellow-400 mb-4 text-center font-serif">N빵마스터 활용 가이드</h2>
+            <div class="grid md:grid-cols-2 gap-x-8 gap-y-6">
+                <div>
+                    <h3 class="text-xl font-bold mb-3">왜 필요한가요?</h3>
+                    <p class="text-gray-400 leading-relaxed">고가의 아이템을 거래하거나, 원정 후 전리품을 분배할 때 '수수료'는 생각보다 큰 변수입니다. N빵마스터는 '499작', '999작' 등 모든 수수료 절감 방식을 고려하여 최적의 분배 조합을 찾아드립니다. 당신의 시간을 갈아 넣어 얻은 소중한 메소, 단 한 푼도 허투루 쓰이지 않도록 지켜드리겠습니다.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-3">활용 팁</h3>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-start"><span class="text-yellow-400 mr-2 mt-1">💡</span><div><strong class="text-white">원정대 필수 규칙:</strong> "분배는 N빵마스터 기준!"이라고 미리 약속하여 갈등 없는 클린한 정산을 경험하세요.</div></li>
+                        <li class="flex items-start"><span class="text-yellow-400 mr-2 mt-1">💡</span><div><strong class="text-white">현명한 거래의 시작:</strong> 거래 전 미리 계산하여 구매자와 판매자 모두에게 이득이 되는 거래를 만드세요.</div></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</main>
+<!-- ▲▲▲ 'N빵마스터' 실제 도구 콘텐츠 끝 ▲▲▲ -->
+
+<!-- 공통 푸터 삽입 위치 -->
+<div id="footer-placeholder"></div>
+
+<!-- 컴포넌트 로더 -->
+<script>
+  function loadComponent(url, placeholderId) {
+    // FIX: Removed the problematic `new URL()` constructor.
+    fetch(url)
+      .then(response => {
+        if (!response.ok) throw new Error(`Network response was not ok for ${url}`);
+        return response.text();
+      })
+      .then(data => {
+        const placeholder = document.getElementById(placeholderId);
+        if (placeholder) placeholder.outerHTML = data;
+      })
+      .catch(error => console.error(`Error loading component:`, error));
+  }
+  loadComponent('../../_includes/navigation.html', 'nav-placeholder');
+  loadComponent('../../_includes/footer.html', 'footer-placeholder');
+  loadComponent('../../_includes/ad-sidebar.html', 'ad-sidebar-placeholder');
+</script>
+
+<!-- ▼▼▼ 'N빵마스터' 원본 JavaScript 로직 시작 ▼▼▼ -->
+<script>
+    // FIX: Moved class definition outside the DOMContentLoaded listener to fix ReferenceError.
+    class CalculatorApp {
+        constructor() {
+            this.elements = this._queryElements();
+            if (!this.elements.calculateBtn) return;
+            
+            this.GENERAL_FEES_SORTED = [ [100000000, 0.06], [25000000, 0.05], [10000000, 0.04], [5000000, 0.03], [1000000, 0.018], [100000, 0.008], [0, 0.0] ];
+            this.PARCEL_FEES_SORTED = [ [100000000, 0.07], [25000000, 0.06], [10000000, 0.05], [5000000, 0.04], [1000000, 0.027], [100000, 0.012], [0, 0.0] ];
+            this.SPLIT_UNITS = [24999999, 9999999, 4999999, 999999];
+            this.DELIVERY_FEE = 5000;
+            this.currentMode = 'standard';
+        }
+        
+        _queryElements() {
+            return {
+                mainAmountInput: document.getElementById('mainAmount'),
+                mainAmountLabel: document.getElementById('mainAmountLabel'),
+                modeStandardBtn: document.getElementById('mode-standard'),
+                modeReverseBtn: document.getElementById('mode-reverse'),
+                transactionTypeSelect: document.getElementById('transactionType'),
+                numPeopleInput: document.getElementById('numPeople'),
+                calculateBtn: document.getElementById('calculateBtn'),
+                resultArea: document.getElementById('resultArea'),
+                errorMessageDiv: document.getElementById('error-message'),
+                parcelOptionsDiv: document.getElementById('parcelOptions'),
+                includeSelfCheckbox: document.getElementById('includeSelf'),
+                guideLinkBtn: document.getElementById('guide-link-btn'),
+                calculatorGuide: document.getElementById('calculator-guide'),
+            }
+        }
+        
+        init() {
+            if (!this.elements.calculateBtn) return;
+            this._initEventListeners();
+        }
+
+        _initEventListeners() {
+            this.elements.calculateBtn.addEventListener('click', () => this.performCalculation());
+            
+            this.elements.mainAmountInput.addEventListener('input', (e) => {
+                const value = e.target.value.replace(/,/g, '');
+                if (!isNaN(value) && value !== '') {
+                    e.target.value = Number(value).toLocaleString('ko-KR');
+                } else if (value === '') {
+                    e.target.value = '';
+                } else {
+                    e.target.value = e.target.value.slice(0, -1);
+                }
+            });
+
+            this.elements.modeStandardBtn.addEventListener('click', () => {
+                this.currentMode = 'standard';
+                this.elements.modeStandardBtn.classList.add('active');
+                this.elements.modeReverseBtn.classList.remove('active');
+                this.elements.mainAmountLabel.textContent = '총 거래 금액';
+                this.elements.mainAmountInput.placeholder = '예: 100,000,000';
+                this.elements.resultArea.innerHTML = '';
+            });
+
+            this.elements.modeReverseBtn.addEventListener('click', () => {
+                this.currentMode = 'reverse';
+                this.elements.modeReverseBtn.classList.add('active');
+                this.elements.modeStandardBtn.classList.remove('active');
+                this.elements.mainAmountLabel.textContent = '1인당 목표 실수령액';
+                this.elements.mainAmountInput.placeholder = '예: 10,000,000';
+                this.elements.resultArea.innerHTML = '';
+            });
+            
+            this.elements.transactionTypeSelect.addEventListener('change', () => {
+                this.elements.parcelOptionsDiv.classList.toggle('hidden', this.elements.transactionTypeSelect.value !== 'parcel');
+            });
+
+            this.elements.guideLinkBtn.addEventListener('click', () => {
+                const guide = this.elements.calculatorGuide;
+                guide.classList.toggle('hidden');
+                if(!guide.classList.contains('hidden')) {
+                    guide.style.maxHeight = guide.scrollHeight + "px";
+                    guide.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    guide.style.maxHeight = null;
+                }
+            });
+        }
+        
+        _formatNumber(num) { return num.toLocaleString('ko-KR'); }
+        _parseNumber(str) { return Number(String(str).replace(/,/g, '')); }
+
+        _getFeeRate(amount, feeSchedule) {
+            for (const [threshold, rate] of feeSchedule) {
+                if (amount >= threshold) return rate;
+            }
+            return 0.0;
+        }
+
+        _calculateFee(amount, feeSchedule) {
+            const rate = this._getFeeRate(amount, feeSchedule);
+            return Math.floor(amount * rate);
+        }
+
+        _getOptimalGeneralSplit(amount, feeSchedule, units) {
+            const leftover = amount % 1000;
+            const calculableAmount = amount - leftover;
+            let remainingAmount = calculableAmount;
+            let totalFee = 0;
+            let tradesHTML = '';
+            let tradeCount = 0;
+
+            for (const unit of units) {
+                const count = Math.floor(remainingAmount / unit);
+                if (count > 0) {
+                    totalFee += count * this._calculateFee(unit, feeSchedule);
+                    remainingAmount -= count * unit;
+                    const rate = (this._getFeeRate(unit, feeSchedule) * 100).toFixed(1);
+                    tradesHTML += `<p class="text-sm">${this._formatNumber(unit)} x ${count}회 <span class="text-xs text-gray-500">(${rate}%)</span></p>`;
+                    tradeCount += count;
+                }
+            }
+            if (remainingAmount > 0) {
+                totalFee += this._calculateFee(remainingAmount, feeSchedule);
+                const rate = (this._getFeeRate(remainingAmount, feeSchedule) * 100).toFixed(1);
+                tradesHTML += `<p class="text-sm">${this._formatNumber(remainingAmount)} x 1회 <span class="text-xs text-gray-500">(${rate}%)</span></p>`;
+            }
+            return { fee: totalFee, html: tradesHTML, tradeCount: tradeCount, leftover: leftover };
+        }
+        
+        _getOptimalParcelSplit(amount, feeSchedule) {
+            const leftover = amount % 1000;
+            const calculableAmount = amount - leftover;
+            const scenarios = [];
+            
+            scenarios.push({ name: '1회 발송', fee: this._calculateFee(calculableAmount, feeSchedule), tradeCount: 1, html: `<p class="text-sm">${this._formatNumber(calculableAmount)} x 1회</p>`, leftover: leftover });
+
+            if (calculableAmount >= 2) {
+                const splitPoint = Math.min(calculableAmount - 1, 25000000);
+                const fee = this._calculateFee(splitPoint, feeSchedule) + this._calculateFee(calculableAmount - splitPoint, feeSchedule);
+                scenarios.push({ name: '2회 분할 발송', fee: fee, tradeCount: 2, html: `<p class="text-sm">${this._formatNumber(splitPoint)} x 1회</p><p class="text-sm">${this._formatNumber(calculableAmount - splitPoint)} x 1회</p>`, leftover: leftover });
+            }
+
+            if (calculableAmount >= 3) {
+                const part1 = Math.min(calculableAmount - 2, 25000000);
+                const remaining = calculableAmount - part1;
+                const part2 = Math.min(remaining - 1, 25000000);
+                const part3 = remaining - part2;
+                const fee = this._calculateFee(part1, feeSchedule) + this._calculateFee(part2, feeSchedule) + this._calculateFee(part3, feeSchedule);
+                scenarios.push({ name: '3회 분할 발송', fee: fee, tradeCount: 3, html: `<p class="text-sm">${this._formatNumber(part1)} x 1회</p><p class="text-sm">${this._formatNumber(part2)} x 1회</p><p class="text-sm">${this._formatNumber(part3)} x 1회</p>`, leftover: leftover });
+            }
+            return scenarios;
+        }
+
+        _reverseCalculate(targetNetAmount, feeSchedule) {
+            let estimatedTotal = Math.floor(targetNetAmount / (1 - this._getFeeRate(targetNetAmount, feeSchedule)));
+            let iterations = 0;
+            const maxIterations = 100;
+
+            while (iterations < maxIterations) {
+                let calculatedNet = estimatedTotal - this._calculateFee(estimatedTotal, feeSchedule);
+                if (calculatedNet >= targetNetAmount) {
+                    let low = Math.floor(targetNetAmount / (1 - this._getFeeRate(estimatedTotal, feeSchedule))) -1;
+                    let high = estimatedTotal;
+                    while (high > low + 1) {
+                        let mid = Math.floor((low + high) / 2);
+                        if (mid - this._calculateFee(mid, feeSchedule) >= targetNetAmount) {
+                            high = mid;
+                        } else {
+                            low = mid;
+                        }
+                    }
+                    return high;
+                }
+                estimatedTotal++;
+                iterations++;
+            }
+            return estimatedTotal;
+        }
+
+        _generateDetailedResultsHTML(amount, feeSchedule, isParcel) {
+            const scenarios = [];
+            if (isParcel) {
+                scenarios.push(...this._getOptimalParcelSplit(amount, feeSchedule));
+            } else {
+                scenarios.push({ name: '한 번에 거래', fee: this._calculateFee(amount, feeSchedule), tradeCount: 1, html: `<p class="text-lg">적용 수수료율: <span class="font-bold text-gray-800">${(this._getFeeRate(amount, feeSchedule) * 100).toFixed(1)}%</span></p>`, leftover: 0 });
+                for (let i = 0; i < this.SPLIT_UNITS.length; i++) {
+                    const currentUnits = this.SPLIT_UNITS.slice(i);
+                    if (amount >= currentUnits[0]) {
+                        const result = this._getOptimalGeneralSplit(amount, feeSchedule, currentUnits);
+                        scenarios.push({ name: `${this._formatNumber(currentUnits[0])} 단위부터`, ...result });
+                    }
+                }
+            }
+
+            const cheapestMethod = scenarios.reduce((prev, curr) => prev.fee <= curr.fee ? prev : curr);
+            const fastestMethod = scenarios.reduce((prev, curr) => prev.tradeCount <= curr.tradeCount ? prev : curr);
+            const noSujakFee = this._calculateFee(amount, feeSchedule);
+            const savings = noSujakFee - cheapestMethod.fee;
+
+            const addLeftoverHtml = (scenario) => scenario.leftover > 0 ? scenario.html + `<p class="text-xs text-gray-500 mt-1">+ 자투리 ${this._formatNumber(scenario.leftover)} 메소</p>` : scenario.html;
+
+            const tableRowsHTML = scenarios.map(s => {
+                const isFastest = s.tradeCount === fastestMethod.tradeCount && s.fee === fastestMethod.fee;
+                const isCheapest = s.fee === cheapestMethod.fee;
+                let icon = '';
+                if (isFastest && isCheapest) icon = '🥇';
+                else if (isFastest) icon = '⚡️';
+                else if (isCheapest) icon = '💰';
+
+                return `<tr class="border-b border-gray-700 last:border-b-0 hover:bg-gray-800 align-top"><td class="p-3 text-left"><p class="font-semibold text-base">${s.name} ${icon}</p><div class="text-gray-400 pl-2 text-sm">${addLeftoverHtml(s)}</div></td><td class="p-3 text-center text-base">${s.tradeCount}</td><td class="p-3 text-right text-base font-semibold ${isCheapest ? 'text-green-400' : ''}">${this._formatNumber(s.fee)}</td><td class="p-3 text-right text-base">${this._formatNumber(amount - s.fee)}</td></tr>`;
+            }).join('');
+
+            return `<div class="space-y-6"><div class="grid grid-cols-1 lg:grid-cols-2 gap-6"><div class="card p-6"><h3 class="text-xl font-bold text-blue-400 border-b border-gray-700 pb-3 mb-4">⚡️ 간편 거래 (최소 횟수)</h3><div class="space-y-1">${addLeftoverHtml(fastestMethod)}<hr class="border-gray-700 my-2"><p class="text-lg">총 수수료: <span class="font-bold">${this._formatNumber(fastestMethod.fee)} 메소</span></p><p class="text-lg mt-1">실수령액: <span class="font-bold">${this._formatNumber(amount - fastestMethod.fee)} 메소</span></p></div></div><div class="card p-6"><h3 class="text-xl font-bold text-green-400 border-b border-gray-700 pb-3 mb-4">💰 최적 조합 (수수료 최소)</h3><div class="space-y-1">${addLeftoverHtml(cheapestMethod)}<hr class="border-gray-700 my-2"><p class="text-lg">총 수수료: <span class="font-bold text-green-400">${this._formatNumber(cheapestMethod.fee)} 메소</span></p><p class="text-lg mt-1">실수령액: <span class="font-bold">${this._formatNumber(amount - cheapestMethod.fee)} 메소</span></p></div></div></div><div id="advancedTableToggle" class="cursor-pointer bg-gray-800 p-4 rounded-t-xl"><h3 class="text-xl font-bold text-yellow-400 flex justify-between items-center"><span>방식별 상세 비교</span><span id="toggleIcon">▼</span></h3></div><div id="advancedTable" class="collapsible-content bg-gray-900 rounded-b-xl"><div class="p-6"><p class="text-sm text-gray-500 mb-4">⚡️: 최소 횟수, 💰: 수수료 최소, 🥇: 둘 다 만족</p><div class="overflow-x-auto"><table class="w-full text-sm"><thead class="border-b-2 border-gray-700"><tr><th class="p-3 text-left">수작 조합</th><th class="p-3">횟수</th><th class="p-3 text-right">총 수수료</th><th class="p-3 text-right">실수령액</th></tr></thead><tbody>${tableRowsHTML}</tbody></table></div></div></div><div class="mt-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white p-6 rounded-xl text-center shadow-lg summary-highlight">${savings > 0 ? `<h2 class="text-xl font-bold">👑 최적 조합으로 거래 시, <span class="underline">${this._formatNumber(savings)} 메소</span>를 절약할 수 있어요!</h2>` : `<h2>이 금액은 분할 거래의 이득이 없습니다.</h2>`}</div></div>`;
+        }
+
+        _generateReverseResultsHTML(targetAmount, numPeople, feeSchedule) {
+            const perPersonGross = this._reverseCalculate(targetAmount, feeSchedule);
+            const perPersonFee = perPersonGross - targetAmount;
+            let totalGrossAmount = perPersonGross * numPeople;
+            let deliveryFeeCost = 0;
+            
+            if (this.elements.transactionTypeSelect.value === 'parcel' && numPeople > 1) {
+                const deliveryRecipients = this.elements.includeSelfCheckbox.checked ? numPeople - 1 : numPeople;
+                deliveryFeeCost = this.DELIVERY_FEE * deliveryRecipients;
+                totalGrossAmount += deliveryFeeCost;
+            }
+
+            return `<div class="card p-6"><h3 class="text-xl font-bold text-blue-400 border-b border-gray-700 pb-2 mb-4">🎯 역산 결과</h3><div class="space-y-3 text-lg"><p class="flex justify-between"><span>1인당 목표 실수령액:</span> <span class="font-bold">${this._formatNumber(targetAmount)}</span></p><p class="flex justify-between"><span>➡️ 필요한 1인당 지급액:</span> <span class="font-bold text-yellow-400">${this._formatNumber(perPersonGross)}</span></p><p class="flex justify-between text-sm text-red-500"><span>(1인당 예상 수수료:</span> <span>-${this._formatNumber(perPersonFee)})</span></p><hr class="border-gray-700 my-2">${numPeople > 1 ? `<p class="flex justify-between text-xl"><span>💰 ${numPeople}인 분배 시 총 필요 금액:</span> <span class="font-bold text-green-400">${this._formatNumber(totalGrossAmount)}</span></p>` : ''}${deliveryFeeCost > 0 ? `<p class="text-sm text-gray-500 text-right">(택배비 ${this._formatNumber(deliveryFeeCost)} 메소 포함)</p>` : ''}</div><p class="text-xs text-gray-500 mt-4">※ 이 총 금액으로 '정산 모드'에서 계산하면 각 파티원이 목표 실수령액을 받게 됩니다.</p></div>`;
+        }
+
+        performCalculation() {
+            this.elements.errorMessageDiv.textContent = '';
+            this.elements.mainAmountInput.classList.remove('border-red-500');
+
+            const amount = this._parseNumber(this.elements.mainAmountInput.value);
+            const numPeople = Number(this.elements.numPeopleInput.value) || 1;
+            
+            if (isNaN(amount) || amount <= 0) {
+                this.elements.errorMessageDiv.textContent = '올바른 금액을 입력해주세요.';
+                this.elements.mainAmountInput.classList.add('border-red-500');
+                return;
+            }
+
+            const feeSchedule = this.elements.transactionTypeSelect.value === 'general' ? this.GENERAL_FEES_SORTED : this.PARCEL_FEES_SORTED;
+            
+            if (this.currentMode === 'standard') {
+                let finalHtml = '';
+                let calculationAmount = amount;
+                
+                if (numPeople > 1) {
+                    const includeSelf = this.elements.includeSelfCheckbox.checked;
+                    const distributionPeople = includeSelf ? numPeople : (numPeople > 1 ? numPeople - 1 : 1);
+                    
+                    if (distributionPeople <= 0) { return; }
+
+                    let distributableAmount = amount;
+                    let deliveryFeeCost = 0;
+                    if (this.elements.transactionTypeSelect.value === 'parcel') {
+                        const deliveryRecipients = includeSelf ? numPeople - 1 : numPeople;
+                        if(deliveryRecipients > 0) {
+                            deliveryFeeCost = this.DELIVERY_FEE * deliveryRecipients;
+                            if (amount < deliveryFeeCost) { return; }
+                            distributableAmount -= deliveryFeeCost;
+                        }
+                    }
+
+                    const perPersonRaw = distributableAmount / distributionPeople;
+                    calculationAmount = Math.floor(perPersonRaw / 1000) * 1000;
+                    const totalRemainder = distributableAmount - (calculationAmount * distributionPeople);
+                    
+                    const summaryHeader = `<div class="card p-6 mb-6"><h3 class="text-xl font-bold text-cyan-400 border-b border-gray-700 pb-2 mb-4">👥 ${distributionPeople}인 분할 결과 요약</h3><div class="space-y-2 text-gray-300"><p class="text-base">총 수익: <span class="font-bold text-white">${this._formatNumber(amount)} 메소</span></p>${deliveryFeeCost > 0 ? `<p class="text-base text-red-500">택배비 차감: -${this._formatNumber(deliveryFeeCost)} 메소</p>` : ''}<p class="text-lg">분배 가능 총액: <span class="font-bold text-white">${this._formatNumber(distributableAmount)} 메소</span></p><p class="text-lg">1인당 지급액 (1000단위): <span class="font-bold text-yellow-400">${this._formatNumber(calculationAmount)}</span> 메소</p>${totalRemainder > 0 ? `<p class="text-base text-yellow-500 mt-2">※ 정산 후 자투리 금액: ${this._formatNumber(totalRemainder)} 메소</p>` : ''}</div><p class="text-center text-gray-500 text-xs mt-4">▼ 아래는 1인당 지급액 기준 상세 비교입니다 ▼</p></div>`;
+                    finalHtml = summaryHeader + this._generateDetailedResultsHTML(calculationAmount, feeSchedule, this.elements.transactionTypeSelect.value === 'parcel');
+                } else {
+                    finalHtml = this._generateDetailedResultsHTML(amount, feeSchedule, this.elements.transactionTypeSelect.value === 'parcel');
+                }
+                this.elements.resultArea.innerHTML = finalHtml;
+            } else {
+                this.elements.resultArea.innerHTML = this._generateReverseResultsHTML(amount, numPeople, feeSchedule);
+            }
+
+            this.elements.resultArea.classList.remove('hidden');
+            const advancedTableToggle = document.getElementById('advancedTableToggle');
+            if(advancedTableToggle) {
+                const advancedTable = document.getElementById('advancedTable');
+                const toggleIcon = document.getElementById('toggleIcon');
+                advancedTableToggle.addEventListener('click', () => {
+                    if (advancedTable.style.maxHeight) {
+                        advancedTable.style.maxHeight = null;
+                        toggleIcon.textContent = '▼';
+                    } else {
+                        advancedTable.style.maxHeight = advancedTable.scrollHeight + "px";
+                        toggleIcon.textContent = '▲';
+                    }
+                });
+            }
+        }
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        new CalculatorApp().init();
+        
+        const allTools = [
+            { id: 'calc', name: 'N빵마스터', tagline: '수수료 걱정 없는 완벽한 분배', url: './' },
+            { id: 'breaker', name: '혼테일 브레이커', tagline: '최적의 공략 순서 시뮬레이터', url: '../breaker/' },
+            { id: 'timer', name: '리저 타이머', tagline: '부활과 버프, 놓치지 마세요', url: '../timer/' },
+            { id: 'ledger', name: '혼테일렛저', tagline: '보상과 기여도 자동 기록', url: '../ledger/' },
+            { id: 'buff', name: '메피 버피', tagline: '최적의 버프 순서와 타이밍', url: '../buff/' },
+            { id: 'janus', name: '프로젝트 야누스', tagline: '새로운 세계관과 인지 테스트', url: '../janus/roadmap.html' }
+        ];
+
+        function generateRecommendedTools() {
+            const container = document.getElementById('related-tools-container');
+            const currentToolId = document.body.dataset.toolId;
+            if (!container || !currentToolId) return;
+
+            const otherTools = allTools.filter(tool => tool.id !== currentToolId);
+            const shuffled = otherTools.sort(() => 0.5 - Math.random());
+            const recommendations = shuffled.slice(0, 3);
+            
+            let htmlContent = '';
+            recommendations.forEach(tool => {
+                htmlContent += `
+                    <a href="${tool.url}" class="card p-6 hover:border-yellow-400 transition-colors">
+                        <h3 class="font-bold text-xl text-white">${tool.name}</h3>
+                        <p class="text-gray-400 text-sm mt-1">${tool.tagline}</p>
+                    </a>
+                `;
+            });
+            container.innerHTML = htmlContent;
+        }
+
+        generateRecommendedTools();
+    });
+</script>
+<!-- ▲▲▲ 'N빵마스터' 원본 JavaScript 로직 끝 ▲▲▲ -->
+
+</body>
+</html>

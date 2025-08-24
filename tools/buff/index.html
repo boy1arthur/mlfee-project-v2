@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <!-- ====================================================================== -->
+    <!-- 템플릿 영역 1: 공통 헤더 -->
+    <!-- ====================================================================== -->
+    <!-- 1a. SEO 및 기본 페이지 설정 (메피 버피에 맞게 수정됨) -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>메피 버피 - 스마트 사냥 세션 매니저 | MLFEE</title>
+    <meta name="description" content="버프 타이머, 사냥 효율 분석, 소모품 기록까지. 당신의 사냥 모든 것을 기록하고 관리하는 스마트 대시보드.">
+    <link rel="icon" href="https://placehold.co/32x32/121212/FFD700?text=MB" type="image/png">
+
+    <!-- 1b. 외부 라이브러리 및 폰트 (공통) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8602495420447615" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <!-- 1c. 공통 스타일 (공통) -->
+    <style>
+        :root { 
+            --base-bg: #121212; 
+            --card-bg: #1e1e1e; 
+            --border-color: #444; 
+            --text-color: #e0e0e0; 
+            --gold-color: #ffd700; 
+            --cyan-color: #22d3ee;
+            --red-color: #f43f5e;
+        }
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: var(--base-bg); color: var(--text-color); }
+        .card { background-color: var(--card-bg); border-radius: 0.75rem; border: 1px solid var(--border-color); box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+        .btn { 
+            background-color: #333; color: var(--gold-color); font-weight: 600; 
+            padding: 0.6rem 1rem; border-radius: 0.5rem; cursor: pointer; 
+            border: 1px solid var(--gold-color); transition: all 0.2s; 
+            display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+        }
+        .btn:hover:not(:disabled) { background-color: var(--gold-color); color: var(--base-bg); transform: translateY(-2px); box-shadow: 0 2px 4px rgba(255, 215, 0, 0.2); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-primary { background-color: var(--gold-color); color: var(--base-bg); }
+        .btn-danger { background-color: var(--red-color); color: white; border-color: var(--red-color); }
+        .btn-danger:hover:not(:disabled) { background-color: #be123c; }
+        .input-field { background-color: #2a2a2a; border: 1px solid #555; color: #e0e0e0; border-radius: 0.375rem; padding: 0.5rem 0.75rem; width: 100%; transition: border-color 0.2s; }
+        .input-field:focus { outline: none; border-color: var(--gold-color); }
+        .timer-adjust-btn { background-color: #374151; border: none; color: white; padding: 0.25rem 0.5rem; font-size: 0.75rem; border-radius: 0.25rem; }
+        .preset-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 80px; font-size: 0.8rem; flex: 1; }
+        .preset-btn svg { width: 32px; height: 32px; margin-bottom: 4px; }
+        .log-tab-btn { color: #9ca3af; border-bottom: 2px solid transparent; padding: 0.5rem 1rem; transition: all 0.2s; }
+        .log-tab-btn.active { color: var(--gold-color); border-bottom-color: var(--gold-color); }
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 50; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .modal-overlay.visible { opacity: 1; visibility: visible; }
+        .modal-content { background-color: var(--card-bg); padding: 2rem; border-radius: 0.75rem; max-width: 500px; width: 90%; transform: scale(0.95); transition: transform 0.3s ease; }
+        .modal-overlay.visible .modal-content { transform: scale(1); }
+        .paused #session-timer { animation: blink 1.5s infinite; }
+        @keyframes blink { 50% { opacity: 0.5; } }
+    </style>
+</head>
+<body class="dark" data-tool-id="buff"> <!-- 템플릿 영역 2: 도구 ID (메피 버피에 맞게 수정됨) -->
+
+<!-- 템플릿 영역 3: 공통 컴포넌트 삽입 위치 (수정 불필요) -->
+<div id="nav-placeholder"></div>
+
+<!-- ====================================================================== -->
+<!-- ▼▼▼ 도구별 콘텐츠 시작 (이 영역이 '메피 버피'의 내용으로 교체됨) ▼▼▼ -->
+<!-- ====================================================================== -->
+<main class="py-12 px-4">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <!-- 메인 도구 영역 -->
+        <div class="lg:col-span-2 space-y-8">
+            <header class="text-center">
+                <h1 class="text-4xl font-black text-yellow-400">메피 버피</h1>
+                <p class="text-gray-400 mt-2">메이플랜드 최적화 완료</p>
+            </header>
+
+            <!-- 라이브 대시보드 -->
+            <div id="dashboard" class="card p-4 space-y-4">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                    <div><p class="text-xs text-gray-400">현재 시각</p><p id="realtime-clock" class="text-xl font-mono">-</p></div>
+                    <div><p class="text-xs text-gray-400">사냥 시작</p><p id="session-start-time" class="text-xl font-mono">-</p></div>
+                    <div><p class="text-xs text-gray-400">1시간 뒤</p><p id="session-end-time" class="text-xl font-mono">-</p></div>
+                    <div><p class="text-xs text-cyan-400">총 경과 시간</p><p id="session-timer" class="text-2xl font-mono text-cyan-400">00:00:00</p></div>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 pt-4 border-t border-gray-700">
+                    <button id="start-btn" class="btn btn-primary">시작</button>
+                    <button id="pause-btn" class="btn" disabled>일시정지</button>
+                    <button id="end-btn" class="btn btn-danger" disabled>종료</button>
+                    <button id="reset-btn" class="btn bg-gray-600 text-white">초기화</button>
+                </div>
+            </div>
+
+            <!-- 버프 타이머 영역 -->
+            <div class="card p-6 space-y-4">
+                <h3 class="text-xl font-bold text-center text-yellow-400">버프 타이머</h3>
+                <div id="active-timers-container" class="space-y-3 min-h-[6rem]">
+                    <p id="no-timers-message" class="text-gray-500 text-center py-4">아래에서 사용할 버프를 추가하세요.</p>
+                </div>
+                <div class="pt-4 border-t border-gray-700 space-y-3">
+                    <div class="flex items-center gap-2">
+                        <button class="btn add-preset-btn preset-btn" data-name="홀리심볼" data-duration="120">
+                            <svg class="text-yellow-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L12 22M22 12L2 12" /></svg>
+                            <span>홀리심볼</span>
+                        </button>
+                        <div class="flex-1 grid grid-cols-2 gap-2">
+                            <button class="btn add-preset-btn preset-btn" data-name="샤프 아이즈" data-duration="300">
+                                <svg class="text-green-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                <span>샤프 아이즈</span>
+                            </button>
+                             <button class="btn add-preset-btn preset-btn" data-name="경험치 쿠폰" data-duration="900">
+                                <svg class="text-blue-300" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3.5 8.5 4 4-4 4"/><path d="M10.5 18.5 20.5 8.5"/></svg>
+                                <span>경쿠 (15분)</span>
+                            </button>
+                        </div>
+                    </div>
+                    <form id="custom-timer-form" class="flex gap-2">
+                        <input type="text" id="custom-name" placeholder="커스텀 스킬명" class="input-field text-sm">
+                        <input type="number" id="custom-duration" placeholder="시간(초)" class="input-field text-sm">
+                        <button type="submit" class="btn btn-primary flex-shrink-0">추가</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 관련 도구 추천 -->
+            <div class="mt-16">
+                <h2 class="text-2xl font-bold text-center mb-8 text-yellow-400">이런 도구는 어떠세요?</h2>
+                <div id="related-tools-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+        </div>
+        
+        <!-- 사이드바 영역 -->
+        <aside class="lg:sticky top-24 h-fit space-y-8">
+            <div id="ad-sidebar-placeholder"></div>
+            <div class="card p-6 space-y-4">
+                <h2 class="text-2xl font-bold text-yellow-400">사냥 세션 정보</h2>
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="font-bold text-lg mb-2">사냥 전</h3>
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="text" id="start-meso" placeholder="메소" class="input-field text-sm data-input">
+                            <input type="text" id="start-exp" placeholder="경험치(%)" class="input-field text-sm data-input">
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg mb-2">사냥 후</h3>
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="text" id="end-meso" placeholder="메소" class="input-field text-sm data-input">
+                            <input type="text" id="end-exp" placeholder="경험치(%)" class="input-field text-sm data-input">
+                        </div>
+                    </div>
+                </div>
+                <div id="potion-log-container" class="space-y-2 pt-4 border-t border-gray-700"></div>
+                <button id="add-potion-btn" class="btn text-xs w-full mt-2">+ 소모품 종류 추가</button>
+            </div>
+            <div class="card">
+                <div id="log-header" class="p-4 flex justify-between items-center cursor-pointer">
+                    <h2 class="text-2xl font-bold text-yellow-400">나의 사냥 로그</h2>
+                    <span id="log-arrow" class="text-2xl">▼</span>
+                </div>
+                <div id="log-content" class="px-4 pb-4" style="max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out;">
+                    <div class="border-b border-gray-700 mb-4 flex">
+                        <button class="log-tab-btn active" data-view="recent">최근</button>
+                        <button class="log-tab-btn" data-view="daily">일별</button>
+                        <button class="log-tab-btn" data-view="weekly">주별</button>
+                    </div>
+                    <div id="hunting-log-list" class="space-y-2 max-h-60 overflow-y-auto mb-4 pr-2"></div>
+                    <div id="graph-container" class="mt-4">
+                         <canvas id="efficiency-chart" height="150"></canvas>
+                    </div>
+                    <button id="clear-log-btn" class="btn btn-danger text-xs w-full mt-4">전체 기록 삭제</button>
+                </div>
+            </div>
+        </aside>
+    </div>
+</main>
+
+<!-- 세션 종료 결과 모달 -->
+<div id="result-modal" class="modal-overlay">
+    <div class="modal-content space-y-4">
+        <h2 class="text-2xl font-bold text-yellow-400 text-center">사냥 결과</h2>
+        <div id="result-details" class="space-y-2 text-center"></div>
+        <div id="native-ad-slot" class="mt-4 pt-4 border-t border-gray-600 text-center">
+            <p class="text-xs text-gray-500 mb-2">[SPONSORED]</p>
+            <a href="#" class="text-yellow-400 hover:underline" target="_blank">
+                사냥 효율 20% 올리는 비법 알아보기
+            </a>
+        </div>
+        <div class="flex gap-4 pt-4">
+            <button id="discard-result-btn" class="btn bg-gray-600 text-white w-full">버리기</button>
+            <button id="save-result-btn" class="btn btn-primary w-full">저장하기</button>
+        </div>
+    </div>
+</div>
+
+<!-- 기록 삭제 확인 모달 -->
+<div id="confirm-modal" class="modal-overlay">
+    <div class="modal-content space-y-4">
+        <h2 class="text-xl font-bold text-red-500 text-center">정말 삭제하시겠습니까?</h2>
+        <p class="text-gray-400 text-center">이 작업은 되돌릴 수 없습니다. 모든 사냥 기록이 영구적으로 삭제됩니다.</p>
+        <div class="flex gap-4 pt-4">
+            <button id="cancel-delete-btn" class="btn bg-gray-600 text-white w-full">취소</button>
+            <button id="confirm-delete-btn" class="btn btn-danger w-full">삭제</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// 이 스크립트는 '메피 버피'의 모든 기능을 담당합니다.
+// [수정] 누락되었던 전체 자바스크립트 로직을 복원했습니다.
+document.addEventListener('DOMContentLoaded', () => {
+    const dom = {
+        startBtn: document.getElementById('start-btn'),
+        pauseBtn: document.getElementById('pause-btn'),
+        endBtn: document.getElementById('end-btn'),
+        resetBtn: document.getElementById('reset-btn'),
+        sessionTimerEl: document.getElementById('session-timer'),
+        activeTimersContainer: document.getElementById('active-timers-container'),
+        noTimersMessage: document.getElementById('no-timers-message'),
+        customTimerForm: document.getElementById('custom-timer-form'),
+        clockEl: document.getElementById('realtime-clock'),
+        startTimeEl: document.getElementById('session-start-time'),
+        endTimeEl: document.getElementById('session-end-time'),
+        logHeader: document.getElementById('log-header'),
+        logContent: document.getElementById('log-content'),
+        addPotionBtn: document.getElementById('add-potion-btn'),
+        potionLogContainer: document.getElementById('potion-log-container'),
+        huntingLogList: document.getElementById('hunting-log-list'),
+        clearLogBtn: document.getElementById('clear-log-btn'),
+        logTabs: document.querySelectorAll('.log-tab-btn'),
+        dashboard: document.getElementById('dashboard'),
+        chartCanvas: document.getElementById('efficiency-chart'),
+        resultModal: document.getElementById('result-modal'),
+        resultDetails: document.getElementById('result-details'),
+        saveResultBtn: document.getElementById('save-result-btn'),
+        discardResultBtn: document.getElementById('discard-result-btn'),
+        confirmModal: document.getElementById('confirm-modal'),
+        confirmDeleteBtn: document.getElementById('confirm-delete-btn'),
+        cancelDeleteBtn: document.getElementById('cancel-delete-btn'),
+    };
+
+    let state = {
+        sessionInterval: null,
+        buffInterval: null,
+        sessionSeconds: 0,
+        isSessionActive: false,
+        isPaused: false,
+        activeTimers: [],
+        huntingLog: JSON.parse(localStorage.getItem('huntingLog_v9')) || [],
+        currentLogView: 'recent',
+        chartInstance: null,
+        currentSessionResult: null,
+    };
+
+    const audioAds = [
+        "이 알림은 아이템매니아와 함께합니다.",
+        "사냥의 동반자, 파워엘릭서닷컴.",
+        "오늘의 메소 시세는 메소시세 앱에서 확인하세요."
+    ];
+    let lastAdTime = 0;
+    const AD_COOLDOWN = 300 * 1000;
+
+    const formatNumber = (num) => isNaN(num) ? '0' : num.toLocaleString('ko-KR');
+    const parseNumber = (str) => parseInt(String(str).replace(/,/g, '')) || 0;
+    const formatTime = (s) => `${String(Math.floor(s/3600)).padStart(2,'0')}:${String(Math.floor((s%3600)/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+
+    const speak = (text, adText = null) => {
+        if (!('speechSynthesis' in window)) return;
+        speechSynthesis.cancel(); 
+
+        const mainUtterance = new SpeechSynthesisUtterance(text);
+        mainUtterance.lang = 'ko-KR';
+        mainUtterance.rate = 1.2;
+
+        if (adText) {
+            const adUtterance = new SpeechSynthesisUtterance(adText);
+            adUtterance.lang = 'ko-KR';
+            adUtterance.rate = 1.0;
+            adUtterance.pitch = 0.9;
+            mainUtterance.onend = () => {
+                speechSynthesis.speak(adUtterance);
+            };
+        }
+        speechSynthesis.speak(mainUtterance);
+    };
+
+    function setupInputFormatting(input) { 
+        input.addEventListener('input', (e) => {
+            const value = e.target.value.replace(/[^\d.]/g, '');
+            const parts = value.split('.');
+            parts[0] = formatNumber(parseNumber(parts[0]));
+            e.target.value = parts.join('.');
+        });
+    }
+    document.querySelectorAll('.data-input').forEach(setupInputFormatting);
+
+    function startSession() { 
+        if (state.isSessionActive) return;
+        state.isSessionActive = true;
+        state.isPaused = false;
+        const now = new Date();
+        dom.startTimeEl.textContent = now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+        dom.endTimeEl.textContent = new Date(now.getTime() + 60 * 60 * 1000).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+        state.sessionInterval = setInterval(() => {
+            if (state.isPaused) return;
+            state.sessionSeconds++;
+            dom.sessionTimerEl.textContent = formatTime(state.sessionSeconds);
+        }, 1000);
+        state.buffInterval = setInterval(updateAllBuffTimers, 1000);
+        updateUI();
+    }
+
+    function pauseSession() { 
+        state.isPaused = !state.isPaused;
+        updateUI();
+    }
+
+    function endSession() { 
+        if (!state.isSessionActive) return;
+        clearInterval(state.sessionInterval);
+        clearInterval(state.buffInterval);
+        const durationHours = state.sessionSeconds / 3600;
+        const startMeso = parseNumber(document.getElementById('start-meso').value);
+        const endMeso = parseNumber(document.getElementById('end-meso').value);
+        const startExp = parseFloat(document.getElementById('start-exp').value.replace(/,/g, '')) || 0;
+        const endExp = parseFloat(document.getElementById('end-exp').value.replace(/,/g, '')) || 0;
+        let expGained = endExp - startExp;
+        if (expGained < 0) expGained += 100;
+        const potionsUsed = [];
+        dom.potionLogContainer.querySelectorAll('.potion-row').forEach(row => {
+            const name = row.querySelector('.potion-name').value || '이름 없는 물약';
+            const startCount = parseNumber(row.querySelector('.potion-start').value);
+            const endCount = parseNumber(row.querySelector('.potion-end').value);
+            if (startCount > 0) {
+                potionsUsed.push({ name, used: startCount - endCount });
+            }
+        });
+        state.currentSessionResult = {
+            date: new Date().toISOString(),
+            duration: state.sessionSeconds,
+            mesoGained: endMeso - startMeso,
+            expGained: parseFloat(expGained.toFixed(2)),
+            mesoPerHour: durationHours > 0 ? Math.round((endMeso - startMeso) / durationHours) : 0,
+            expPerHour: durationHours > 0 ? parseFloat((expGained / durationHours).toFixed(2)) : 0,
+            potionsUsed,
+        };
+        showResultModal();
+    }
+
+    function resetSession() { 
+        clearInterval(state.sessionInterval);
+        clearInterval(state.buffInterval);
+        state.isSessionActive = false;
+        state.isPaused = false;
+        state.sessionSeconds = 0;
+        state.activeTimers = [];
+        state.currentSessionResult = null;
+        dom.sessionTimerEl.textContent = "00:00:00";
+        dom.startTimeEl.textContent = "-";
+        dom.endTimeEl.textContent = "-";
+        document.querySelectorAll('.data-input').forEach(input => input.value = '');
+        dom.potionLogContainer.innerHTML = '';
+        addPotionLog();
+        renderBuffTimers();
+        updateUI();
+    }
+
+    function addBuffTimer(name, duration) { 
+        if (!name || !duration || duration <= 0) return;
+        const timer = { id: `timer-${Date.now()}`, name, initialDuration: duration, secondsLeft: duration };
+        state.activeTimers.push(timer);
+        renderBuffTimers();
+    }
+
+    function updateAllBuffTimers() {
+        if (state.isPaused || !state.isSessionActive) return;
+        state.activeTimers.forEach(timer => {
+            timer.secondsLeft--;
+            if (timer.secondsLeft <= 0) {
+                const notificationText = `${timer.name} 버프가 종료되었습니다.`;
+                let adText = null;
+                const now = Date.now();
+                if (now - lastAdTime > AD_COOLDOWN) {
+                    adText = audioAds[Math.floor(Math.random() * audioAds.length)];
+                    lastAdTime = now;
+                }
+                speak(notificationText, adText);
+                timer.secondsLeft = timer.initialDuration;
+            }
+            const timerEl = document.getElementById(timer.id);
+            if(timerEl) timerEl.querySelector('.time-left').textContent = formatTime(timer.secondsLeft);
+        });
+    }
+
+    function adjustTimer(id, amount) {
+        const timer = state.activeTimers.find(t => t.id === id);
+        if (timer) {
+            timer.secondsLeft += amount;
+            if (timer.secondsLeft < 0) timer.secondsLeft = 0;
+            renderBuffTimers();
+        }
+    }
+    
+    function removeTimer(id) {
+        state.activeTimers = state.activeTimers.filter(t => t.id !== id);
+        renderBuffTimers();
+    }
+
+    function addPotionLog() {
+        const newPotionRow = document.createElement('div');
+        newPotionRow.className = 'potion-row grid grid-cols-10 gap-2 items-center';
+        newPotionRow.innerHTML = `<input type="text" placeholder="물약 이름" class="potion-name input-field text-sm col-span-4"><input type="text" placeholder="시작" class="potion-start input-field text-sm col-span-2 data-input"><input type="text" placeholder="종료" class="potion-end input-field text-sm col-span-2 data-input"><button class="remove-potion-btn btn btn-danger text-xs col-span-2 !p-2">삭제</button>`;
+        dom.potionLogContainer.appendChild(newPotionRow);
+        newPotionRow.querySelectorAll('.data-input').forEach(setupInputFormatting);
+    }
+    
+    function renderLog() {
+        const view = state.currentLogView;
+        let data;
+        if (view === 'recent') {
+            const recentLogs = state.huntingLog.slice(0, 10);
+            renderRecentLogs(recentLogs);
+            data = recentLogs.slice().reverse();
+        } else if (view === 'daily') {
+            const dailySummary = getDailySummary();
+            renderSummaryLogs(dailySummary, '일');
+            data = dailySummary.slice(-10).reverse();
+        } else if (view === 'weekly') {
+            const weeklySummary = getWeeklySummary();
+            renderSummaryLogs(weeklySummary, '주');
+            data = weeklySummary.slice(-10).reverse();
+        }
+        renderChart(data);
+    }
+
+    function renderRecentLogs(logs) {
+        if (logs.length === 0) {
+            dom.huntingLogList.innerHTML = '<p class="text-gray-500 text-center">기록된 사냥 세션이 없습니다.</p>';
+            return;
+        }
+        dom.huntingLogList.innerHTML = logs.map(log => `<div class="bg-gray-800 p-3 rounded-lg"><div class="flex justify-between items-center"><p class="font-bold text-sm">${new Date(log.date).toLocaleString('ko-KR')}</p><p class="font-mono text-cyan-400">${formatTime(log.duration)}</p></div><div class="mt-2 text-xs grid grid-cols-2 gap-x-4"><p class="text-green-400">시간당 메소: ${formatNumber(log.mesoPerHour)}</p><p class="text-blue-400">시간당 경험치: ${log.expPerHour}%</p><p class="text-yellow-400 col-span-2">획득 메소: ${formatNumber(log.mesoGained)}</p></div></div>`).join('');
+    }
+    
+    function renderSummaryLogs(summary, periodUnit) {
+        if (summary.length === 0) {
+            dom.huntingLogList.innerHTML = `<p class="text-gray-500 text-center">${periodUnit}별 요약 기록이 없습니다.</p>`;
+            return;
+        }
+        dom.huntingLogList.innerHTML = summary.map(log => `<div class="bg-gray-800 p-3 rounded-lg"><div class="flex justify-between items-center"><p class="font-bold text-sm">${log.label}</p><p class="font-mono text-cyan-400">총 ${formatTime(log.duration)}</p></div><div class="mt-2 text-xs grid grid-cols-2 gap-x-4"><p class="text-green-400">평균 메소/시간: ${formatNumber(log.mesoPerHour)}</p><p class="text-blue-400">평균 경험치/시간: ${log.expPerHour}%</p></div></div>`).join('');
+    }
+    
+    function getDailySummary() {
+        const groups = state.huntingLog.reduce((acc, log) => { const date = new Date(log.date).toLocaleDateString('ko-KR'); if (!acc[date]) acc[date] = []; acc[date].push(log); return acc; }, {});
+        return Object.entries(groups).map(([date, logs]) => {
+            const totalDuration = logs.reduce((sum, l) => sum + l.duration, 0);
+            const totalMeso = logs.reduce((sum, l) => sum + l.mesoGained, 0);
+            const totalExp = logs.reduce((sum, l) => sum + l.expGained, 0);
+            const durationHours = totalDuration / 3600;
+            return { label: date, duration: totalDuration, mesoPerHour: durationHours > 0 ? Math.round(totalMeso / durationHours) : 0, expPerHour: durationHours > 0 ? (totalExp / durationHours).toFixed(2) : 0, };
+        }).sort((a,b) => new Date(a.label) - new Date(b.label));
+    }
+    
+    function getWeekNumber(d) {
+        d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+        d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+        var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+        var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
+        return `${d.getUTCFullYear()}-${String(weekNo).padStart(2, '0')}주차`;
+    }
+
+    function getWeeklySummary() {
+        const groups = state.huntingLog.reduce((acc, log) => { const week = getWeekNumber(new Date(log.date)); if (!acc[week]) acc[week] = []; acc[week].push(log); return acc; }, {});
+        return Object.entries(groups).map(([week, logs]) => {
+            const totalDuration = logs.reduce((sum, l) => sum + l.duration, 0);
+            const totalMeso = logs.reduce((sum, l) => sum + l.mesoGained, 0);
+            const totalExp = logs.reduce((sum, l) => sum + l.expGained, 0);
+            const durationHours = totalDuration / 3600;
+            return { label: week, duration: totalDuration, mesoPerHour: durationHours > 0 ? Math.round(totalMeso / durationHours) : 0, expPerHour: durationHours > 0 ? (totalExp / durationHours).toFixed(2) : 0, };
+        }).sort((a,b) => a.label.localeCompare(b.label));
+    }
+
+    function renderChart(data) {
+        if (state.chartInstance) state.chartInstance.destroy();
+        if (!data || data.length === 0) return;
+        const labels = data.map(log => log.label || new Date(log.date).toLocaleTimeString('ko-KR'));
+        const mesoData = data.map(log => log.mesoPerHour);
+        const expData = data.map(log => log.expPerHour);
+        state.chartInstance = new Chart(dom.chartCanvas.getContext('2d'), { type: 'line', data: { labels: labels, datasets: [ { label: '시간당 메소', data: mesoData, borderColor: 'rgba(52, 211, 153, 1)', backgroundColor: 'rgba(52, 211, 153, 0.2)', yAxisID: 'yMeso', tension: 0.3, fill: true, }, { label: '시간당 경험치 (%)', data: expData, borderColor: 'rgba(59, 130, 246, 1)', backgroundColor: 'rgba(59, 130, 246, 0.2)', yAxisID: 'yExp', tension: 0.3, fill: true, } ] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { ticks: { color: '#9ca3af' }, grid: { color: '#444' } }, yMeso: { type: 'linear', position: 'left', ticks: { color: '#a7f3d0', callback: value => formatNumber(value) }, grid: { color: '#444' } }, yExp: { type: 'linear', position: 'right', ticks: { color: '#93c5fd', callback: value => `${value}%` }, grid: { drawOnChartArea: false } } }, plugins: { legend: { labels: { color: '#e0e0e0' } }, tooltip: { callbacks: { label: function(context) { let label = context.dataset.label || ''; if (label) label += ': '; if (context.parsed.y !== null) { if (context.dataset.yAxisID === 'yMeso') { label += formatNumber(context.parsed.y); } else { label += `${context.parsed.y}%`; } } return label; } } } } } });
+    }
+    
+    function updateUI() {
+        dom.startBtn.disabled = state.isSessionActive;
+        dom.pauseBtn.disabled = !state.isSessionActive;
+        dom.endBtn.disabled = !state.isSessionActive;
+        dom.pauseBtn.textContent = state.isPaused ? "재개" : "일시정지";
+        dom.dashboard.classList.toggle('paused', state.isPaused);
+    }
+    
+    function renderBuffTimers() {
+        dom.noTimersMessage.style.display = state.activeTimers.length === 0 ? 'block' : 'none';
+        dom.activeTimersContainer.innerHTML = state.activeTimers.map(timer => `<div id="${timer.id}" class="card p-3 rounded-lg flex items-center justify-between bg-gray-800/50"><span class="font-bold">${timer.name}</span><div class="flex items-center gap-3"><span class="time-left font-mono text-2xl">${formatTime(timer.secondsLeft)}</span><div class="flex flex-col gap-1"><button data-action="adjust-timer" data-timer-id="${timer.id}" data-amount="10" class="timer-adjust-btn">▲ 10s</button><button data-action="adjust-timer" data-timer-id="${timer.id}" data-amount="-10" class="timer-adjust-btn">▼ 10s</button></div><button data-action="remove-timer" data-timer-id="${timer.id}" class="btn !p-2 bg-red-800 text-white border-red-800 hover:bg-red-700">X</button></div></div>`).join('');
+    }
+    
+    function showResultModal() {
+        const { duration, mesoGained, expGained, mesoPerHour, expPerHour, potionsUsed } = state.currentSessionResult;
+        let potionsHtml = potionsUsed.length > 0 ? `<div class="pt-2 border-t border-gray-600 mt-2"><h4 class="font-bold text-yellow-500">소모품</h4>${potionsUsed.map(p => `<p class="text-sm">${p.name}: ${formatNumber(p.used)}개 사용</p>`).join('')}</div>` : '';
+        dom.resultDetails.innerHTML = `<p><strong>사냥 시간:</strong> ${formatTime(duration)}</p><p><strong>획득 메소:</strong> <span class="text-green-400">${formatNumber(mesoGained)}</span></p><p><strong>획득 경험치:</strong> <span class="text-blue-400">${expGained}%</span></p><hr class="border-gray-600 my-2"><p><strong>시간당 메소:</strong> <span class="text-green-400">${formatNumber(mesoPerHour)}</span></p><p><strong>시간당 경험치:</strong> <span class="text-blue-400">${expPerHour}%</span></p>${potionsHtml}`;
+        dom.resultModal.classList.add('visible');
+    }
+    
+    function hideModal(modal) {
+        modal.classList.remove('visible');
+    }
+
+    // --- SMART TOOL RECOMMENDATION ---
+    const allTools = [
+        { id: 'calc', url: '../calc/' },
+        { id: 'breaker', url: '../breaker/' },
+        { id: 'timer', url: '../timer/' },
+        { id: 'ledger', url: '../ledger/' },
+        { id: 'buff', url: './' },
+        { id: 'janus', url: '../janus/roadmap.html' }
+    ];
+    const toolTranslations = {
+        tool_calc: 'N빵마스터', tool_calc_tagline: '수수료 걱정 없는 완벽한 분배',
+        tool_timer: '리저 타이머', tool_timer_tagline: '부활과 버프, 놓치지 마세요',
+        tool_ledger: '혼테일렛저', tool_ledger_tagline: '보상과 기여도 자동 기록',
+        tool_breaker: '혼테일 브레이커', tool_breaker_tagline: '최적의 공략 순서 시뮬레이터',
+        tool_buff: '메피 버피', tool_buff_tagline: '최적의 버프 순서와 타이밍',
+        tool_janus: '프로젝트 야누스', tool_janus_desc: '새로운 세계관과 인지 테스트'
+    };
+    function generateRecommendedTools() {
+        const container = document.getElementById('related-tools-container');
+        const currentToolId = document.body.dataset.toolId;
+        if (!container || !currentToolId) return;
+        const otherTools = allTools.filter(tool => tool.id !== currentToolId);
+        const shuffled = otherTools.sort(() => 0.5 - Math.random());
+        const recommendations = shuffled.slice(0, 3);
+        let htmlContent = '';
+        recommendations.forEach(tool => {
+            const name = toolTranslations[`tool_${tool.id}`] || tool.id;
+            const tagline = tool.id === 'janus' ? toolTranslations['tool_janus_desc'] : toolTranslations[`tool_${tool.id}_tagline`] || '';
+            htmlContent += `<a href="${tool.url}" class="card p-6 hover:border-yellow-400 transition-colors"><h3 class="font-bold text-xl">${name}</h3><p class="text-gray-400 text-sm mt-1">${tagline}</p></a>`;
+        });
+        container.innerHTML = htmlContent;
+    }
+
+    function initialize() {
+        updateUI();
+        setInterval(() => {
+            dom.clockEl.textContent = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+        }, 1000);
+        renderLog();
+        addPotionLog();
+        generateRecommendedTools();
+    }
+
+    // --- Event Listeners ---
+    dom.startBtn.addEventListener('click', startSession);
+    dom.pauseBtn.addEventListener('click', pauseSession);
+    dom.endBtn.addEventListener('click', endSession);
+    dom.resetBtn.addEventListener('click', resetSession);
+    dom.addPotionBtn.addEventListener('click', addPotionLog);
+    dom.customTimerForm.addEventListener('submit', (e) => { e.preventDefault(); const name = dom.customTimerForm.querySelector('#custom-name').value; const duration = parseInt(dom.customTimerForm.querySelector('#custom-duration').value, 10); addBuffTimer(name, duration); dom.customTimerForm.reset(); });
+    document.querySelectorAll('.add-preset-btn').forEach(button => { button.addEventListener('click', () => { addBuffTimer(button.dataset.name, parseInt(button.dataset.duration, 10)); }); });
+    dom.activeTimersContainer.addEventListener('click', (e) => { const button = e.target.closest('button'); if (!button) return; const { action, timerId, amount } = button.dataset; if (action === 'adjust-timer') { adjustTimer(timerId, parseInt(amount, 10)); } else if (action === 'remove-timer') { removeTimer(timerId); } });
+    dom.potionLogContainer.addEventListener('click', (e) => { if (e.target.closest('.remove-potion-btn')) { e.target.closest('.potion-row').remove(); } });
+    dom.logHeader.addEventListener('click', () => { dom.logHeader.classList.toggle('active'); if (dom.logHeader.classList.contains('active')) { dom.logContent.style.maxHeight = dom.logContent.scrollHeight + "px"; } else { dom.logContent.style.maxHeight = '0'; } });
+    dom.logTabs.forEach(tab => { tab.addEventListener('click', () => { dom.logTabs.forEach(t => t.classList.remove('active')); tab.classList.add('active'); state.currentLogView = tab.dataset.view; renderLog(); }); });
+    dom.saveResultBtn.addEventListener('click', () => { if (state.currentSessionResult) { state.huntingLog.unshift(state.currentSessionResult); localStorage.setItem('huntingLog_v9', JSON.stringify(state.huntingLog)); renderLog(); } hideModal(dom.resultModal); resetSession(); });
+    dom.discardResultBtn.addEventListener('click', () => { hideModal(dom.resultModal); resetSession(); });
+    dom.clearLogBtn.addEventListener('click', () => dom.confirmModal.classList.add('visible'));
+    dom.cancelDeleteBtn.addEventListener('click', () => hideModal(dom.confirmModal));
+    dom.confirmDeleteBtn.addEventListener('click', () => { state.huntingLog = []; localStorage.removeItem('huntingLog_v9'); renderLog(); hideModal(dom.confirmModal); });
+
+    initialize();
+});
+</script>
+<!-- ====================================================================== -->
+<!-- ▲▲▲ 도구별 콘텐츠 끝 ▲▲▲ -->
+<!-- ====================================================================== -->
+
+<!-- 템플릿 영역 4: 공통 푸터 삽입 위치 (수정 불필요) -->
+<div id="footer-placeholder"></div>
+
+<!-- 템플릿 영역 5: 공통 컴포넌트 로더 스크립트 (최종 버전) -->
+<script>
+  function loadComponent(url, placeholderId) {
+    fetch(url)
+      .then(response => {
+        if (!response.ok) throw new Error(`Component load failed: ${response.status}`);
+        return response.text();
+      })
+      .then(data => {
+        const placeholder = document.getElementById(placeholderId);
+        if (placeholder) {
+            placeholder.outerHTML = data;
+        }
+      })
+      .catch(error => console.error(`Error loading ${placeholderId}:`, error));
+  }
+  
+  loadComponent('../../_includes/navigation.html', 'nav-placeholder');
+  loadComponent('../../_includes/footer.html', 'footer-placeholder');
+  loadComponent('../../_includes/ad-sidebar.html', 'ad-sidebar-placeholder');
+</script>
+
+</body>
+</html>

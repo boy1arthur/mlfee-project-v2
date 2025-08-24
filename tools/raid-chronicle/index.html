@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>레이드 크로니클 | MLFEE</title>
+    <meta name="description" content="메이플랜드 레이드 공략의 모든 것. 혼테일 브레이커와 자쿰 타이머로 향하는 관문. 레이드 입장 가능 시간을 확인하고 다음 원정을 계획하세요.">
+    <meta name="keywords" content="레이드 크로니클, 혼테일 브레이커, 자쿰 타이머, 눕클, 레이드, 보스, 입장 시간, MLFEE">
+    <link rel="icon" href="../../images/mlfee-logo.png" type="image/png">
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8602495420447615" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        :root { --base-bg: #121212; --card-bg: #1e1e1e; --border-color: #444; --text-color: #e0e0e0; --gold-color: #ffd700; }
+        @keyframes background-pan {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        body { 
+            font-family: 'Noto Sans KR', sans-serif; 
+            background-color: #0a0a0a;
+            background-image: linear-gradient(45deg, #1a001a, #001a1a, #1a001a);
+            background-size: 400% 400%;
+            animation: background-pan 15s ease infinite;
+            color: var(--text-color); 
+        }
+        .main-title { font-size: 3.5rem; font-weight: 900; color: var(--gold-color); text-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
+        .card { background-color: rgba(30, 30, 30, 0.7); border-radius: 0.75rem; border: 1px solid var(--border-color); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+        .btn { background-color: #333; color: var(--gold-color); font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 0.5rem; cursor: pointer; border: 1px solid var(--gold-color); transition: all 0.2s; }
+        .btn:hover:not(:disabled) { background-color: var(--gold-color); color: var(--base-bg); box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
+        .btn-secondary { background-color: #444; border-color: #666; color: #ccc; }
+        .btn-secondary:hover { background-color: #555; border-color: #777; color: white; }
+        .boss-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .boss-card:hover { transform: translateY(-10px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2); }
+    </style>
+</head>
+<body class="dark">
+
+<div id="nav-placeholder"></div>
+
+<main class="py-12 px-4">
+    <div class="w-full max-w-5xl mx-auto space-y-16">
+        <header class="text-center space-y-4">
+            <h1 class="main-title tracking-tight">레이드 크로니클</h1>
+            <p class="text-xl text-gray-400 max-w-2xl mx-auto">모든 원정의 시작과 끝. 다음 여정을 계획하고, 최적의 공략을 준비하세요.</p>
+        </header>
+
+        <section class="card p-8">
+            <h2 class="text-2xl font-bold text-center mb-6 text-yellow-400">다음 입장 시간 계산기</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 혼테일 계산기 -->
+                <div class="space-y-3">
+                    <h3 class="text-xl font-bold text-center text-white">혼테일</h3>
+                    <div class="flex items-center gap-2">
+                        <input type="text" id="horntail-entry-time-input" placeholder="HH:MM (예: 1430)" class="w-full bg-gray-800 border border-gray-600 rounded-md p-3 text-xl text-center">
+                        <button id="horntail-now-btn" class="btn flex-shrink-0 px-4 py-3">현재</button>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button id="horntail-calculate-btn" class="btn text-lg w-full">기록</button>
+                        <button id="horntail-reset-btn" class="btn btn-secondary text-lg w-full">초기화</button>
+                    </div>
+                    <div id="horntail-entry-result" class="text-center text-xl font-bold h-14 pt-2"></div>
+                </div>
+                <!-- 자쿰 계산기 -->
+                <div class="space-y-3">
+                    <h3 class="text-xl font-bold text-center text-white">자쿰</h3>
+                    <div class="flex items-center gap-2">
+                        <input type="text" id="zakum-entry-time-input" placeholder="HH:MM (예: 2100)" class="w-full bg-gray-800 border border-gray-600 rounded-md p-3 text-xl text-center">
+                        <button id="zakum-now-btn" class="btn flex-shrink-0 px-4 py-3">현재</button>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button id="zakum-calculate-btn" class="btn text-lg w-full">기록</button>
+                        <button id="zakum-reset-btn" class="btn btn-secondary text-lg w-full">초기화</button>
+                    </div>
+                    <div id="zakum-entry-result" class="text-center text-xl font-bold h-14 pt-2"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <a href="../breaker/" class="boss-card card p-8 text-center flex flex-col items-center justify-between">
+                    <div>
+                        <h2 class="text-3xl font-bold text-white mb-2">혼테일 브레이커</h2>
+                        <p class="text-gray-400 mb-6">공무, 유혹, 파티 관리까지. 혼테일 공략을 위한 모든 것을 담은 종합 유틸리티.</p>
+                    </div>
+                    <span class="btn text-lg mt-4">바로가기 <i class="fas fa-arrow-right ml-2"></i></span>
+                </a>
+                <a href="../timer/" class="boss-card card p-8 text-center flex flex-col items-center justify-between">
+                    <div>
+                        <h2 class="text-3xl font-bold text-white mb-2">자쿰 타이머</h2>
+                        <p class="text-gray-400 mb-6">리저렉션 쿨타임에 최적화된 직관적인 타이머. 연속 트라이 쿨타임 관리의 핵심.</p>
+                    </div>
+                    <span class="btn text-lg mt-4">바로가기 <i class="fas fa-arrow-right ml-2"></i></span>
+                </a>
+            </div>
+        </section>
+    </div>
+</main>
+
+<div id="footer-placeholder"></div>
+
+<script>
+  function loadComponent(url, placeholderId) {
+    fetch(url).then(r => r.text()).then(data => {
+        const p = document.getElementById(placeholderId);
+        if(p) p.outerHTML = data;
+    }).catch(e => console.error(`Error loading ${url}:`, e));
+  }
+  loadComponent('../../_includes/navigation.html', 'nav-placeholder');
+  loadComponent('../../_includes/footer.html', 'footer-placeholder');
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    function setupEntryCalculator(bossName) {
+        const inputEl = document.getElementById(`${bossName}-entry-time-input`);
+        const buttonEl = document.getElementById(`${bossName}-calculate-btn`);
+        const resultEl = document.getElementById(`${bossName}-entry-result`);
+        const nowBtn = document.getElementById(`${bossName}-now-btn`);
+        const resetBtn = document.getElementById(`${bossName}-reset-btn`);
+        const storageKey = `${bossName}_entry_timestamp`;
+
+        inputEl.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/[^\d]/g, '');
+            if (value.length > 2) {
+                value = value.slice(0, 2) + ':' + value.slice(2, 4);
+            }
+            e.target.value = value;
+        });
+
+        nowBtn.addEventListener('click', () => {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            inputEl.value = `${hours}:${minutes}`;
+        });
+
+        function formatRemainingTime(ms) {
+            if (ms <= 0) {
+                resultEl.innerHTML = `<span class="text-green-400">입장 가능!</span>`;
+                return;
+            }
+            const h = Math.floor(ms / 3600000);
+            const m = Math.floor((ms % 3600000) / 60000);
+            const s = Math.floor((ms % 60000) / 1000);
+            resultEl.innerHTML = `다음 입장까지: <span class="text-cyan-400">${h}시간 ${m}분 ${s}초</span>`;
+        }
+
+        function calculateAndSave() {
+            const inputTime = inputEl.value;
+            if (!/^\d{2}:\d{2}$/.test(inputTime)) {
+                resultEl.textContent = "HH:MM 형식으로 입력해주세요.";
+                resultEl.classList.add('text-red-500');
+                return;
+            }
+
+            const [hours, minutes] = inputTime.split(':').map(Number);
+            if (hours > 23 || minutes > 59) {
+                resultEl.textContent = "올바른 시간이 아닙니다.";
+                resultEl.classList.add('text-red-500');
+                return;
+            }
+            
+            const entryDate = new Date();
+            entryDate.setHours(hours, minutes, 0, 0);
+            
+            if (entryDate > new Date()) {
+                entryDate.setDate(entryDate.getDate() - 1);
+            }
+
+            localStorage.setItem(storageKey, entryDate.getTime());
+            resultEl.classList.remove('text-red-500');
+            updateDisplay();
+        }
+
+        function reset() {
+            localStorage.removeItem(storageKey);
+            inputEl.value = '';
+            resultEl.classList.remove('text-red-500');
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            const savedTimestamp = localStorage.getItem(storageKey);
+            if (savedTimestamp) {
+                const entryTime = parseInt(savedTimestamp, 10);
+                const nextEntryTime = entryTime + 24 * 60 * 60 * 1000;
+                const remaining = nextEntryTime - Date.now();
+                formatRemainingTime(remaining);
+            } else {
+                resultEl.textContent = "입장 시간을 기록해주세요.";
+            }
+        }
+
+        buttonEl.addEventListener('click', calculateAndSave);
+        resetBtn.addEventListener('click', reset);
+        
+        setInterval(updateDisplay, 1000);
+        updateDisplay();
+    }
+
+    setupEntryCalculator('horntail');
+    setupEntryCalculator('zakum');
+});
+</script>
+
+</body>
+</html>
