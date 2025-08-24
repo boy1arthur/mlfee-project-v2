@@ -1,30 +1,85 @@
 <!DOCTYPE html>
 <html lang="ko" class="scroll-smooth">
 <head>
-    <!-- 1. SEO 및 기본 페이지 설정 (메타 태그) -->
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MLFEE | 한 게이머의 여정, 모두를 위한 도구가 되다</title>
-    <meta name="description" content="하나의 불편함에서 시작된 개발 여정. 당신의 게임 경험을 바꿀 AI 유틸리티와 그 탄생 스토리를 만나보세요.">
-    <meta name="keywords" content="AI, 게임 유틸리티, 개발 여정, 후원, N빵마스터, 혼테일 브레이커, SVG 아이콘, mapleland, AI tools, by gamer">
-    <meta property="og:title" content="MLFEE | 한 게이머의 여정, 모두를 위한 도구가 되다">
-    <meta property="og:description" content="하나의 불편함에서 시작된 개발 여정. 당신의 게임 경험을 바꿀 AI 유틸리티와 그 탄생 스토리를 만나보세요.">
-    <meta property="og:image" content="/images/mlfee-og-journey.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:url" content="https://mlfee.com">
-    <meta property="og:type" content="website">
-    <link rel="icon" href="/images/mlfee-logo.png" type="image/png">
+  <!-- 1. SEO 및 기본 페이지 설정 (메타 태그) -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MLFEE | 한 게이머의 여정, 모두를 위한 도구가 되다</title>
+  <meta name="description" content="하나의 불편함에서 시작된 개발 여정. 당신의 게임 경험을 바꿀 AI 유틸리티와 그 탄생 스토리를 만나보세요.">
+  <meta name="keywords" content="AI, 게임 유틸리티, 개발 여정, 후원, N빵마스터, 혼테일 브레이커, SVG 아이콘, mapleland, AI tools, by gamer">
+  <meta property="og:title" content="MLFEE | 한 게이머의 여정, 모두를 위한 도구가 되다">
+  <meta property="og:description" content="하나의 불편함에서 시작된 개발 여정. 당신의 게임 경험을 바꿀 AI 유틸리티와 그 탄생 스토리를 만나보세요.">
+  <meta property="og:image" content="/images/mlfee-og-journey.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://mlfee.com">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/images/mlfee-logo.png" type="image/png">
 
-    <!-- 2. 수익화 (구글 애드센스) -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8602495420447615" crossorigin="anonymous"></script>
+  <!-- 2. 수익화 (구글 애드센스) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8602495420447615" crossorigin="anonymous"></script>
 
-    <!-- 3. 스타일 및 폰트 설정 -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- 3. 스타일 및 폰트 설정 -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      background-color: #0A0A0A;
+      color: #E5E7EB;
+    }
+    .dark body { background-color: #0A0A0A; color: #E5E7EB; }
     
-    <!-- [수정] 인라인 스타일을 삭제하고 공통 스타일시트 파일을 연결합니다. -->
-    <link rel="stylesheet" href="/assets/css/common-styles.css">
+    .hero-section { position: relative; overflow: hidden; }
+    .hero-background {
+        position: absolute; top: -5%; left: -5%; width: 110%; height: 110%;
+        background-image: linear-gradient(to top, #0A0A0A 15%, transparent 60%), url('https://raw.githubusercontent.com/boy1arthur/mlfee-project/main/images/hyun.jpg');
+        background-size: cover; background-repeat: no-repeat; background-position: center top;
+        transition: transform 0.3s ease-out;
+    }
+    #particle-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; }
+    header {
+      background: rgba(10, 10, 10, 0.7); backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .tool-card {
+      background: rgba(23, 23, 23, 0.7); border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px); transition: all 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .tool-card:not(.disabled):hover {
+      transform: translateY(-4px); border-color: rgba(167, 139, 250, 0.5); background: rgba(23, 23, 23, 1);
+    }
+    .tool-card.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+    
+    /* [수정] 레이드 크로니클 강조 효과 */
+    .highlight-card {
+        border-color: rgba(167, 139, 250, 0.3);
+        box-shadow: 0 0 15px rgba(167, 139, 250, 0.1);
+        animation: pulse-glow 3s infinite alternate;
+    }
+    @keyframes pulse-glow {
+        from {
+            border-color: rgba(167, 139, 250, 0.3);
+            box-shadow: 0 0 15px rgba(167, 139, 250, 0.1);
+        }
+        to {
+            border-color: rgba(167, 139, 250, 0.7);
+            box-shadow: 0 0 25px rgba(167, 139, 250, 0.3);
+        }
+    }
+
+
+    :lang(ko) { font-family: 'Inter', 'Noto Sans KR', sans-serif; }
+    :lang(ja) { font-family: 'Inter', 'Noto Sans JP', sans-serif; }
+    :lang(en) { font-family: 'Inter', sans-serif; }
+  </style>
 </head>
 <body class="dark">
 
@@ -33,116 +88,136 @@
 
 <!-- ▼▼▼ 이 페이지의 고유한 콘텐츠 시작 ▼▼▼ -->
 <main>
-    <!-- HERO -->
-    <section class="hero-section h-screen flex items-end pb-24">
-        <div class="hero-background" style="background-image: linear-gradient(to top, #0A0A0A 15%, transparent 60%), url('https://raw.githubusercontent.com/boy1arthur/mlfee-project/main/images/hyun.jpg');"></div>
-        <canvas id="particle-canvas"></canvas>
-        <div class="container mx-auto px-4 text-center relative z-10">
-            <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight text-white" data-translate="hero_title">하나의 불편함에서<br>시작된 여정</h1>
-            <p class="text-lg md:text-xl max-w-2xl mx-auto text-slate-300 mb-8" data-translate="hero_subtitle">게이머의 손이 닿지 못했던 곳에, AI가 답을 주었습니다.</p>
-            <a href="#tools" class="inline-block px-8 py-3 bg-white text-black font-bold rounded-lg shadow-lg hover:bg-gray-200 transition-transform hover:scale-105 transform">
-                <span data-translate="hero_cta">여정의 결과물 보기</span>
+  <!-- HERO -->
+  <section class="hero-section h-screen flex items-end pb-24">
+    <div class="hero-background"></div>
+    <canvas id="particle-canvas"></canvas>
+    <div class="container mx-auto px-4 text-center relative z-10">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight text-white" data-translate="hero_title">하나의 불편함에서<br>시작된 여정</h1>
+      <p class="text-lg md:text-xl max-w-2xl mx-auto text-slate-300 mb-8" data-translate="hero_subtitle">게이머의 손이 닿지 못했던 곳에, AI가 답을 주었습니다.</p>
+      <a href="#tools" class="inline-block px-8 py-3 bg-white text-black font-bold rounded-lg shadow-lg hover:bg-gray-200 transition-transform hover:scale-105 transform">
+        <span data-translate="hero_cta">여정의 결과물 보기</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Utility Dashboard Section -->
+  <section id="tools" class="container mx-auto px-4 py-20 sm:py-28">
+    <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold tracking-tight" data-translate="tools_title">그래서, 직접 만들었습니다</h2>
+        <p class="mt-4 text-lg text-slate-400" data-translate="tools_subtitle">당신의 게임 경험을 바꿀 AI 기반 유틸리티</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- [수정] '레이드 크로니클' 통합 카드 - col-span 제거, highlight-card 클래스 추가 -->
+      <a href="/tools/raid-chronicle/" class="tool-card highlight-card block rounded-xl p-6">
+        <div>
+          <h3 class="font-bold text-xl text-indigo-400" data-translate="tool_raid_chronicle">레이드 크로니클 ✨</h3>
+          <p class="text-slate-400 text-sm mt-1" data-translate="tool_raid_chronicle_tagline">
+            <span class="font-bold text-slate-300">[통합 업데이트]</span> 혼테일 브레이커와 자쿰 타이머가 하나로! 입장 시간부터 파티 관리, 리저렉션까지 모든 것을 한 곳에서 해결하세요.
+          </p>
+        </div>
+        <span class="block mt-4 text-indigo-400 font-semibold" data-translate="launch_btn">바로가기 &rarr;</span>
+      </a>
+      
+      <!-- N빵마스터 -->
+      <a href="/tools/calc/" class="tool-card block rounded-xl p-6">
+        <div>
+          <h3 class="font-bold text-xl" data-translate="tool_calc">N빵마스터</h3>
+          <p class="text-slate-400 text-sm mt-1" data-translate="tool_calc_tagline">수수료 걱정 없는 완벽한 분배</p>
+        </div>
+        <span class="block mt-4 text-indigo-400 font-semibold" data-translate="launch_btn">바로가기 &rarr;</span>
+      </a>
+      
+      <!-- 메피 버피 -->
+      <a href="/tools/buff/" class="tool-card block rounded-xl p-6">
+        <div>
+          <h3 class="font-bold text-xl" data-translate="tool_buff">메피 버피</h3>
+          <p class="text-slate-400 text-sm mt-1" data-translate="tool_buff_tagline">최적의 버프 순서와 타이밍</p>
+        </div>
+        <span class="block mt-4 text-indigo-400 font-semibold" data-translate="launch_btn">바로가기 &rarr;</span>
+      </a>
+
+      <!-- [수정] 혼테일렛저 (준비중) -->
+      <div class="tool-card disabled block rounded-xl p-6">
+        <div>
+          <h3 class="font-bold text-xl" data-translate="tool_ledger">혼테일렛저</h3>
+          <p class="text-slate-400 text-sm mt-1" data-translate="tool_ledger_tagline">보상과 기여도 자동 기록</p>
+        </div>
+        <span class="block mt-4 text-slate-500 font-semibold" data-translate="coming_soon_btn">준비중입니다...</span>
+      </div>
+      
+      <!-- [수정] 프로젝트 야누스 (준비중) -->
+      <div class="tool-card disabled block rounded-xl p-6">
+        <div>
+          <h3 class="font-bold text-xl" data-translate="tool_janus">프로젝트 야누스</h3>
+          <p class="text-slate-400 text-sm mt-1" data-translate="tool_janus_tagline">새로운 세계관 로드맵</p>
+        </div>
+        <span class="block mt-4 text-slate-500 font-semibold" data-translate="coming_soon_btn">준비중입니다...</span>
+      </div>
+      
+      <!-- 빈 공간을 채우기 위한 플레이스홀더 카드 (옵션) -->
+      <div class="tool-card disabled block rounded-xl p-6 border-dashed border-slate-800">
+        <div>
+          <h3 class="font-bold text-xl text-slate-600">다음 도구는?</h3>
+          <p class="text-slate-500 text-sm mt-1">여러분의 아이디어를 기다립니다.</p>
+        </div>
+        <span class="block mt-4 text-slate-500 font-semibold">Coming Soon...</span>
+      </div>
+    </div>
+
+    <!-- '툴킷 서포터' 배너 광고 -->
+    <div class="mt-20 text-center">
+        <h3 class="text-sm tracking-widest uppercase text-slate-500 mb-6">Toolkit Supporters</h3>
+        <div class="max-w-[728px] mx-auto bg-[#111111] p-4 rounded-lg border border-slate-800">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-8602495420447615"
+                 data-ad-slot="2045408861"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+  </section>
+
+  <!-- Journey & Community Section -->
+  <section id="journey" class="container mx-auto px-4 py-20 sm:py-28">
+    <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-3xl font-bold tracking-tight" data-translate="journey_title">당신의 아이디어가 다음 도구가 됩니다</h2>
+        <p class="mt-4 text-lg text-slate-400" data-translate="journey_subtitle">"이런 기능이 있었으면..." 하는 생각이 있으신가요? 커뮤니티에서 당신의 목소리를 들려주세요. 당신의 불편함이 모두의 편안함이 될 수 있습니다.</p>
+        <div class="mt-8">
+            <a href="https://discord.com/users/930037107823636540/" target="_blank" class="inline-block px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold rounded-lg shadow-lg hover:opacity-90 transition-opacity">
+                <span data-translate="journey_cta_btn">커뮤니티에서 아이디어 제안하기</span>
             </a>
         </div>
-    </section>
-
-    <!-- Utility Dashboard Section -->
-    <section id="tools" class="container mx-auto px-4 py-20 sm:py-28">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold tracking-tight" data-translate="tools_title">그래서, 직접 만들었습니다</h2>
-            <p class="mt-4 text-lg text-slate-400" data-translate="tools_subtitle">당신의 게임 경험을 바꿀 AI 기반 유틸리티</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- [수정] '레이드 크로니클' 통합 카드 - col-span 제거, highlight-card 클래스 추가 -->
-            <a href="/tools/raid-chronicle/" class="tool-card highlight-card block rounded-xl p-6">
-                <div>
-                    <h3 class="font-bold text-xl text-indigo-400" data-translate="tool_raid_chronicle">레이드 크로니클 ✨</h3>
-                    <p class="text-slate-400 text-sm mt-1" data-translate="tool_raid_chronicle_tagline">
-                        <span class="font-bold text-slate-300">[통합 업데이트]</span> 혼테일 브레이커와 자쿰 타이머가 하나로! 입장 시간부터 파티 관리, 리저렉션까지 모든 것을 한 곳에서 해결하세요.
-                    </p>
-                </div>
-                <span class="block mt-4 text-indigo-400 font-semibold" data-translate="launch_btn">바로가기 &rarr;</span>
-            </a>
-            
-            <!-- N빵마스터 -->
-            <a href="/tools/calc/" class="tool-card block rounded-xl p-6">
-                <div>
-                    <h3 class="font-bold text-xl" data-translate="tool_calc">N빵마스터</h3>
-                    <p class="text-slate-400 text-sm mt-1" data-translate="tool_calc_tagline">수수료 걱정 없는 완벽한 분배</p>
-                </div>
-                <span class="block mt-4 text-indigo-400 font-semibold" data-translate="launch_btn">바로가기 &rarr;</span>
-            </a>
-            
-            <!-- 메피 버피 -->
-            <a href="/tools/buff/" class="tool-card block rounded-xl p-6">
-                <div>
-                    <h3 class="font-bold text-xl" data-translate="tool_buff">메피 버피</h3>
-                    <p class="text-slate-400 text-sm mt-1" data-translate="tool_buff_tagline">최적의 버프 순서와 타이밍</p>
-                </div>
-                <span class="block mt-4 text-indigo-400 font-semibold" data-translate="launch_btn">바로가기 &rarr;</span>
-            </a>
-
-            <!-- [수정] 혼테일렛저 (준비중) -->
-            <div class="tool-card disabled block rounded-xl p-6">
-                <div>
-                    <h3 class="font-bold text-xl" data-translate="tool_ledger">혼테일렛저</h3>
-                    <p class="text-slate-400 text-sm mt-1" data-translate="tool_ledger_tagline">보상과 기여도 자동 기록</p>
-                </div>
-                <span class="block mt-4 text-slate-500 font-semibold" data-translate="coming_soon_btn">준비중입니다...</span>
-            </div>
-            
-            <!-- [수정] 프로젝트 야누스 (준비중) -->
-            <div class="tool-card disabled block rounded-xl p-6">
-                <div>
-                    <h3 class="font-bold text-xl" data-translate="tool_janus">프로젝트 야누스</h3>
-                    <p class="text-slate-400 text-sm mt-1" data-translate="tool_janus_tagline">새로운 세계관 로드맵</p>
-                </div>
-                <span class="block mt-4 text-slate-500 font-semibold" data-translate="coming_soon_btn">준비중입니다...</span>
-            </div>
-            
-            <!-- 빈 공간을 채우기 위한 플레이스홀더 카드 (옵션) -->
-            <div class="tool-card disabled block rounded-xl p-6 border-dashed border-slate-800">
-                <div>
-                    <h3 class="font-bold text-xl text-slate-600">다음 도구는?</h3>
-                    <p class="text-slate-500 text-sm mt-1">여러분의 아이디어를 기다립니다.</p>
-                </div>
-                <span class="block mt-4 text-slate-500 font-semibold">Coming Soon...</span>
-            </div>
-        </div>
-
-        <!-- '툴킷 서포터' 배너 광고 -->
-        <div class="mt-20 text-center">
-            <h3 class="text-sm tracking-widest uppercase text-slate-500 mb-6">Toolkit Supporters</h3>
-            <div class="max-w-[728px] mx-auto bg-[#111111] p-4 rounded-lg border border-slate-800">
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-8602495420447615"
-                     data-ad-slot="2045408861"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-            </div>
-        </div>
-    </section>
-
-    <!-- Journey & Community Section -->
-    <section id="journey" class="container mx-auto px-4 py-20 sm:py-28">
-        <div class="max-w-3xl mx-auto text-center">
-            <h2 class="text-3xl font-bold tracking-tight" data-translate="journey_title">당신의 아이디어가 다음 도구가 됩니다</h2>
-            <p class="mt-4 text-lg text-slate-400" data-translate="journey_subtitle">"이런 기능이 있었으면..." 하는 생각이 있으신가요? 커뮤니티에서 당신의 목소리를 들려주세요. 당신의 불편함이 모두의 편안함이 될 수 있습니다.</p>
-            <div class="mt-8">
-                <a href="https://discord.com/users/930037107823636540/" target="_blank" class="inline-block px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold rounded-lg shadow-lg hover:opacity-90 transition-opacity">
-                    <span data-translate="journey_cta_btn">커뮤니티에서 아이디어 제안하기</span>
-                </a>
-            </div>
-        </div>
-    </section>
+    </div>
+  </section>
 </main>
 <!-- ▲▲▲ 이 페이지의 고유한 콘텐츠 끝 ▲▲▲ -->
 
 <!-- 푸터 컴포넌트가 삽입될 위치 -->
 <div id="footer-placeholder"></div>
 
-<!-- [수정] 컴포넌트 로더 스크립트를 삭제하고 공통 스크립트 파일에 통합합니다. -->
+<!-- 컴포넌트 로더 및 공통 스크립트 -->
+<script>
+  // 컴포넌트를 지정된 위치에 동적으로 삽입하는 함수
+  function loadComponent(url, placeholderId) {
+    fetch(url)
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.text();
+      })
+      .then(data => {
+        const placeholder = document.getElementById(placeholderId);
+        if (placeholder) placeholder.outerHTML = data;
+      })
+      .catch(error => console.error(`Error loading component ${url}:`, error));
+  }
+
+  // 페이지 로드 시 내비게이션과 푸터를 불러옵니다.
+  loadComponent('/_includes/navigation.html', 'nav-placeholder');
+  loadComponent('/_includes/footer.html', 'footer-placeholder');
+</script>
+
 <!-- 모든 페이지에 필요한 공통 기능 스크립트 -->
 <script src="/assets/js/common-scripts.js"></script>
 
