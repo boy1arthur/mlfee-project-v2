@@ -50,9 +50,31 @@
       flex-direction: column;
       justify-content: space-between;
     }
-    .tool-card:hover {
+    .tool-card:not(.disabled):hover {
       transform: translateY(-4px); border-color: rgba(167, 139, 250, 0.5); background: rgba(23, 23, 23, 1);
     }
+    .tool-card.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+    
+    /* [수정] 레이드 크로니클 강조 효과 */
+    .highlight-card {
+        border-color: rgba(167, 139, 250, 0.3);
+        box-shadow: 0 0 15px rgba(167, 139, 250, 0.1);
+        animation: pulse-glow 3s infinite alternate;
+    }
+    @keyframes pulse-glow {
+        from {
+            border-color: rgba(167, 139, 250, 0.3);
+            box-shadow: 0 0 15px rgba(167, 139, 250, 0.1);
+        }
+        to {
+            border-color: rgba(167, 139, 250, 0.7);
+            box-shadow: 0 0 25px rgba(167, 139, 250, 0.3);
+        }
+    }
+
 
     :lang(ko) { font-family: 'Inter', 'Noto Sans KR', sans-serif; }
     :lang(ja) { font-family: 'Inter', 'Noto Sans JP', sans-serif; }
@@ -86,13 +108,61 @@
         <p class="mt-4 text-lg text-slate-400" data-translate="tools_subtitle">당신의 게임 경험을 바꿀 AI 기반 유틸리티</p>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- 실제 도구 목록으로 업데이트 -->
-      <a href="/tools/calc/index.html" class="tool-card block rounded-xl p-6"><div><h3 class="font-bold text-xl" data-translate="tool_calc">N빵마스터</h3><p class="text-slate-400 text-sm mt-1" data-translate="tool_calc_tagline">수수료 걱정 없는 완벽한 분배</p></div><span class="block mt-4 text-indigo-400 font-semibold" data-translate="launch_btn">바로가기 &rarr;</span></a>
-      <a href="/tools/breaker/index.html" class="tool-card block rounded-xl p-6"><div><h3 class="font-bold text-xl" data-translate="tool_breaker">혼테일 브레이커</h3><p class="text-slate-400 text-sm mt-1" data-translate="tool_breaker_tagline">최적의 공략 순서 시뮬레이터</p></div><span class="block mt-4 text-indigo-400 font-semibold" data-translate="launch_btn">바로가기 &rarr;</span></a>
-      <a href="/tools/timer/index.html" class="tool-card block rounded-xl p-6"><div><h3 class="font-bold text-xl" data-translate="tool_timer">리저 타이머</h3><p class="text-slate-400 text-sm mt-1" data-translate="tool_timer_tagline">부활과 버프, 놓치지 마세요</p></div><span class="block mt-4 text-indigo-400 font-semibold" data-translate="launch_btn">바로가기 &rarr;</span></a>
-      <a href="/tools/ledger/index.html" class="tool-card block rounded-xl p-6"><div><h3 class="font-bold text-xl" data-translate="tool_ledger">혼테일렛저</h3><p class="text-slate-400 text-sm mt-1" data-translate="tool_ledger_tagline">보상과 기여도 자동 기록</p></div><span class="block mt-4 text-indigo-400 font-semibold" data-translate="launch_btn">바로가기 &rarr;</span></a>
-      <a href="/tools/buff/index.html" class="tool-card block rounded-xl p-6"><div><h3 class="font-bold text-xl" data-translate="tool_buff">메피 버피</h3><p class="text-slate-400 text-sm mt-1" data-translate="tool_buff_tagline">최적의 버프 순서와 타이밍</p></div><span class="block mt-4 text-indigo-400 font-semibold" data-translate="launch_btn">바로가기 &rarr;</span></a>
-      <a href="/tools/janus/roadmap.html" class="tool-card block rounded-xl p-6"><div><h3 class="font-bold text-xl" data-translate="tool_janus">프로젝트 야누스</h3><p class="text-slate-400 text-sm mt-1" data-translate="tool_janus_tagline">새로운 세계관 로드맵</p></div><span class="block mt-4 text-indigo-400 font-semibold" data-translate="launch_btn">바로가기 &rarr;</span></a>
+      <!-- [수정] '레이드 크로니클' 통합 카드 - col-span 제거, highlight-card 클래스 추가 -->
+      <a href="/tools/raid-chronicle/" class="tool-card highlight-card block rounded-xl p-6">
+        <div>
+          <h3 class="font-bold text-xl text-indigo-400" data-translate="tool_raid_chronicle">레이드 크로니클 ✨</h3>
+          <p class="text-slate-400 text-sm mt-1" data-translate="tool_raid_chronicle_tagline">
+            <span class="font-bold text-slate-300">[통합 업데이트]</span> 혼테일 브레이커와 자쿰 타이머가 하나로! 입장 시간부터 파티 관리, 리저렉션까지 모든 것을 한 곳에서 해결하세요.
+          </p>
+        </div>
+        <span class="block mt-4 text-indigo-400 font-semibold" data-translate="launch_btn">바로가기 &rarr;</span>
+      </a>
+      
+      <!-- N빵마스터 -->
+      <a href="/tools/calc/" class="tool-card block rounded-xl p-6">
+        <div>
+          <h3 class="font-bold text-xl" data-translate="tool_calc">N빵마스터</h3>
+          <p class="text-slate-400 text-sm mt-1" data-translate="tool_calc_tagline">수수료 걱정 없는 완벽한 분배</p>
+        </div>
+        <span class="block mt-4 text-indigo-400 font-semibold" data-translate="launch_btn">바로가기 &rarr;</span>
+      </a>
+      
+      <!-- 메피 버피 -->
+      <a href="/tools/buff/" class="tool-card block rounded-xl p-6">
+        <div>
+          <h3 class="font-bold text-xl" data-translate="tool_buff">메피 버피</h3>
+          <p class="text-slate-400 text-sm mt-1" data-translate="tool_buff_tagline">최적의 버프 순서와 타이밍</p>
+        </div>
+        <span class="block mt-4 text-indigo-400 font-semibold" data-translate="launch_btn">바로가기 &rarr;</span>
+      </a>
+
+      <!-- [수정] 혼테일렛저 (준비중) -->
+      <div class="tool-card disabled block rounded-xl p-6">
+        <div>
+          <h3 class="font-bold text-xl" data-translate="tool_ledger">혼테일렛저</h3>
+          <p class="text-slate-400 text-sm mt-1" data-translate="tool_ledger_tagline">보상과 기여도 자동 기록</p>
+        </div>
+        <span class="block mt-4 text-slate-500 font-semibold" data-translate="coming_soon_btn">준비중입니다...</span>
+      </div>
+      
+      <!-- [수정] 프로젝트 야누스 (준비중) -->
+      <div class="tool-card disabled block rounded-xl p-6">
+        <div>
+          <h3 class="font-bold text-xl" data-translate="tool_janus">프로젝트 야누스</h3>
+          <p class="text-slate-400 text-sm mt-1" data-translate="tool_janus_tagline">새로운 세계관 로드맵</p>
+        </div>
+        <span class="block mt-4 text-slate-500 font-semibold" data-translate="coming_soon_btn">준비중입니다...</span>
+      </div>
+      
+      <!-- 빈 공간을 채우기 위한 플레이스홀더 카드 (옵션) -->
+      <div class="tool-card disabled block rounded-xl p-6 border-dashed border-slate-800">
+        <div>
+          <h3 class="font-bold text-xl text-slate-600">다음 도구는?</h3>
+          <p class="text-slate-500 text-sm mt-1">여러분의 아이디어를 기다립니다.</p>
+        </div>
+        <span class="block mt-4 text-slate-500 font-semibold">Coming Soon...</span>
+      </div>
     </div>
 
     <!-- '툴킷 서포터' 배너 광고 -->

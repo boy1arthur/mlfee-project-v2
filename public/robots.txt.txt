@@ -1,0 +1,10 @@
+# Allow all user agents to crawl the site
+User-agent: *
+Allow: /
+
+# Disallow crawling of development folders and assets
+Disallow: /_includes/
+Disallow: /assets/
+
+# Sitemap location
+Sitemap: https://mlfee.com/sitemap.xml
