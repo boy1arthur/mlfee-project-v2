@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html lang="ko" class="scroll-smooth">
 <head>
-    <!-- ====================================================================== -->
-    <!-- 템플릿 영역 1: 공통 헤더 -->
-    <!-- ====================================================================== -->
-    <!-- 1a. SEO 및 기본 페이지 설정 (메피 버피에 맞게 수정됨) -->
+    <!-- 1. SEO 및 기본 페이지 설정 -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>메피 버피 - 스마트 사냥 세션 매니저 | MLFEE</title>
-    <meta name="description" content="버프 타이머, 사냥 효율 분석, 소모품 기록까지. 당신의 사냥 모든 것을 기록하고 관리하는 스마트 대시보드.">
+    <title>메피 버피 - 메랜 스마트 사냥 세션 매니저 | MLFEE</title>
+    <meta name="description" content="버프 타이머, 사냥 효율 분석, 소모품 기록까지. 당신의 메이플랜드 사냥 모든 것을 기록하고 관리하는 스마트 대시보드.">
     <link rel="icon" href="https://placehold.co/32x32/121212/FFD700?text=MB" type="image/png">
 
-    <!-- 1b. 외부 라이브러리 및 폰트 (공통) -->
+    <!-- 2. 외부 라이브러리 및 폰트 -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8602495420447615" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     
-    <!-- 1c. 공통 스타일 (공통) -->
+    <!-- 3. 공통 스타일 -->
     <style>
         :root { 
             --base-bg: #121212; 
@@ -57,14 +54,15 @@
         @keyframes blink { 50% { opacity: 0.5; } }
     </style>
 </head>
-<body class="dark" data-tool-id="buff"> <!-- 템플릿 영역 2: 도구 ID (메피 버피에 맞게 수정됨) -->
+<body class="dark" data-tool-id="buff">
 
-<!-- 템플릿 영역 3: 공통 컴포넌트 삽입 위치 (수정 불필요) -->
-<div id="nav-placeholder"></div>
+<header class="sticky top-0 z-50 bg-gray-900/70 backdrop-blur-lg border-b border-white/10">
+    <div class="container mx-auto px-4 flex justify-between items-center h-16">
+        <a href="../../index.html" class="font-serif text-2xl font-bold tracking-wider text-white">MLFEE</a>
+        <a href="../../index.html#tools" class="text-gray-300 hover:text-white">도구 목록으로</a>
+    </div>
+</header>
 
-<!-- ====================================================================== -->
-<!-- ▼▼▼ 도구별 콘텐츠 시작 (이 영역이 '메피 버피'의 내용으로 교체됨) ▼▼▼ -->
-<!-- ====================================================================== -->
 <main class="py-12 px-4">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
         <!-- 메인 도구 영역 -->
@@ -88,6 +86,19 @@
                     <button id="end-btn" class="btn btn-danger" disabled>종료</button>
                     <button id="reset-btn" class="btn bg-gray-600 text-white">초기화</button>
                 </div>
+            </div>
+
+            <!-- 페이지 상단 광고 삽입 -->
+            <div class="card text-center p-4 min-h-[100px]">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-8602495420447615"
+                     data-ad-slot="7934532932"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
             </div>
 
             <!-- 버프 타이머 영역 -->
@@ -123,14 +134,21 @@
 
             <!-- 관련 도구 추천 -->
             <div class="mt-16">
-                <h2 class="text-2xl font-bold text-center mb-8 text-yellow-400">이런 도구는 어떠세요?</h2>
+                <h2 class="text-2xl font-bold text-center mb-8 text-yellow-400" data-lang-key="relatedTools">이런 도구는 어떠세요?</h2>
                 <div id="related-tools-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
         </div>
         
         <!-- 사이드바 영역 -->
         <aside class="lg:sticky top-24 h-fit space-y-8">
-            <div id="ad-sidebar-placeholder"></div>
+            <div class="card p-6 space-y-4 text-center">
+                <h3 class="font-bold text-xl" data-lang-key="youtubeChannel">소년아서 채널</h3>
+                <i class="fab fa-youtube text-6xl text-red-600"></i>
+                <p class="text-gray-400" data-lang-key="youtubeDesc">개발 이야기와 메이플랜드 꿀팁 영상을 만나보세요!</p>
+                <a href="https://www.youtube.com/channel/UCfjb2gmlEhEsBhutIwSr_gQ" target="_blank" rel="noopener noreferrer" class="btn w-full !bg-red-600 !text-white !border-red-700 hover:!bg-red-700">
+                    <span data-lang-key="subscribe">구독하고 소식받기</span>
+                </a>
+            </div>
             <div class="card p-6 space-y-4">
                 <h2 class="text-2xl font-bold text-yellow-400">사냥 세션 정보</h2>
                 <div class="space-y-4">
@@ -179,12 +197,6 @@
     <div class="modal-content space-y-4">
         <h2 class="text-2xl font-bold text-yellow-400 text-center">사냥 결과</h2>
         <div id="result-details" class="space-y-2 text-center"></div>
-        <div id="native-ad-slot" class="mt-4 pt-4 border-t border-gray-600 text-center">
-            <p class="text-xs text-gray-500 mb-2">[SPONSORED]</p>
-            <a href="#" class="text-yellow-400 hover:underline" target="_blank">
-                사냥 효율 20% 올리는 비법 알아보기
-            </a>
-        </div>
         <div class="flex gap-4 pt-4">
             <button id="discard-result-btn" class="btn bg-gray-600 text-white w-full">버리기</button>
             <button id="save-result-btn" class="btn btn-primary w-full">저장하기</button>
@@ -204,8 +216,13 @@
     </div>
 </div>
 
+<footer class="bg-gray-900 border-t border-white/10 mt-16">
+    <div class="container mx-auto px-4 py-8 text-center text-slate-400 text-sm">
+        <p>&copy; 2025 MLFEE by 소년아서. All Rights Reserved.</p>
+    </div>
+</footer>
+
 <script>
-// 이 스크립트는 '메피 버피'의 모든 기능을 담당합니다.
 document.addEventListener('DOMContentLoaded', () => {
     const dom = {
         startBtn: document.getElementById('start-btn'),
@@ -248,6 +265,30 @@ document.addEventListener('DOMContentLoaded', () => {
         currentLogView: 'recent',
         chartInstance: null,
         currentSessionResult: null,
+    };
+
+    const translations = { 
+        ko: { 
+            youtubeChannel: '소년아서 채널', youtubeDesc: '개발 이야기와 메이플랜드 꿀팁 영상을 만나보세요!', subscribe: '구독하고 소식받기',
+            relatedTools: '이런 도구는 어떠세요?',
+            tool_calc: 'N빵마스터', tool_calc_tagline: '수수료 걱정 없는 완벽한 분배',
+            tool_breaker: '혼테일 브레이커', tool_breaker_tagline: '최적의 공략 순서 시뮬레이터',
+            tool_raid_chronicle: '레이드 크로니클', tool_raid_chronicle_tagline: '통합된 보스 레이드 유틸',
+        },
+        en: {
+            youtubeChannel: 'Boy Arthur Channel', youtubeDesc: 'Check out dev stories and pro tips!', subscribe: 'Subscribe for Updates',
+            relatedTools: 'How about these tools?',
+            tool_calc: 'Split Master', tool_calc_tagline: 'Perfect distribution without fee worries',
+            tool_breaker: 'Horntail Breaker', tool_breaker_tagline: 'Optimal attack sequence simulator',
+            tool_raid_chronicle: 'Raid Chronicle', tool_raid_chronicle_tagline: 'Unified boss raid utility',
+        },
+        ja: {
+            youtubeChannel: 'ソニョンアーサーチャンネル', youtubeDesc: '開発ストーリーや役立つヒントをチェック！', subscribe: 'チャンネル登録',
+            relatedTools: 'こちらのツールはいかがですか？',
+            tool_calc: '割り勘マスター', tool_calc_tagline: '手数料の心配ない完璧な分配',
+            tool_breaker: 'ホーンテイルブレーカー', tool_breaker_tagline: '最適攻略順序シミュレーター',
+            tool_raid_chronicle: 'レイドクロニクル', tool_raid_chronicle_tagline: '統合されたボスレイドユーティリティ',
+        }
     };
 
     const audioAds = [
@@ -509,32 +550,62 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.classList.remove('visible');
     }
 
-    // --- SMART TOOL RECOMMENDATION ---
-    const allTools = [
-        { id: 'calc', url: '../calc/' },
-        { id: 'raid-chronicle', url: '../raid-chronicle/' },
-        { id: 'buff', url: './' },
-    ];
-    const toolTranslations = {
-        tool_calc: 'N빵마스터', tool_calc_tagline: '수수료 걱정 없는 완벽한 분배',
-        tool_raid-chronicle: '통합! 레이드 크로니클', tool_timer_tagline: '업데이트된 보스 레이드 유틸, 놓치지 마세요',
-        tool_buff: '메피 버피', tool_buff_tagline: '최적의 버프 순서와 타이밍',
-    };
+    // ✨ [오류 수정] generateRecommendedTools 함수를 다시 정의합니다.
     function generateRecommendedTools() {
         const container = document.getElementById('related-tools-container');
         const currentToolId = document.body.dataset.toolId;
         if (!container || !currentToolId) return;
+
+        const allTools = [
+            { id: 'calc', url: '../calc/' },
+            { id: 'breaker', url: '../breaker/' },
+            { id: 'raid_chronicle', url: '../raid-chronicle/' },
+            { id: 'buff', url: './' },
+        ];
+
         const otherTools = allTools.filter(tool => tool.id !== currentToolId);
         const shuffled = otherTools.sort(() => 0.5 - Math.random());
-        const recommendations = shuffled.slice(0, 3);
+        const recommendations = shuffled.slice(0, 2);
+        
+        const lang = LanguageManager.get();
         let htmlContent = '';
         recommendations.forEach(tool => {
-            const name = toolTranslations[`tool_${tool.id}`] || tool.id;
-            const tagline = tool.id === 'janus' ? toolTranslations['tool_janus_desc'] : toolTranslations[`tool_${tool.id}_tagline`] || '';
-            htmlContent += `<a href="${tool.url}" class="card p-6 hover:border-yellow-400 transition-colors"><h3 class="font-bold text-xl">${name}</h3><p class="text-gray-400 text-sm mt-1">${tagline}</p></a>`;
+            const nameKey = `tool_${tool.id}`;
+            const taglineKey = `tool_${tool.id}_tagline`;
+
+            const name = translations[lang][nameKey] || tool.id;
+            const tagline = translations[lang][taglineKey] || '';
+
+            htmlContent += `
+                <a href="${tool.url}" class="card p-6 hover:border-yellow-400 transition-colors">
+                    <h3 class="font-bold text-xl">${name}</h3>
+                    <p class="text-gray-400 text-sm mt-1">${tagline}</p>
+                </a>
+            `;
         });
         container.innerHTML = htmlContent;
     }
+
+    const LanguageManager = {
+        set(lang) {
+            document.documentElement.lang = lang;
+            document.querySelectorAll('[data-lang-key]').forEach(el => {
+                const key = el.dataset.langKey;
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+            generateRecommendedTools();
+        },
+        get() {
+            return document.documentElement.lang || 'ko';
+        },
+        init() {
+            const savedLang = 'ko'; // 기본값 설정
+            this.set(savedLang);
+            // 언어 변경 버튼 이벤트 리스너는 현재 코드에 없으므로 생략
+        }
+    };
 
     function initialize() {
         updateUI();
@@ -543,7 +614,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1000);
         renderLog();
         addPotionLog();
-        generateRecommendedTools();
+        LanguageManager.init(); // 언어 및 추천 도구 초기화
     }
 
     // --- Event Listeners ---
@@ -566,34 +637,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initialize();
 });
-</script>
-<!-- ====================================================================== -->
-<!-- ▲▲▲ 도구별 콘텐츠 끝 ▲▲▲ -->
-<!-- ====================================================================== -->
-
-<!-- 템플릿 영역 4: 공통 푸터 삽입 위치 (수정 불필요) -->
-<div id="footer-placeholder"></div>
-
-<!-- 템플릿 영역 5: 공통 컴포넌트 로더 스크립트 (최종 버전) -->
-<script>
-  function loadComponent(url, placeholderId) {
-    fetch(url)
-      .then(response => {
-        if (!response.ok) throw new Error(`Component load failed: ${response.status}`);
-        return response.text();
-      })
-      .then(data => {
-        const placeholder = document.getElementById(placeholderId);
-        if (placeholder) {
-            placeholder.outerHTML = data;
-        }
-      })
-      .catch(error => console.error(`Error loading ${placeholderId}:`, error));
-  }
-  
-  loadComponent('../../_includes/navigation.html', 'nav-placeholder');
-  loadComponent('../../_includes/footer.html', 'footer-placeholder');
-  loadComponent('../../_includes/ad-sidebar.html', 'ad-sidebar-placeholder');
 </script>
 
 </body>
