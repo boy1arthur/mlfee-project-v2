@@ -1,44 +1,50 @@
 <!DOCTYPE html>
 <html lang="ko" class="scroll-smooth">
 <head>
-  <!-- 1. SEO 및 기본 페이지 설정 (N빵마스터에 맞게 수정) -->
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="메이플랜드 N빵마스터! 수수료작, 파티 분배, 택배 정산, 그리고 목표 금액을 위한 역산까지. 가장 정확하고 빠른 자동 계산기로 당신의 소중한 메소를 지키세요.">
-  <meta name="keywords" content="메이플랜드, 메랜, N빵마스터, 수수료 계산기, 수작 계산기, N빵, 분배, 정산, 역산, 소년아서, MLFEE">
-  <title>N빵마스터 - 메이플랜드 수수료·정산·역산 자동 계산기 | MLFEE</title>
-  <link rel="icon" href="../../images/mlfee-logo.png" type="image/png">
-  <meta property="og:title" content="N빵마스터 - 메이플랜드 필수 계산기">
-  <meta property="og:description" content="자쿰, 혼테일 원정 후 복잡한 정산, N빵마스터 하나로 해결하세요! 수수료 '수작'부터 역산까지 완벽 지원.">
-  <meta property="og:image" content="../../images/mlfee-og-calc.png"> <!-- N빵마스터 전용 OG 이미지 -->
+    <!-- 1. SEO 및 기본 페이지 설정 -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="메이플랜드 N빵마스터! 수수료작, 파티 분배, 택배 정산, 그리고 목표 금액을 위한 역산까지. 가장 정확하고 빠른 자동 계산기로 당신의 소중한 메소를 지키세요.">
+    <meta name="keywords" content="메이플랜드, 메랜, N빵마스터, 수수료 계산기, 수작 계산기, N빵, 분배, 정산, 역산, 소년아서, MLFEE">
+    <title>N빵마스터 - 메이플랜드 수수료·정산·역산 자동 계산기 | MLFEE</title>
+    <link rel="icon" href="../../images/mlfee-logo.png" type="image/png">
+    <meta property="og:title" content="N빵마스터 - 메이플랜드 필수 계산기">
+    <meta property="og:description" content="자쿰, 혼테일 원정 후 복잡한 정산, N빵마스터 하나로 해결하세요! 수수료 '수작'부터 역산까지 완벽 지원.">
+    <meta property="og:image" content="../../images/mlfee-og-calc.png">
 
-  <!-- 2. 외부 라이브러리 및 폰트 (공통) -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8602495420447615" crossorigin="anonymous"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-  
-  <!-- 3. N빵마스터 전용 스타일 (테마 통일) -->
-  <style>
-    :root { --base-bg: #121212; --card-bg: #1e1e1e; --input-bg: #2a2a2a; --border-color: #444; --text-color: #e0e0e0; --gold-color: #ffd700; }
-    body { font-family: 'Inter', 'Noto Sans KR', sans-serif; background-color: var(--base-bg); color: var(--text-color); }
-    .font-serif { font-family: 'Playfair Display', serif; }
-    .summary-highlight { animation: pulse 2.5s infinite; }
-    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.01); } }
-    input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-    input[type=number] { -moz-appearance: textfield; }
-    .mode-switch { display: flex; border-bottom: 2px solid var(--border-color); }
-    .mode-switch button { flex: 1; padding: 0.75rem 1rem; font-weight: 700; transition: all 0.3s ease; color: #9ca3af; border-bottom: 2px solid transparent; transform: translateY(2px); }
-    .mode-switch button.active { color: var(--gold-color); border-bottom-color: var(--gold-color); }
-    .collapsible-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out; }
-    .card { background-color: var(--card-bg); border-radius: 0.5rem; border: 1px solid var(--border-color); }
-    .input-field { background-color: var(--input-bg); border: 1px solid #555; color: var(--text-color); }
-    .input-field:focus { border-color: var(--gold-color); }
-  </style>
+    <!-- 2. 외부 라이브러리 및 폰트 -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8602495420447615" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <!-- 3. N빵마스터 전용 스타일 -->
+    <style>
+        :root { --base-bg: #121212; --card-bg: #1e1e1e; --input-bg: #2a2a2a; --border-color: #444; --text-color: #e0e0e0; --gold-color: #ffd700; }
+        body { font-family: 'Inter', 'Noto Sans KR', sans-serif; background-color: var(--base-bg); color: var(--text-color); }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .summary-highlight { animation: pulse 2.5s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.01); } }
+        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
+        .mode-switch { display: flex; border-bottom: 2px solid var(--border-color); }
+        .mode-switch button { flex: 1; padding: 0.75rem 1rem; font-weight: 700; transition: all 0.3s ease; color: #9ca3af; border-bottom: 2px solid transparent; transform: translateY(2px); }
+        .mode-switch button.active { color: var(--gold-color); border-bottom-color: var(--gold-color); }
+        .collapsible-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out; }
+        .card { background-color: var(--card-bg); border-radius: 0.5rem; border: 1px solid var(--border-color); }
+        .input-field { background-color: var(--input-bg); border: 1px solid #555; color: var(--text-color); }
+        .input-field:focus { border-color: var(--gold-color); }
+    </style>
 </head>
 <body class="dark" data-tool-id="calc">
 
-<!-- 공통 내비게이션 삽입 위치 -->
-<div id="nav-placeholder"></div>
+<!-- ✨ [안정성 개선] 공통 내비게이션 직접 삽입 -->
+<header class="sticky top-0 z-50 bg-gray-900/70 backdrop-blur-lg border-b border-white/10">
+    <div class="container mx-auto px-4 flex justify-between items-center h-16">
+        <a href="../../index.html" class="font-serif text-2xl font-bold tracking-wider text-white">MLFEE</a>
+        <a href="../../index.html#tools" class="text-gray-300 hover:text-white">도구 목록으로</a>
+    </div>
+</header>
 
 <!-- ▼▼▼ 'N빵마스터' 실제 도구 콘텐츠 시작 ▼▼▼ -->
 <main class="py-8 px-4">
@@ -50,9 +56,17 @@
                 <p class="text-gray-400 mt-4 text-lg">메이플랜드 수수료 · 정산 · 역산 자동 계산기</p>
             </header>
 
-            <!-- NEW: 보고서 제안 - 페이지 상단 배너 광고 -->
-            <div class="card text-center p-4 min-h-[100px] flex items-center justify-center">
-                <span class="text-gray-500">광고 영역 (예: 728x90 리더보드)</span>
+            <!-- ✨ [광고 적용] 페이지 상단 배너 광고 -->
+            <div class="card text-center p-4 min-h-[100px]">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-8602495420447615"
+                     data-ad-slot="7934532932"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
             </div>
 
             <!-- 계산기 입력부 -->
@@ -93,21 +107,37 @@
             <!-- 결과 표시 영역 -->
             <div id="resultArea" class="mt-6"></div>
 
-            <!-- NEW: 보고서 제안 - 사용자 참여도 강화를 위한 내부 링크 -->
+            <!-- 사용자 참여도 강화를 위한 내부 링크 -->
             <div class="mt-16">
                 <h2 class="text-3xl font-bold text-center text-yellow-400 mb-8 font-serif" data-lang-key="relatedTools">이런 도구는 어떠세요?</h2>
                 <div id="related-tools-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
 
-            <!-- NEW: 보고서 제안 - 도구 하단 광고 -->
-            <div class="card mt-12 text-center p-4 min-h-[100px] flex items-center justify-center">
-                <span class="text-gray-500">광고 영역 (반응형)</span>
+            <!-- ✨ [광고 적용] 도구 하단 광고 -->
+            <div class="card mt-12 text-center p-4 min-h-[100px]">
+                 <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-8602495420447615"
+                     data-ad-slot="1274558144"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
             </div>
         </div>
         
         <!-- 사이드바 영역 -->
         <aside class="lg:sticky top-24 h-fit space-y-8">
-            <div id="ad-sidebar-placeholder"></div>
+            <!-- ✨ [UI 개선] 사이드바를 유튜브 채널 링크로 변경 -->
+            <div class="card p-6 space-y-4 text-center">
+                <h3 class="font-bold text-xl" data-lang-key="youtubeChannel">소년아서 채널</h3>
+                <i class="fab fa-youtube text-6xl text-red-600"></i>
+                <p class="text-gray-400" data-lang-key="youtubeDesc">개발 이야기와 메이플랜드 꿀팁 영상을 만나보세요!</p>
+                <a href="https://www.youtube.com/channel/UCfjb2gmlEhEsBhutIwSr_gQ" target="_blank" rel="noopener noreferrer" class="btn w-full !bg-red-600 !text-white !border-red-700 hover:!bg-red-700">
+                    <span data-lang-key="subscribe">구독하고 소식받기</span>
+                </a>
+            </div>
             <div id="supporters-hub">
                 <div class="card p-6">
                     <h3 class="text-xl font-bold text-yellow-400 mb-4 border-l-4 border-yellow-400 pl-4">도움말 & 문의</h3>
@@ -137,36 +167,18 @@
             </div>
         </div>
     </div>
-  </div>
 </main>
 <!-- ▲▲▲ 'N빵마스터' 실제 도구 콘텐츠 끝 ▲▲▲ -->
 
-<!-- 공통 푸터 삽입 위치 -->
-<div id="footer-placeholder"></div>
-
-<!-- 컴포넌트 로더 -->
-<script>
-  function loadComponent(url, placeholderId) {
-    // FIX: Removed the problematic `new URL()` constructor.
-    fetch(url)
-      .then(response => {
-        if (!response.ok) throw new Error(`Network response was not ok for ${url}`);
-        return response.text();
-      })
-      .then(data => {
-        const placeholder = document.getElementById(placeholderId);
-        if (placeholder) placeholder.outerHTML = data;
-      })
-      .catch(error => console.error(`Error loading component:`, error));
-  }
-  loadComponent('../../_includes/navigation.html', 'nav-placeholder');
-  loadComponent('../../_includes/footer.html', 'footer-placeholder');
-  loadComponent('../../_includes/ad-sidebar.html', 'ad-sidebar-placeholder');
-</script>
+<!-- ✨ [안정성 개선] 공통 푸터 직접 삽입 -->
+<footer class="bg-gray-900 border-t border-white/10 mt-16">
+    <div class="container mx-auto px-4 py-8 text-center text-slate-400 text-sm">
+        <p>&copy; 2025 MLFEE by 소년아서. All Rights Reserved.</p>
+    </div>
+</footer>
 
 <!-- ▼▼▼ 'N빵마스터' 원본 JavaScript 로직 시작 ▼▼▼ -->
 <script>
-    // FIX: Moved class definition outside the DOMContentLoaded listener to fix ReferenceError.
     class CalculatorApp {
         constructor() {
             this.elements = this._queryElements();
@@ -466,10 +478,8 @@
         const allTools = [
             { id: 'calc', name: 'N빵마스터', tagline: '수수료 걱정 없는 완벽한 분배', url: './' },
             { id: 'breaker', name: '혼테일 브레이커', tagline: '최적의 공략 순서 시뮬레이터', url: '../breaker/' },
-            { id: 'timer', name: '리저 타이머', tagline: '부활과 버프, 놓치지 마세요', url: '../timer/' },
-            { id: 'ledger', name: '혼테일렛저', tagline: '보상과 기여도 자동 기록', url: '../ledger/' },
+            { id: 'raid_chronicle', name: '레이드 크로니클', tagline: '통합된 보스 레이드 유틸', url: '../raid-chronicle/' },
             { id: 'buff', name: '메피 버피', tagline: '최적의 버프 순서와 타이밍', url: '../buff/' },
-            { id: 'janus', name: '프로젝트 야누스', tagline: '새로운 세계관과 인지 테스트', url: '../janus/roadmap.html' }
         ];
 
         function generateRecommendedTools() {
@@ -499,4 +509,4 @@
 <!-- ▲▲▲ 'N빵마스터' 원본 JavaScript 로직 끝 ▲▲▲ -->
 
 </body>
-</html>
+</ht
