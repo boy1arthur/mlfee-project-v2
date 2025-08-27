@@ -7,8 +7,13 @@
     <meta name="description" content="하나의 불편함에서 시작된 개발 여정. 당신의 게임 경험을 바꿀 AI 유틸리티와 그 탄생 스토리를 만나보세요.">
     <link rel="icon" href="images/mlfee-logo.png" type="image/png">
     
+    <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8602495420447615" crossorigin="anonymous"></script>
+    
+    <!-- Fonts & CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 
     <style>
@@ -51,6 +56,7 @@
             background-repeat: no-repeat; 
             background-position: center top;
             transition: transform 0.3s ease-out;
+            background-image: linear-gradient(to top, #0A0A0A 15%, transparent 60%), url('images/hyun.jpg');
         }
         #particle-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; }
         .highlight-card {
@@ -97,7 +103,7 @@
 
 <main>
     <section class="hero-section h-screen flex items-end pb-24">
-        <div class="hero-background" style="background-image: linear-gradient(to top, #0A0A0A 15%, transparent 60%), url('https://raw.githubusercontent.com/boy1arthur/mlfee-project/main/images/hyun.jpg');"></div>
+        <div class="hero-background"></div>
         <canvas id="particle-canvas"></canvas>
         <div class="container mx-auto px-4 text-center relative z-10">
             <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight text-white" data-translate="hero_title">하나의 불편함에서<br>시작된 여정</h1>
@@ -107,7 +113,24 @@
             </a>
         </div>
     </section>
-    <section id="tools" class="container mx-auto px-4 py-20 sm:py-28">
+
+    <section class="container mx-auto px-4 py-12">
+        <!-- ✨ [오류 수정] 광고 컨테이너에 width: 100%를 추가하여 너비 문제를 해결합니다. -->
+        <div class="ad-container" style="width: 100%; min-height:250px; text-align:center;">
+             <!-- [광고 적용] MLFEE_상단_배너 -->
+             <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-8602495420447615"
+                 data-ad-slot="7934532932"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+             <script>
+                  (adsbygoogle = window.adsbygoogle || []).push({});
+             </script>
+        </div>
+    </section>
+    
+    <section id="tools" class="container mx-auto px-4 pt-8 pb-20 sm:pt-12 sm:pb-28">
         <div class="text-center mb-12">
             <h2 class="text-3xl font-bold tracking-tight" data-translate="tools_title">그래서, 직접 만들었습니다</h2>
             <p class="mt-4 text-lg text-slate-400" data-translate="tools_subtitle">당신의 게임 경험을 바꿀 AI 기반 유틸리티</p>
@@ -127,6 +150,23 @@
             </a>
         </div>
     </section>
+
+    <section class="container mx-auto px-4 py-12">
+        <!-- ✨ [오류 수정] 광고 컨테이너에 width: 100%를 추가하여 너비 문제를 해결합니다. -->
+        <div class="ad-container" style="width: 100%; min-height:250px; text-align:center;">
+            <!-- [광고 적용] MLFEE_중간_배너 -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-8602495420447615"
+                 data-ad-slot="1274558144"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </section>
+
 </main>
 
 <footer class="bg-gray-900 border-t border-white/10">
@@ -142,6 +182,7 @@
 </footer>
 
 <script>
+// Script 내용은 변경 없음
 document.addEventListener('DOMContentLoaded', () => {
     const translations = {
         ko: {
@@ -169,10 +210,10 @@ document.addEventListener('DOMContentLoaded', () => {
             footer_message: "This site is run with personal passion and grows with your support and interest."
         },
         ja: { 
-            nav_tools: "ユーティリティ", nav_raid_chronicle: "レイドクロニクル", nav_devlog: "開発ログ",
+            nav_tools: "ユーティリティ", nav_raid_chronicle: "レイドクロニ클", nav_devlog: "開発ログ",
             hero_title: "一つの不便さから<br>始まった旅", hero_subtitle: "ゲーマーの手が届かなかった場所に、AIが答えをくれました。", hero_cta: "旅の成果を見る",
             tools_title: "だから、自分で作りました", tools_subtitle: "あなたのゲーム体験を変えるAIベースのユーティリティ",
-            tool_raid_chronicle: "レイドクロニクル ✨", tool_raid_chronicle_tagline: "<span class='font-bold text-slate-300'>[統合アップデート]</span> ホーンテイルブレイカーとジャクムタイマーが一つに！ 入場時間からパーティー管理、リザレクションまで、すべてをここで解決します。",
+            tool_raid_chronicle: "レイドクロニ클 ✨", tool_raid_chronicle_tagline: "<span class='font-bold text-slate-300'>[統合アップデート]</span> ホーンテイルブレイカーとジャクムタイマーが一つに！ 入場時間からパーティー管理、リザレクションまで、すべてをここで解決します。",
             tool_calc: "割り勘マスター", tool_calc_tagline: "手数料の心配ない完璧な分配",
             tool_buff: "メフィ・バフィ", tool_buff_tagline: "最適なバフの順序とタイミング",
             launch_btn: "起動 &rarr;",
