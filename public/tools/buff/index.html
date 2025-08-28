@@ -53,6 +53,16 @@
         .paused #session-timer { animation: blink 1.5s infinite; }
         @keyframes blink { 50% { opacity: 0.5; } }
     </style>
+
+    <!-- ✨ [적용 완료] Google Analytics 추적 코드 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VLQR1NXFFM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VLQR1NXFFM');
+    </script>
 </head>
 <body class="dark" data-tool-id="buff">
 
@@ -640,4 +650,4 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 </body>
-</html>
+</ht
