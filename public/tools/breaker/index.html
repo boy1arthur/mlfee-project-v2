@@ -45,13 +45,22 @@
         .death-timer-display { font-size: 0.9rem; font-weight: bold; color: #ff8e8e; margin-left: 0.5rem; width: 50px; text-align: right; }
         .seduction-log { background-color: #2a2a2a; border-radius: 0.375rem; padding: 0.75rem; height: 120px; overflow-y: auto; font-family: monospace; font-size: 0.9rem; }
     </style>
+
+    <!-- Google Analytics 추적 코드 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VLQR1NXFFM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VLQR1NXFFM');
+    </script>
 </head>
 <body class="dark" data-tool-id="breaker">
 
 <header class="sticky top-0 z-50 bg-gray-900/70 backdrop-blur-lg border-b border-white/10">
     <div class="container mx-auto px-4 flex justify-between items-center h-16">
         <a href="../../index.html" class="font-serif text-2xl font-bold tracking-wider text-white">MLFEE</a>
-        <!-- ✨ [오류 수정] 링크가 메인 페이지의 도구 섹션으로 이동하도록 경로를 수정했습니다. -->
         <a href="../../index.html#tools" class="text-gray-300 hover:text-white">도구 목록으로</a>
     </div>
 </header>
@@ -76,8 +85,8 @@
                     </div>
                 </div>
 
-                <!-- [오류 수정] 광고 컨테이너에서 flex 관련 클래스를 제거하여 너비 계산 오류를 해결합니다. -->
-                <div class="card text-center p-4 min-h-[100px]">
+                <!-- ✨ [오류 수정] w-full 클래스를 추가하여 광고 컨테이너의 너비를 100%로 명시합니다. -->
+                <div class="card w-full text-center p-4 min-h-[100px]">
                     <ins class="adsbygoogle"
                          style="display:block"
                          data-ad-client="ca-pub-8602495420447615"
@@ -271,8 +280,8 @@
                     <div id="related-tools-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
                 </div>
 
-                <!-- [오류 수정] 광고 컨테이너에서 flex 관련 클래스를 제거하여 너비 계산 오류를 해결합니다. -->
-                <div class="card mt-12 text-center p-4 min-h-[100px]">
+                <!-- ✨ [오류 수정] w-full 클래스를 추가하여 광고 컨테이너의 너비를 100%로 명시합니다. -->
+                <div class="card w-full mt-12 text-center p-4 min-h-[100px]">
                     <ins class="adsbygoogle"
                          style="display:block"
                          data-ad-client="ca-pub-8602495420447615"
