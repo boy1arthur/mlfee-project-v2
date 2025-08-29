@@ -35,10 +35,13 @@
         .btn-secondary:hover { background-color: #555; border-color: #777; color: white; }
         .boss-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .boss-card:hover { transform: translateY(-10px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2); }
+        .tab-btn { transition: all 0.2s ease-in-out; border-bottom: 2px solid transparent; }
+        .tab-btn.active { color: var(--gold-color); border-bottom-color: var(--gold-color); }
+        .tab-btn:not(.active) { color: #a0a0a0; }
     </style>
 
     <!-- ✨ [적용 완료] Google Analytics 추적 코드 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VLQR1NXFFM"></script>
+    <script async src="https://www.googlesyndication.com/gtag/js?id=G-VLQR1NXFFM"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -79,32 +82,63 @@
             <p class="text-xl text-gray-400 max-w-2xl mx-auto" data-translate="rc_subtitle">모든 원정의 시작과 끝. 다음 여정을 계획하고, 최적의 공략을 준비하세요.</p>
         </header>
 
-        <section class="card p-8">
-            <h2 class="text-2xl font-bold text-center mb-6 text-yellow-400" data-translate="rc_calc_title">다음 입장 시간 계산기</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="space-y-3">
-                    <h3 class="text-xl font-bold text-center text-white" data-translate="rc_horntail_title">혼테일</h3>
-                    <div class="flex items-center gap-2">
-                        <input type="text" id="horntail-entry-time-input" placeholder="HH:MM (예: 1430)" class="w-full bg-gray-800 border border-gray-600 rounded-md p-3 text-xl text-center" data-translate-placeholder="rc_placeholder_time">
-                        <button id="horntail-now-btn" class="btn flex-shrink-0 px-4 py-3" data-translate="rc_btn_now">현재</button>
+        <!-- ✨ [개선] 탭 기반 인터페이스 -->
+        <section class="card p-6 sm:p-8">
+            <!-- 탭 버튼 -->
+            <div class="flex border-b border-gray-700 mb-6">
+                <button id="horntail-tab-btn" class="tab-btn flex-1 py-3 text-xl font-bold" data-tab="horntail" data-translate="rc_horntail_title">혼테일</button>
+                <button id="zakum-tab-btn" class="tab-btn flex-1 py-3 text-xl font-bold" data-tab="zakum" data-translate="rc_zakum_title">자쿰</button>
+            </div>
+
+            <!-- 혼테일 탭 콘텐츠 -->
+            <div id="horntail-content" class="space-y-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-center mb-6 text-yellow-400" data-translate="rc_calc_title">다음 입장 시간 계산기</h2>
+                    <div class="max-w-md mx-auto space-y-3">
+                        <div class="flex items-center gap-2">
+                            <input type="text" id="horntail-entry-time-input" placeholder="HH:MM (예: 1430)" class="w-full bg-gray-800 border border-gray-600 rounded-md p-3 text-xl text-center" data-translate-placeholder="rc_placeholder_time">
+                            <button id="horntail-now-btn" class="btn flex-shrink-0 px-4 py-3" data-translate="rc_btn_now">현재</button>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button id="horntail-calculate-btn" class="btn text-lg w-full" data-translate="rc_btn_record">기록</button>
+                            <button id="horntail-reset-btn" class="btn btn-secondary text-lg w-full" data-translate="rc_btn_reset">초기화</button>
+                        </div>
+                        <div id="horntail-entry-result" class="text-center text-xl font-bold h-14 pt-2"></div>
                     </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <button id="horntail-calculate-btn" class="btn text-lg w-full" data-translate="rc_btn_record">기록</button>
-                        <button id="horntail-reset-btn" class="btn btn-secondary text-lg w-full" data-translate="rc_btn_reset">초기화</button>
-                    </div>
-                    <div id="horntail-entry-result" class="text-center text-xl font-bold h-14 pt-2"></div>
                 </div>
-                <div class="space-y-3">
-                    <h3 class="text-xl font-bold text-center text-white" data-translate="rc_zakum_title">자쿰</h3>
-                    <div class="flex items-center gap-2">
-                        <input type="text" id="zakum-entry-time-input" placeholder="HH:MM (예: 2100)" class="w-full bg-gray-800 border border-gray-600 rounded-md p-3 text-xl text-center" data-translate-placeholder="rc_placeholder_time">
-                        <button id="zakum-now-btn" class="btn flex-shrink-0 px-4 py-3" data-translate="rc_btn_now">현재</button>
+                <div class="border-t border-gray-700 my-8"></div>
+                <div>
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-yellow-400" data-translate="rc_checklist_horntail_title">혼테일 원정 준비</h2>
+                        <button id="horntail-checklist-reset-btn" class="btn btn-secondary text-sm px-4 py-2" data-translate="rc_btn_reset">초기화</button>
                     </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <button id="zakum-calculate-btn" class="btn text-lg w-full" data-translate="rc_btn_record">기록</button>
-                        <button id="zakum-reset-btn" class="btn btn-secondary text-lg w-full" data-translate="rc_btn_reset">초기화</button>
+                    <div id="horntail-checklist" class="space-y-4 max-w-md mx-auto"></div>
+                </div>
+            </div>
+
+            <!-- 자쿰 탭 콘텐츠 -->
+            <div id="zakum-content" class="hidden space-y-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-center mb-6 text-yellow-400" data-translate="rc_calc_title">다음 입장 시간 계산기</h2>
+                    <div class="max-w-md mx-auto space-y-3">
+                         <div class="flex items-center gap-2">
+                            <input type="text" id="zakum-entry-time-input" placeholder="HH:MM (예: 2100)" class="w-full bg-gray-800 border border-gray-600 rounded-md p-3 text-xl text-center" data-translate-placeholder="rc_placeholder_time">
+                            <button id="zakum-now-btn" class="btn flex-shrink-0 px-4 py-3" data-translate="rc_btn_now">현재</button>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button id="zakum-calculate-btn" class="btn text-lg w-full" data-translate="rc_btn_record">기록</button>
+                            <button id="zakum-reset-btn" class="btn btn-secondary text-lg w-full" data-translate="rc_btn_reset">초기화</button>
+                        </div>
+                        <div id="zakum-entry-result" class="text-center text-xl font-bold h-14 pt-2"></div>
                     </div>
-                    <div id="zakum-entry-result" class="text-center text-xl font-bold h-14 pt-2"></div>
+                </div>
+                 <div class="border-t border-gray-700 my-8"></div>
+                <div>
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-yellow-400" data-translate="rc_checklist_zakum_title">자쿰 원정 준비</h2>
+                        <button id="zakum-checklist-reset-btn" class="btn btn-secondary text-sm px-4 py-2" data-translate="rc_btn_reset">초기화</button>
+                    </div>
+                    <div id="zakum-checklist" class="space-y-4 max-w-md mx-auto"></div>
                 </div>
             </div>
         </section>
@@ -158,7 +192,18 @@ document.addEventListener('DOMContentLoaded', () => {
             rc_zakum_card_title: "자쿰 타이머", rc_zakum_card_desc: "리저렉션 쿨타임에 최적화된 직관적인 타이머. 연속 트라이 쿨타임 관리의 핵심.",
             rc_btn_launch: "바로가기", rc_result_wait: "다음 입장까지:", rc_result_go: "입장 가능!",
             rc_result_error_format: "HH:MM 형식으로 입력해주세요.", rc_result_error_time: "올바른 시간이 아닙니다.",
-            rc_result_default: "입장 시간을 기록해주세요."
+            rc_result_default: "입장 시간을 기록해주세요.",
+            rc_checklist_horntail_title: "혼테일 원정 준비",
+            rc_checklist_zakum_title: "자쿰 원정 준비",
+            rc_chk_transform: "변신 비약 퀘스트 (변비퀘)",
+            rc_chk_potions: "충분한 물약 확인",
+            rc_chk_allcure: "만병통치약 (만통)",
+            rc_chk_ring: "코디 반지 기간",
+            rc_chk_pet_settings: "펫 기간 및 물약 설정",
+            rc_chk_zakum1: "자쿰 퀘스트 1단계",
+            rc_chk_zakum2: "자쿰 퀘스트 2단계",
+            rc_chk_zakum3: "자쿰 퀘스트 3단계",
+            rc_chk_fireeye: "불의 눈"
         },
         en: { 
             nav_tools: "Utilities", nav_raid_chronicle: "Raid Chronicle", nav_devlog: "Dev Log",
@@ -172,7 +217,18 @@ document.addEventListener('DOMContentLoaded', () => {
             rc_zakum_card_title: "Zakum Timer", rc_zakum_card_desc: "An intuitive timer optimized for Resurrection cooldown. Key for managing back-to-back attempts.",
             rc_btn_launch: "Launch", rc_result_wait: "Next entry in:", rc_result_go: "Entry Possible!",
             rc_result_error_format: "Please enter in HH:MM format.", rc_result_error_time: "Invalid time.",
-            rc_result_default: "Please record the entry time."
+            rc_result_default: "Please record the entry time.",
+            rc_checklist_horntail_title: "Horntail Expedition Prep",
+            rc_checklist_zakum_title: "Zakum Expedition Prep",
+            rc_chk_transform: "Transformation Potion Quest",
+            rc_chk_potions: "Sufficient Potions Check",
+            rc_chk_allcure: "All-Cure Potions",
+            rc_chk_ring: "Cosmetic Ring Duration",
+            rc_chk_pet_settings: "Pet Duration & Potion Settings",
+            rc_chk_zakum1: "Zakum Quest Stage 1",
+            rc_chk_zakum2: "Zakum Quest Stage 2",
+            rc_chk_zakum3: "Zakum Quest Stage 3",
+            rc_chk_fireeye: "Eye of Fire"
         },
         ja: { 
             nav_tools: "ユーティリティ", nav_raid_chronicle: "レイドクロニクル", nav_devlog: "開発ログ",
@@ -186,7 +242,18 @@ document.addEventListener('DOMContentLoaded', () => {
             rc_zakum_card_title: "ジャクムタイマー", rc_zakum_card_desc: "リザレクションのクールタイムに最適化された直感的なタイマー。連続トライのクールタイム管理の核心。",
             rc_btn_launch: "起動", rc_result_wait: "次の入場まで:", rc_result_go: "入場可能！",
             rc_result_error_format: "HH:MM形式で入力してください。", rc_result_error_time: "無効な時間です。",
-            rc_result_default: "入場時間を記録してください。"
+            rc_result_default: "入場時間を記録してください。",
+            rc_checklist_horntail_title: "ホーンテイル遠征準備",
+            rc_checklist_zakum_title: "ジャクム遠征準備",
+            rc_chk_transform: "変身秘薬クエスト",
+            rc_chk_potions: "十分なポーションの確認",
+            rc_chk_allcure: "万病治療薬",
+            rc_chk_ring: "コーディネートリングの期間",
+            rc_chk_pet_settings: "ペットの期間とポーション設定",
+            rc_chk_zakum1: "ジャクムクエスト 1段階",
+            rc_chk_zakum2: "ジャクムクエスト 2段階",
+            rc_chk_zakum3: "ジャクムクエスト 3段階",
+            rc_chk_fireeye: "火の目"
         }
     };
     const setLanguage = (lang) => {
@@ -216,12 +283,43 @@ document.addEventListener('DOMContentLoaded', () => {
             const savedLang = localStorage.getItem('mlfee-lang') || 'ko';
             languageSwitcher.value = savedLang;
             setLanguage(savedLang);
-            languageSwitcher.addEventListener('change', (e) => { setLanguage(e.target.value); });
+            languageSwitcher.addEventListener('change', (e) => { 
+                setLanguage(e.target.value); 
+                updateDisplay('horntail');
+                updateDisplay('zakum');
+            });
         }
     };
     initializeUi();
 
-    // --- 2. 이 페이지의 계산기 기능 ---
+    // --- 2. 탭 기능 ---
+    function setupTabs() {
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = {
+            horntail: document.getElementById('horntail-content'),
+            zakum: document.getElementById('zakum-content')
+        };
+
+        function switchTab(tabName) {
+            Object.values(tabContents).forEach(content => content.classList.add('hidden'));
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+
+            if (tabContents[tabName]) {
+                tabContents[tabName].classList.remove('hidden');
+                document.querySelector(`.tab-btn[data-tab="${tabName}"]`).classList.add('active');
+                localStorage.setItem('activeRaidTab', tabName);
+            }
+        }
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => switchTab(button.dataset.tab));
+        });
+
+        const savedTab = localStorage.getItem('activeRaidTab') || 'horntail';
+        switchTab(savedTab);
+    }
+
+    // --- 3. 입장 시간 계산기 기능 ---
     function setupEntryCalculator(bossName) {
         const inputEl = document.getElementById(`${bossName}-entry-time-input`);
         const buttonEl = document.getElementById(`${bossName}-calculate-btn`);
@@ -229,7 +327,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const nowBtn = document.getElementById(`${bossName}-now-btn`);
         const resetBtn = document.getElementById(`${bossName}-reset-btn`);
         const storageKey = `${bossName}_entry_timestamp`;
-        const lang = localStorage.getItem('mlfee-lang') || 'ko';
 
         inputEl.addEventListener('input', (e) => {
             let value = e.target.value.replace(/[^\d]/g, '');
@@ -244,18 +341,6 @@ document.addEventListener('DOMContentLoaded', () => {
             inputEl.value = `${hours}:${minutes}`;
         });
 
-        function formatRemainingTime(ms) {
-            const currentLang = localStorage.getItem('mlfee-lang') || 'ko';
-            if (ms <= 0) {
-                resultEl.innerHTML = `<span class="text-green-400">${translations[currentLang].rc_result_go}</span>`;
-                return;
-            }
-            const h = Math.floor(ms / 3600000);
-            const m = Math.floor((ms % 3600000) / 60000);
-            const s = Math.floor((ms % 60000) / 1000);
-            resultEl.innerHTML = `${translations[currentLang].rc_result_wait} <span class="text-cyan-400">${h}h ${m}m ${s}s</span>`;
-        }
-        
         function calculateAndSave() {
             const inputTime = inputEl.value;
             const currentLang = localStorage.getItem('mlfee-lang') || 'ko';
@@ -273,39 +358,133 @@ document.addEventListener('DOMContentLoaded', () => {
             if (entryDate > new Date()) { entryDate.setDate(entryDate.getDate() - 1); }
             localStorage.setItem(storageKey, entryDate.getTime());
             resultEl.classList.remove('text-red-500');
-            updateDisplay();
+            updateDisplay(bossName);
         }
 
         function reset() {
             localStorage.removeItem(storageKey);
             inputEl.value = '';
             resultEl.classList.remove('text-red-500');
-            updateDisplay();
-        }
-
-        function updateDisplay() {
-            const savedTimestamp = localStorage.getItem(storageKey);
-            const currentLang = localStorage.getItem('mlfee-lang') || 'ko';
-            if (savedTimestamp) {
-                const entryTime = parseInt(savedTimestamp, 10);
-                const nextEntryTime = entryTime + 24 * 60 * 60 * 1000;
-                const remaining = nextEntryTime - Date.now();
-                formatRemainingTime(remaining);
-            } else {
-                resultEl.textContent = translations[currentLang].rc_result_default;
-            }
+            updateDisplay(bossName);
         }
 
         buttonEl.addEventListener('click', calculateAndSave);
         resetBtn.addEventListener('click', reset);
-        setInterval(updateDisplay, 1000);
-        updateDisplay();
+        setInterval(() => updateDisplay(bossName), 1000);
+        updateDisplay(bossName);
+    }
+    
+    window.updateDisplay = function(bossName) {
+        const resultEl = document.getElementById(`${bossName}-entry-result`);
+        const storageKey = `${bossName}_entry_timestamp`;
+        const savedTimestamp = localStorage.getItem(storageKey);
+        const currentLang = localStorage.getItem('mlfee-lang') || 'ko';
+
+        if (savedTimestamp) {
+            const entryTime = parseInt(savedTimestamp, 10);
+            const nextEntryTime = entryTime + 24 * 60 * 60 * 1000;
+            const remaining = nextEntryTime - Date.now();
+            const h = Math.floor(remaining / 3600000);
+            const m = Math.floor((remaining % 3600000) / 60000);
+            const s = Math.floor((remaining % 60000) / 1000);
+            
+            if (remaining <= 0) {
+                resultEl.innerHTML = `<span class="text-green-400">${translations[currentLang].rc_result_go}</span>`;
+            } else {
+                 resultEl.innerHTML = `${translations[currentLang].rc_result_wait} <span class="text-cyan-400">${h}h ${m}m ${s}s</span>`;
+            }
+        } else {
+            resultEl.textContent = translations[currentLang].rc_result_default;
+        }
     }
 
+    // --- 4. 원정 준비 체크리스트 기능 ---
+    function setupChecklist(bossName, items) {
+        const checklistContainer = document.getElementById(`${bossName}-checklist`);
+        const resetButton = document.getElementById(`${bossName}-checklist-reset-btn`);
+        const storageKey = `${bossName}_checklist_state`;
+        
+        if(!checklistContainer || !resetButton) return;
+
+        checklistContainer.innerHTML = items.map(item => `
+            <div class="flex items-center bg-gray-800/50 p-3 rounded-lg transition-colors hover:bg-gray-700/50">
+                <input type="checkbox" id="${item.id}" class="w-5 h-5 rounded bg-gray-700 border-gray-600 text-yellow-500 focus:ring-yellow-600 cursor-pointer flex-shrink-0">
+                <label for="${item.id}" class="ml-4 text-lg text-gray-300 w-full cursor-pointer transition-all duration-300" data-translate="${item.key}"></label>
+            </div>
+        `).join('');
+
+        const checkboxes = checklistContainer.querySelectorAll('input[type="checkbox"]');
+
+        function updateLabelStyle(checkbox) {
+            const label = checkbox.nextElementSibling;
+            if (checkbox.checked) {
+                label.classList.add('line-through', 'text-gray-500');
+            } else {
+                label.classList.remove('line-through', 'text-gray-500');
+            }
+        }
+
+        function saveState() {
+            const state = {};
+            checkboxes.forEach(cb => { state[cb.id] = cb.checked; });
+            localStorage.setItem(storageKey, JSON.stringify(state));
+        }
+
+        function loadState() {
+            const savedState = JSON.parse(localStorage.getItem(storageKey) || '{}');
+            checkboxes.forEach(cb => {
+                cb.checked = savedState[cb.id] || false;
+                updateLabelStyle(cb);
+            });
+            setLanguage(localStorage.getItem('mlfee-lang') || 'ko');
+        }
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', () => {
+                updateLabelStyle(cb);
+                saveState();
+            });
+        });
+
+        resetButton.addEventListener('click', () => {
+            checkboxes.forEach(cb => {
+                cb.checked = false;
+                updateLabelStyle(cb);
+            });
+            saveState();
+        });
+
+        loadState();
+    }
+
+    // --- 초기 실행 ---
+    setupTabs();
     setupEntryCalculator('horntail');
     setupEntryCalculator('zakum');
+    
+    const horntailItems = [
+        { id: 'ht-transform-quest', key: 'rc_chk_transform' },
+        { id: 'ht-potions', key: 'rc_chk_potions' },
+        { id: 'ht-all-cure', key: 'rc_chk_allcure' },
+        { id: 'ht-cash-ring', key: 'rc_chk_ring' },
+        { id: 'ht-pet-duration', key: 'rc_chk_pet_settings' }
+    ];
+
+    const zakumItems = [
+        { id: 'zk-quest1', key: 'rc_chk_zakum1' },
+        { id: 'zk-quest2', key: 'rc_chk_zakum2' },
+        { id: 'zk-quest3', key: 'rc_chk_zakum3' },
+        { id: 'zk-fire-eye', key: 'rc_chk_fireeye' },
+        { id: 'zk-all-cure', key: 'rc_chk_allcure' },
+        { id: 'zk-cash-ring', key: 'rc_chk_ring' },
+        { id: 'zk-pet-duration', key: 'rc_chk_pet_settings' }
+    ];
+
+    setupChecklist('horntail', horntailItems);
+    setupChecklist('zakum', zakumItems);
 });
 </script>
 
 </body>
 </html>
+
