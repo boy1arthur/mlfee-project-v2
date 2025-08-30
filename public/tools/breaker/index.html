@@ -85,7 +85,7 @@
                     </div>
                 </div>
 
-                <!-- ✨ [오류 수정] w-full 클래스를 추가하여 광고 컨테이너의 너비를 100%로 명시합니다. -->
+                <!-- ✨ [수정] 광고 슬롯 하나로 통합 -->
                 <div class="card w-full text-center p-4 min-h-[100px]">
                     <ins class="adsbygoogle"
                          style="display:block"
@@ -280,27 +280,13 @@
                     <div id="related-tools-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
                 </div>
 
-                <!-- ✨ [오류 수정] w-full 클래스를 추가하여 광고 컨테이너의 너비를 100%로 명시합니다. -->
-                <div class="card w-full mt-12 text-center p-4 min-h-[100px]">
-                    <ins class="adsbygoogle"
-                         style="display:block"
-                         data-ad-client="ca-pub-8602495420447615"
-                         data-ad-slot="1274558144"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
-                    <script>
-                         (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
-                </div>
-
             </div>
             
-            <!-- [UI 개선] 사이드바를 유튜브 채널 링크로 변경 -->
+            <!-- ✨ [UI 롤백] 사이드바를 유튜브 채널 링크로 변경 -->
             <aside id="ad-sidebar" class="lg:sticky top-24 h-fit card p-6 space-y-4 text-center">
                 <h3 class="font-bold text-xl" data-lang-key="youtubeChannel">소년아서 채널</h3>
                 <i class="fab fa-youtube text-6xl text-red-600"></i>
                 <p class="text-gray-400" data-lang-key="youtubeDesc">개발 이야기와 메이플랜드 꿀팁 영상을 만나보세요!</p>
-                <!-- [링크 적용] 실제 유튜브 채널 주소로 변경 -->
                 <a href="https://www.youtube.com/channel/UCfjb2gmlEhEsBhutIwSr_gQ" target="_blank" rel="noopener noreferrer" class="btn w-full !bg-red-600 !text-white !border-red-700 hover:!bg-red-700">
                     <span data-lang-key="subscribe">구독하고 소식받기</span>
                 </a>
@@ -428,3 +414,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
