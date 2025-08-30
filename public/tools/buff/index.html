@@ -159,21 +159,26 @@
                     <span data-lang-key="subscribe">구독하고 소식받기</span>
                 </a>
             </div>
+            <!-- ✨ [수정 완료] 사냥 세션 정보 UI 변경 -->
             <div class="card p-6 space-y-4">
                 <h2 class="text-2xl font-bold text-yellow-400">사냥 세션 정보</h2>
                 <div class="space-y-4">
                     <div>
                         <h3 class="font-bold text-lg mb-2">사냥 전</h3>
                         <div class="grid grid-cols-2 gap-2">
-                            <input type="text" id="start-meso" placeholder="메소" class="input-field text-sm data-input">
-                            <input type="text" id="start-exp" placeholder="경험치(%)" class="input-field text-sm data-input">
+                            <input type="text" id="start-meso" placeholder="시작 메소" class="input-field text-sm data-input">
+                            <input type="text" id="start-exp" placeholder="시작 경험치" class="input-field text-sm data-input">
                         </div>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg mb-2">목표 설정</h3>
+                        <input type="text" id="exp-for-levelup" placeholder="다음 레벨업 필요 경험치" class="input-field text-sm data-input" title="현재 레벨에서 다음 레벨업에 필요한 총 경험치량을 입력하세요.">
                     </div>
                     <div>
                         <h3 class="font-bold text-lg mb-2">사냥 후</h3>
                         <div class="grid grid-cols-2 gap-2">
-                            <input type="text" id="end-meso" placeholder="메소" class="input-field text-sm data-input">
-                            <input type="text" id="end-exp" placeholder="경험치(%)" class="input-field text-sm data-input">
+                            <input type="text" id="end-meso" placeholder="종료 메소" class="input-field text-sm data-input">
+                            <input type="text" id="end-exp" placeholder="종료 경험치" class="input-field text-sm data-input">
                         </div>
                     </div>
                 </div>
@@ -262,6 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
         confirmModal: document.getElementById('confirm-modal'),
         confirmDeleteBtn: document.getElementById('confirm-delete-btn'),
         cancelDeleteBtn: document.getElementById('cancel-delete-btn'),
+        expForLevelUpInput: document.getElementById('exp-for-levelup'),
     };
 
     let state = {
@@ -271,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
         isSessionActive: false,
         isPaused: false,
         activeTimers: [],
-        huntingLog: JSON.parse(localStorage.getItem('huntingLog_v9')) || [],
+        huntingLog: JSON.parse(localStorage.getItem('huntingLog_v10')) || [],
         currentLogView: 'recent',
         chartInstance: null,
         currentSessionResult: null,
@@ -311,6 +317,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const formatNumber = (num) => isNaN(num) ? '0' : num.toLocaleString('ko-KR');
     const parseNumber = (str) => parseInt(String(str).replace(/,/g, '')) || 0;
     const formatTime = (s) => `${String(Math.floor(s/3600)).padStart(2,'0')}:${String(Math.floor((s%3600)/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+    const formatHourMinute = (hours) => {
+        if (isNaN(hours) || hours <= 0) return '-';
+        const h = Math.floor(hours);
+        const m = Math.round((hours - h) * 60);
+        return `${h}시간 ${m}분`;
+    };
 
     const speak = (text, adText = null) => {
         if (!('speechSynthesis' in window)) return;
@@ -334,10 +346,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function setupInputFormatting(input) { 
         input.addEventListener('input', (e) => {
-            const value = e.target.value.replace(/[^\d.]/g, '');
-            const parts = value.split('.');
-            parts[0] = formatNumber(parseNumber(parts[0]));
-            e.target.value = parts.join('.');
+            const value = e.target.value.replace(/[^\d]/g, '');
+            e.target.value = formatNumber(parseNumber(value));
         });
     }
     document.querySelectorAll('.data-input').forEach(setupInputFormatting);
@@ -355,6 +365,9 @@ document.addEventListener('DOMContentLoaded', () => {
             dom.sessionTimerEl.textContent = formatTime(state.sessionSeconds);
         }, 1000);
         state.buffInterval = setInterval(updateAllBuffTimers, 1000);
+        
+        // Save exp for level up to local storage
+        localStorage.setItem('expForLevelUp', dom.expForLevelUpInput.value);
         updateUI();
     }
 
@@ -363,17 +376,36 @@ document.addEventListener('DOMContentLoaded', () => {
         updateUI();
     }
 
+    // ✨ [수정 완료] 경험치 계산 로직 변경
     function endSession() { 
         if (!state.isSessionActive) return;
         clearInterval(state.sessionInterval);
         clearInterval(state.buffInterval);
+
         const durationHours = state.sessionSeconds / 3600;
         const startMeso = parseNumber(document.getElementById('start-meso').value);
         const endMeso = parseNumber(document.getElementById('end-meso').value);
-        const startExp = parseFloat(document.getElementById('start-exp').value.replace(/,/g, '')) || 0;
-        const endExp = parseFloat(document.getElementById('end-exp').value.replace(/,/g, '')) || 0;
-        let expGained = endExp - startExp;
-        if (expGained < 0) expGained += 100;
+        const startExp = parseNumber(document.getElementById('start-exp').value);
+        const endExp = parseNumber(document.getElementById('end-exp').value);
+        const expForLevelUp = parseNumber(dom.expForLevelUpInput.value);
+
+        const mesoGained = endMeso - startMeso;
+        const expGained = endExp - startExp;
+
+        const mesoPerHour = durationHours > 0 ? Math.round(mesoGained / durationHours) : 0;
+        const expPerHour = durationHours > 0 ? Math.round(expGained / durationHours) : 0;
+
+        let levelUpPercent = 0;
+        let timeToLevelUp = 0;
+
+        if (expForLevelUp > 0 && endExp > 0) {
+            levelUpPercent = parseFloat(((endExp / expForLevelUp) * 100).toFixed(2));
+        }
+
+        if (expPerHour > 0 && expForLevelUp > endExp) {
+            timeToLevelUp = (expForLevelUp - endExp) / expPerHour; // in hours
+        }
+
         const potionsUsed = [];
         dom.potionLogContainer.querySelectorAll('.potion-row').forEach(row => {
             const name = row.querySelector('.potion-name').value || '이름 없는 물약';
@@ -383,14 +415,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 potionsUsed.push({ name, used: startCount - endCount });
             }
         });
+
         state.currentSessionResult = {
             date: new Date().toISOString(),
             duration: state.sessionSeconds,
-            mesoGained: endMeso - startMeso,
-            expGained: parseFloat(expGained.toFixed(2)),
-            mesoPerHour: durationHours > 0 ? Math.round((endMeso - startMeso) / durationHours) : 0,
-            expPerHour: durationHours > 0 ? parseFloat((expGained / durationHours).toFixed(2)) : 0,
+            mesoGained,
+            expGained,
+            mesoPerHour,
+            expPerHour,
             potionsUsed,
+            levelUpPercent,
+            timeToLevelUp,
         };
         showResultModal();
     }
@@ -406,7 +441,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dom.sessionTimerEl.textContent = "00:00:00";
         dom.startTimeEl.textContent = "-";
         dom.endTimeEl.textContent = "-";
-        document.querySelectorAll('.data-input').forEach(input => input.value = '');
+        document.querySelectorAll('.data-input:not(#exp-for-levelup)').forEach(input => input.value = '');
         dom.potionLogContainer.innerHTML = '';
         addPotionLog();
         renderBuffTimers();
@@ -481,20 +516,43 @@ document.addEventListener('DOMContentLoaded', () => {
         renderChart(data);
     }
 
+    // ✨ [수정 완료] 로그 표시 방식 변경
     function renderRecentLogs(logs) {
         if (logs.length === 0) {
             dom.huntingLogList.innerHTML = '<p class="text-gray-500 text-center">기록된 사냥 세션이 없습니다.</p>';
             return;
         }
-        dom.huntingLogList.innerHTML = logs.map(log => `<div class="bg-gray-800 p-3 rounded-lg"><div class="flex justify-between items-center"><p class="font-bold text-sm">${new Date(log.date).toLocaleString('ko-KR')}</p><p class="font-mono text-cyan-400">${formatTime(log.duration)}</p></div><div class="mt-2 text-xs grid grid-cols-2 gap-x-4"><p class="text-green-400">시간당 메소: ${formatNumber(log.mesoPerHour)}</p><p class="text-blue-400">시간당 경험치: ${log.expPerHour}%</p><p class="text-yellow-400 col-span-2">획득 메소: ${formatNumber(log.mesoGained)}</p></div></div>`).join('');
+        dom.huntingLogList.innerHTML = logs.map(log => `
+            <div class="bg-gray-800 p-3 rounded-lg">
+                <div class="flex justify-between items-center">
+                    <p class="font-bold text-sm">${new Date(log.date).toLocaleString('ko-KR')}</p>
+                    <p class="font-mono text-cyan-400">${formatTime(log.duration)}</p>
+                </div>
+                <div class="mt-2 text-xs grid grid-cols-2 gap-x-4">
+                    <p class="text-green-400">시간당 메소: ${formatNumber(log.mesoPerHour)}</p>
+                    <p class="text-blue-400">시간당 경험치: ${formatNumber(log.expPerHour)}</p>
+                    <p class="text-yellow-400 col-span-2">획득 메소: ${formatNumber(log.mesoGained)}</p>
+                </div>
+            </div>`).join('');
     }
     
+    // ✨ [수정 완료] 요약 로그 표시 방식 변경
     function renderSummaryLogs(summary, periodUnit) {
         if (summary.length === 0) {
             dom.huntingLogList.innerHTML = `<p class="text-gray-500 text-center">${periodUnit}별 요약 기록이 없습니다.</p>`;
             return;
         }
-        dom.huntingLogList.innerHTML = summary.map(log => `<div class="bg-gray-800 p-3 rounded-lg"><div class="flex justify-between items-center"><p class="font-bold text-sm">${log.label}</p><p class="font-mono text-cyan-400">총 ${formatTime(log.duration)}</p></div><div class="mt-2 text-xs grid grid-cols-2 gap-x-4"><p class="text-green-400">평균 메소/시간: ${formatNumber(log.mesoPerHour)}</p><p class="text-blue-400">평균 경험치/시간: ${log.expPerHour}%</p></div></div>`).join('');
+        dom.huntingLogList.innerHTML = summary.map(log => `
+            <div class="bg-gray-800 p-3 rounded-lg">
+                <div class="flex justify-between items-center">
+                    <p class="font-bold text-sm">${log.label}</p>
+                    <p class="font-mono text-cyan-400">총 ${formatTime(log.duration)}</p>
+                </div>
+                <div class="mt-2 text-xs grid grid-cols-2 gap-x-4">
+                    <p class="text-green-400">평균 메소/시간: ${formatNumber(log.mesoPerHour)}</p>
+                    <p class="text-blue-400">평균 경험치/시간: ${formatNumber(log.expPerHour)}</p>
+                </div>
+            </div>`).join('');
     }
     
     function getDailySummary() {
@@ -504,7 +562,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const totalMeso = logs.reduce((sum, l) => sum + l.mesoGained, 0);
             const totalExp = logs.reduce((sum, l) => sum + l.expGained, 0);
             const durationHours = totalDuration / 3600;
-            return { label: date, duration: totalDuration, mesoPerHour: durationHours > 0 ? Math.round(totalMeso / durationHours) : 0, expPerHour: durationHours > 0 ? (totalExp / durationHours).toFixed(2) : 0, };
+            return { label: date, duration: totalDuration, mesoPerHour: durationHours > 0 ? Math.round(totalMeso / durationHours) : 0, expPerHour: durationHours > 0 ? Math.round(totalExp / durationHours) : 0 };
         }).sort((a,b) => new Date(a.label) - new Date(b.label));
     }
     
@@ -523,17 +581,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const totalMeso = logs.reduce((sum, l) => sum + l.mesoGained, 0);
             const totalExp = logs.reduce((sum, l) => sum + l.expGained, 0);
             const durationHours = totalDuration / 3600;
-            return { label: week, duration: totalDuration, mesoPerHour: durationHours > 0 ? Math.round(totalMeso / durationHours) : 0, expPerHour: durationHours > 0 ? (totalExp / durationHours).toFixed(2) : 0, };
+            return { label: week, duration: totalDuration, mesoPerHour: durationHours > 0 ? Math.round(totalMeso / durationHours) : 0, expPerHour: durationHours > 0 ? Math.round(totalExp / durationHours) : 0 };
         }).sort((a,b) => a.label.localeCompare(b.label));
     }
 
+    // ✨ [수정 완료] 차트 표시 방식 변경
     function renderChart(data) {
         if (state.chartInstance) state.chartInstance.destroy();
         if (!data || data.length === 0) return;
         const labels = data.map(log => log.label || new Date(log.date).toLocaleTimeString('ko-KR'));
         const mesoData = data.map(log => log.mesoPerHour);
         const expData = data.map(log => log.expPerHour);
-        state.chartInstance = new Chart(dom.chartCanvas.getContext('2d'), { type: 'line', data: { labels: labels, datasets: [ { label: '시간당 메소', data: mesoData, borderColor: 'rgba(52, 211, 153, 1)', backgroundColor: 'rgba(52, 211, 153, 0.2)', yAxisID: 'yMeso', tension: 0.3, fill: true, }, { label: '시간당 경험치 (%)', data: expData, borderColor: 'rgba(59, 130, 246, 1)', backgroundColor: 'rgba(59, 130, 246, 0.2)', yAxisID: 'yExp', tension: 0.3, fill: true, } ] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { ticks: { color: '#9ca3af' }, grid: { color: '#444' } }, yMeso: { type: 'linear', position: 'left', ticks: { color: '#a7f3d0', callback: value => formatNumber(value) }, grid: { color: '#444' } }, yExp: { type: 'linear', position: 'right', ticks: { color: '#93c5fd', callback: value => `${value}%` }, grid: { drawOnChartArea: false } } }, plugins: { legend: { labels: { color: '#e0e0e0' } }, tooltip: { callbacks: { label: function(context) { let label = context.dataset.label || ''; if (label) label += ': '; if (context.parsed.y !== null) { if (context.dataset.yAxisID === 'yMeso') { label += formatNumber(context.parsed.y); } else { label += `${context.parsed.y}%`; } } return label; } } } } } });
+        state.chartInstance = new Chart(dom.chartCanvas.getContext('2d'), { type: 'line', data: { labels: labels, datasets: [ { label: '시간당 메소', data: mesoData, borderColor: 'rgba(52, 211, 153, 1)', backgroundColor: 'rgba(52, 211, 153, 0.2)', yAxisID: 'yMeso', tension: 0.3, fill: true, }, { label: '시간당 경험치', data: expData, borderColor: 'rgba(59, 130, 246, 1)', backgroundColor: 'rgba(59, 130, 246, 0.2)', yAxisID: 'yExp', tension: 0.3, fill: true, } ] }, options: { responsive: true, maintainAspectRatio: false, scales: { x: { ticks: { color: '#9ca3af' }, grid: { color: '#444' } }, yMeso: { type: 'linear', position: 'left', ticks: { color: '#a7f3d0', callback: value => formatNumber(value) }, grid: { color: '#444' } }, yExp: { type: 'linear', position: 'right', ticks: { color: '#93c5fd', callback: value => formatNumber(value) }, grid: { drawOnChartArea: false } } }, plugins: { legend: { labels: { color: '#e0e0e0' } }, tooltip: { callbacks: { label: function(context) { let label = context.dataset.label || ''; if (label) label += ': '; if (context.parsed.y !== null) { label += formatNumber(context.parsed.y); } return label; } } } } } });
     }
     
     function updateUI() {
@@ -549,10 +608,33 @@ document.addEventListener('DOMContentLoaded', () => {
         dom.activeTimersContainer.innerHTML = state.activeTimers.map(timer => `<div id="${timer.id}" class="card p-3 rounded-lg flex items-center justify-between bg-gray-800/50"><span class="font-bold">${timer.name}</span><div class="flex items-center gap-3"><span class="time-left font-mono text-2xl">${formatTime(timer.secondsLeft)}</span><div class="flex flex-col gap-1"><button data-action="adjust-timer" data-timer-id="${timer.id}" data-amount="10" class="timer-adjust-btn">▲ 10s</button><button data-action="adjust-timer" data-timer-id="${timer.id}" data-amount="-10" class="timer-adjust-btn">▼ 10s</button></div><button data-action="remove-timer" data-timer-id="${timer.id}" class="btn !p-2 bg-red-800 text-white border-red-800 hover:bg-red-700">X</button></div></div>`).join('');
     }
     
+    // ✨ [수정 완료] 결과 모달 표시 방식 변경
     function showResultModal() {
-        const { duration, mesoGained, expGained, mesoPerHour, expPerHour, potionsUsed } = state.currentSessionResult;
+        const { duration, mesoGained, expGained, mesoPerHour, expPerHour, potionsUsed, levelUpPercent, timeToLevelUp } = state.currentSessionResult;
+        
         let potionsHtml = potionsUsed.length > 0 ? `<div class="pt-2 border-t border-gray-600 mt-2"><h4 class="font-bold text-yellow-500">소모품</h4>${potionsUsed.map(p => `<p class="text-sm">${p.name}: ${formatNumber(p.used)}개 사용</p>`).join('')}</div>` : '';
-        dom.resultDetails.innerHTML = `<p><strong>사냥 시간:</strong> ${formatTime(duration)}</p><p><strong>획득 메소:</strong> <span class="text-green-400">${formatNumber(mesoGained)}</span></p><p><strong>획득 경험치:</strong> <span class="text-blue-400">${expGained}%</span></p><hr class="border-gray-600 my-2"><p><strong>시간당 메소:</strong> <span class="text-green-400">${formatNumber(mesoPerHour)}</span></p><p><strong>시간당 경험치:</strong> <span class="text-blue-400">${expPerHour}%</span></p>${potionsHtml}`;
+
+        let levelUpHtml = '';
+        if (levelUpPercent > 0) {
+            levelUpHtml = `
+                <div class="pt-2 border-t border-gray-600 mt-2">
+                    <h4 class="font-bold text-cyan-400">레벨업 정보</h4>
+                    <p class="text-sm">현재 진행률: <span class="font-bold">${levelUpPercent}%</span></p>
+                    ${timeToLevelUp > 0 ? `<p class="text-sm">예상 남은 시간: <span class="font-bold">${formatHourMinute(timeToLevelUp)}</span></p>` : ''}
+                </div>
+            `;
+        }
+
+        dom.resultDetails.innerHTML = `
+            <p><strong>사냥 시간:</strong> ${formatTime(duration)}</p>
+            <p><strong>획득 메소:</strong> <span class="text-green-400">${formatNumber(mesoGained)}</span></p>
+            <p><strong>획득 경험치:</strong> <span class="text-blue-400">${formatNumber(expGained)}</span></p>
+            <hr class="border-gray-600 my-2">
+            <p><strong>시간당 메소:</strong> <span class="text-green-400">${formatNumber(mesoPerHour)}</span></p>
+            <p><strong>시간당 경험치:</strong> <span class="text-blue-400">${formatNumber(expPerHour)}</span></p>
+            ${potionsHtml}
+            ${levelUpHtml}
+        `;
         dom.resultModal.classList.add('visible');
     }
     
@@ -560,7 +642,6 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.classList.remove('visible');
     }
 
-    // ✨ [오류 수정] generateRecommendedTools 함수를 다시 정의합니다.
     function generateRecommendedTools() {
         const container = document.getElementById('related-tools-container');
         const currentToolId = document.body.dataset.toolId;
@@ -613,7 +694,6 @@ document.addEventListener('DOMContentLoaded', () => {
         init() {
             const savedLang = 'ko'; // 기본값 설정
             this.set(savedLang);
-            // 언어 변경 버튼 이벤트 리스너는 현재 코드에 없으므로 생략
         }
     };
 
@@ -622,9 +702,16 @@ document.addEventListener('DOMContentLoaded', () => {
         setInterval(() => {
             dom.clockEl.textContent = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
         }, 1000);
+        
+        // Load saved exp for level up
+        const savedExpForLevelUp = localStorage.getItem('expForLevelUp');
+        if (savedExpForLevelUp) {
+            dom.expForLevelUpInput.value = savedExpForLevelUp;
+        }
+
         renderLog();
         addPotionLog();
-        LanguageManager.init(); // 언어 및 추천 도구 초기화
+        LanguageManager.init();
     }
 
     // --- Event Listeners ---
@@ -639,15 +726,15 @@ document.addEventListener('DOMContentLoaded', () => {
     dom.potionLogContainer.addEventListener('click', (e) => { if (e.target.closest('.remove-potion-btn')) { e.target.closest('.potion-row').remove(); } });
     dom.logHeader.addEventListener('click', () => { dom.logHeader.classList.toggle('active'); if (dom.logHeader.classList.contains('active')) { dom.logContent.style.maxHeight = dom.logContent.scrollHeight + "px"; } else { dom.logContent.style.maxHeight = '0'; } });
     dom.logTabs.forEach(tab => { tab.addEventListener('click', () => { dom.logTabs.forEach(t => t.classList.remove('active')); tab.classList.add('active'); state.currentLogView = tab.dataset.view; renderLog(); }); });
-    dom.saveResultBtn.addEventListener('click', () => { if (state.currentSessionResult) { state.huntingLog.unshift(state.currentSessionResult); localStorage.setItem('huntingLog_v9', JSON.stringify(state.huntingLog)); renderLog(); } hideModal(dom.resultModal); resetSession(); });
+    dom.saveResultBtn.addEventListener('click', () => { if (state.currentSessionResult) { state.huntingLog.unshift(state.currentSessionResult); localStorage.setItem('huntingLog_v10', JSON.stringify(state.huntingLog)); renderLog(); } hideModal(dom.resultModal); resetSession(); });
     dom.discardResultBtn.addEventListener('click', () => { hideModal(dom.resultModal); resetSession(); });
     dom.clearLogBtn.addEventListener('click', () => dom.confirmModal.classList.add('visible'));
     dom.cancelDeleteBtn.addEventListener('click', () => hideModal(dom.confirmModal));
-    dom.confirmDeleteBtn.addEventListener('click', () => { state.huntingLog = []; localStorage.removeItem('huntingLog_v9'); renderLog(); hideModal(dom.confirmModal); });
+    dom.confirmDeleteBtn.addEventListener('click', () => { state.huntingLog = []; localStorage.removeItem('huntingLog_v10'); renderLog(); hideModal(dom.confirmModal); });
 
     initialize();
 });
 </script>
 
 </body>
-</ht
+</html>
