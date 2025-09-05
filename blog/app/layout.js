@@ -2,8 +2,20 @@ import './globals.css';
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'ML Fee - 머신러닝 블로그',
+  title: {
+    default: 'ML Fee - 머신러닝 블로그',
+    template: '%s | ML Fee'
+  },
   description: '머신러닝과 AI에 관한 인사이트를 공유합니다.',
+  keywords: ['머신러닝', '인공지능', 'AI', '데이터사이언스', '블로그'],
+  authors: [{ name: 'ML Fee' }],
+  creator: 'ML Fee',
+  publisher: 'ML Fee',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
 };
 
 export default function RootLayout({ children }) {

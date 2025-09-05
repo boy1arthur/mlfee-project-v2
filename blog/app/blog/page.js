@@ -1,8 +1,14 @@
 import Link from 'next/link';
 import { getSortedPostsData } from '../../lib/posts';
 
-export default function Blog() {
-  const allPostsData = getSortedPostsData();
+export default async function Blog() {
+  let allPostsData = [];
+  
+  try {
+    allPostsData = getSortedPostsData();
+  } catch (error) {
+    console.log('Posts loading error:', error);
+  }
 
   return (
     <div className="container">
