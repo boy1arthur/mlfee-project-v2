@@ -1,9 +1,17 @@
 import Link from 'next/link';
 import { getSortedPostsData } from '../lib/posts';
 
-export default function Home() {
-  const allPostsData = getSortedPostsData();
-  const recentPosts = allPostsData.slice(0, 3); // 최신 3개 글만 표시
+export default async function Home() {
+  let allPostsData = [];
+  let recentPosts = [];
+  
+  try {
+    allPostsData = getSortedPostsData();
+    recentPosts = allPostsData.slice(0, 3); // 최신 3개 글만 표시
+  } catch (error) {
+    console.log('Posts loading error:', error);
+    // 에러가 발생해도 페이지는 렌더링됨
+  }
 
   return (
     <div className="container">
