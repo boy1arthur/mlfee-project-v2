@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/blog/:path*",
-      "destination": "https://mlfee-blog.vercel.app/blog/:path*"
+      "destination": "https://mlfee-blog.vercel.app/:path*"
     }
   ]
 }
