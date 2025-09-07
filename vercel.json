@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/blog",
+      "destination": "https://mlfee-blog.vercel.app/"
+    },
+    {
       "source": "/blog/:path*",
       "destination": "https://mlfee-blog.vercel.app/:path*"
     }
