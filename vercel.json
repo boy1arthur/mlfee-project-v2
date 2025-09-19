@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/blog",
-      "destination": "https://mlfee-blog.vercel.app/"
+      "destination": "https://mlfee-blog.vercel.app/blog"
     },
     {
       "source": "/blog/:path*",
-      "destination": "https://mlfee-blog.vercel.app/:path*"
+      "destination": "https://mlfee-blog.vercel.app/blog/:path*"
     }
   ]
 }
