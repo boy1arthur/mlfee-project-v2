@@ -5,8 +5,10 @@
       "destination": "https://mlfee-blog.vercel.app/blog"
     },
     {
-      "source": "/blog/:path*",
-      "destination": "https://mlfee-blog.vercel.app/blog/:path*"
+      "source": "/blog/(.*)",
+      "destination": "https://mlfee-blog.vercel.app/blog/$1"
     }
-  ]
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false
 }
