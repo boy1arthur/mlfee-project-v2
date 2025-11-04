@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>메이플랜드 도구 허브 | MLFEE</title>
+    <meta name="description" content="메이플랜드 필수 유틸리티 모음. 혼테일 브레이커, N빵 계산기, 레이드 타이머 등 모든 공략 도구를 한 곳에서.">
+    <link rel="icon" href="../images/mlfee-logo.png" type="image/png">
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8602495420447615" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 50%, #0a1a1a 100%);
+            background-attachment: fixed;
+            color: #E5E7EB;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(180deg, rgba(10,10,10,0) 0%, rgba(10,10,10,0.8) 50%, rgba(10,10,10,1) 100%);
+        }
+        
+        .tool-card {
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .tool-card:hover::before {
+            left: 100%;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 215, 0, 0.6);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.1);
+        }
+        
+        .badge {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #000;
+            font-weight: 700;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            display: inline-block;
+        }
+        
+        .stat-card {
+            background: rgba(30, 30, 30, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+        
+        .category-section {
+            scroll-margin-top: 5rem;
+        }
+    </style>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VLQR1NXFFM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-VLQR1NXFFM');
+    </script>
+</head>
+<body>
+
+<header class="sticky top-0 z-50 bg-gray-900/80 backdrop-blur-xl border-b border-white/10">
+    <div class="container mx-auto px-4 flex justify-between items-center h-16">
+        <a href="../index.html" class="font-serif text-2xl font-bold tracking-wider text-yellow-400">MLFEE</a>
+        <nav class="hidden md:flex items-center gap-6 font-medium text-slate-300">
+            <a href="#tools" class="hover:text-yellow-400 transition-colors">도구</a>
+            <a href="#guide" class="hover:text-yellow-400 transition-colors">가이드</a>
+            <a href="../index.html" class="text-gray-400 hover:text-white transition-colors">← 메인으로</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <!-- Hero Section -->
+    <section class="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black"></div>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <div class="mb-4">
+                <span class="badge">MAPLELAND TOOLS</span>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-black mb-6 glow-text text-yellow-400">
+                메이플랜드<br>유틸리티 허브
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-8">
+                레이드 공략부터 정산까지, 모든 도구를 한 곳에서
+            </p>
+            <a href="#tools" class="inline-block px-8 py-4 bg-yellow-500 hover:bg-yellow-600 text-black font-bold rounded-lg text-lg transition-all transform hover:scale-105">
+                도구 둘러보기 <i class="fas fa-arrow-down ml-2"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- 통계 섹션 -->
+    <section class="py-12 border-y border-white/10">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+                <div class="stat-card p-6 rounded-xl text-center">
+                    <div class="text-4xl font-black text-yellow-400 mb-2">5+</div>
+                    <div class="text-sm text-gray-400">필수 도구</div>
+                </div>
+                <div class="stat-card p-6 rounded-xl text-center">
+                    <div class="text-4xl font-black text-yellow-400 mb-2">24/7</div>
+                    <div class="text-sm text-gray-400">무료 사용</div>
+                </div>
+                <div class="stat-card p-6 rounded-xl text-center">
+                    <div class="text-4xl font-black text-yellow-400 mb-2">0초</div>
+                    <div class="text-sm text-gray-400">로딩 시간</div>
+                </div>
+                <div class="stat-card p-6 rounded-xl text-center">
+                    <div class="text-4xl font-black text-yellow-400 mb-2">100%</div>
+                    <div class="text-sm text-gray-400">정확도</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 도구 카테고리 섹션 -->
+    <section id="tools" class="py-20 container mx-auto px-4">
+        
+        <!-- 레이드 관리 -->
+        <div class="category-section mb-20">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-1 h-12 bg-yellow-400"></div>
+                <div>
+                    <h2 class="text-3xl font-black text-white">레이드 관리</h2>
+                    <p class="text-gray-400 mt-1">보스 공략을 위한 핵심 도구</p>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 레이드 크로니클 -->
+                <a href="../tools/raid-chronicle/" class="tool-card rounded-2xl p-8 block">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-14 h-14 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center text-2xl">
+                            🗓️
+                        </div>
+                        <span class="badge">NEW</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-3">레이드 크로니클</h3>
+                    <p class="text-gray-400 mb-4">
+                        입장 가능 시간 추적과 원정 준비 체크리스트. 모든 레이드의 시작점.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="text-xs bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full">시간 관리</span>
+                        <span class="text-xs bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full">준비물</span>
+                    </div>
+                    <div class="text-yellow-400 font-semibold">
+                        바로가기 <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </a>
+
+                <!-- 혼테일 브레이커 -->
+                <a href="../tools/breaker/" class="tool-card rounded-2xl p-8 block">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-14 h-14 bg-gradient-to-br from-red-500 to-orange-600 rounded-xl flex items-center justify-center text-2xl">
+                            🐲
+                        </div>
+                        <span class="badge">인기</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-3">혼테일 브레이커</h3>
+                    <p class="text-gray-400 mb-4">
+                        공무, 유혹, 리저렉션 타이머와 파티 명단 관리를 한 곳에서.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="text-xs bg-red-500/20 text-red-300 px-3 py-1 rounded-full">공대장</span>
+                        <span class="text-xs bg-red-500/20 text-red-300 px-3 py-1 rounded-full">유혹조</span>
+                        <span class="text-xs bg-red-500/20 text-red-300 px-3 py-1 rounded-full">비숍</span>
+                    </div>
+                    <div class="text-yellow-400 font-semibold">
+                        바로가기 <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </a>
+
+                <!-- 자쿰 타이머 -->
+                <a href="../tools/timer/" class="tool-card rounded-2xl p-8 block">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center text-2xl">
+                            ⏱️
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-3">자쿰 타이머</h3>
+                    <p class="text-gray-400 mb-4">
+                        리저렉션 쿨타임 관리에 최적화된 직관적인 타이머.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="text-xs bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full">리저렉션</span>
+                        <span class="text-xs bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full">버프</span>
+                    </div>
+                    <div class="text-yellow-400 font-semibold">
+                        바로가기 <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- 정산 & 계산 -->
+        <div class="category-section mb-20">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-1 h-12 bg-green-400"></div>
+                <div>
+                    <h2 class="text-3xl font-black text-white">정산 & 계산</h2>
+                    <p class="text-gray-400 mt-1">메소를 아끼는 똑똑한 선택</p>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- N빵 계산기 -->
+                <a href="../tools/calc/" class="tool-card rounded-2xl p-8 block">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center text-2xl">
+                            💰
+                        </div>
+                        <span class="badge">필수</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-3">N빵마스터</h3>
+                    <p class="text-gray-400 mb-4">
+                        수수료 최적화부터 역산까지. 완벽한 정산의 시작.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="text-xs bg-green-500/20 text-green-300 px-3 py-1 rounded-full">수수료</span>
+                        <span class="text-xs bg-green-500/20 text-green-300 px-3 py-1 rounded-full">분배</span>
+                        <span class="text-xs bg-green-500/20 text-green-300 px-3 py-1 rounded-full">역산</span>
+                    </div>
+                    <div class="text-yellow-400 font-semibold">
+                        바로가기 <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- 효율 최적화 -->
+        <div class="category-section">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-1 h-12 bg-blue-400"></div>
+                <div>
+                    <h2 class="text-3xl font-black text-white">효율 최적화</h2>
+                    <p class="text-gray-400 mt-1">더 빠른 성장을 위한 전략</p>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 메피 버피 -->
+                <a href="../tools/buff/" class="tool-card rounded-2xl p-8 block">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center text-2xl">
+                            ✨
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-3">메피 버피</h3>
+                    <p class="text-gray-400 mb-4">
+                        사냥 효율 분석과 레벨업 예측으로 최적의 사냥터를 찾아보세요.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="text-xs bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full">효율 분석</span>
+                        <span class="text-xs bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full">경험치</span>
+                    </div>
+                    <div class="text-yellow-400 font-semibold">
+                        바로가기 <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 활용 가이드 -->
+    <section id="guide" class="py-20 bg-gradient-to-b from-transparent to-black/50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-4xl font-black text-center text-white mb-4">효율적인 활용법</h2>
+                <p class="text-center text-gray-400 mb-12">각 상황에 맞는 도구를 선택하세요</p>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gray-800/50 backdrop-blur p-6 rounded-xl border border-gray-700">
+                        <div class="text-3xl mb-4">🎯</div>
+                        <h3 class="text-xl font-bold text-white mb-3">레이드 전 준비</h3>
+                        <ol class="space-y-2 text-gray-300">
+                            <li>1. <strong class="text-yellow-400">레이드 크로니클</strong>에서 입장 시간 확인</li>
+                            <li>2. 준비물 체크리스트 완료</li>
+                            <li>3. <strong class="text-yellow-400">혼테일 브레이커</strong> 열어두기</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="bg-gray-800/50 backdrop-blur p-6 rounded-xl border border-gray-700">
+                        <div class="text-3xl mb-4">💰</div>
+                        <h3 class="text-xl font-bold text-white mb-3">레이드 후 정산</h3>
+                        <ol class="space-y-2 text-gray-300">
+                            <li>1. 총 수익 금액 확인</li>
+                            <li>2. <strong class="text-yellow-400">N빵마스터</strong>로 최적 분배 계산</li>
+                            <li>3. 결과를 파티원과 공유</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="bg-gray-800/50 backdrop-blur p-6 rounded-xl border border-gray-700">
+                        <div class="text-3xl mb-4">📈</div>
+                        <h3 class="text-xl font-bold text-white mb-3">레벨업 효율화</h3>
+                        <ol class="space-y-2 text-gray-300">
+                            <li>1. <strong class="text-yellow-400">메피 버피</strong>에서 현재 효율 측정</li>
+                            <li>2. 시간당 경험치 기록</li>
+                            <li>3. 목표 달성 시간 예측</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="bg-gray-800/50 backdrop-blur p-6 rounded-xl border border-gray-700">
+                        <div class="text-3xl mb-4">⚡</div>
+                        <h3 class="text-xl font-bold text-white mb-3">빠른 접근 팁</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>• 이 페이지를 북마크에 추가</li>
+                            <li>• 자주 쓰는 도구는 홈 화면에 바로가기</li>
+                            <li>• 모바일에서도 완벽하게 작동</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20">
+        <div class="container mx-auto px-4 text-center">
+            <div class="max-w-2xl mx-auto bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/30 rounded-2xl p-12">
+                <h2 class="text-3xl font-black text-white mb-4">더 나은 도구가 필요하신가요?</h2>
+                <p class="text-gray-400 mb-8">여러분의 아이디어가 다음 유틸리티가 될 수 있습니다.</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="https://discord.com/users/930037107823636540/" target="_blank" class="px-8 py-4 bg-yellow-500 hover:bg-yellow-600 text-black font-bold rounded-lg transition-all">
+                        아이디어 제안하기
+                    </a>
+                    <a href="../devlog/index.html" class="px-8 py-4 bg-gray-700 hover:bg-gray-600 text-white font-bold rounded-lg transition-all">
+                        개발 과정 보기
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="border-t border-white/10 py-12 bg-black">
+    <div class="container mx-auto px-4 text-center text-sm text-slate-400 space-y-4">
+        <div class="flex justify-center space-x-6">
+            <a href="../about.html" class="hover:text-slate-300">소개</a>
+            <a href="../terms.html" class="hover:text-slate-300">이용약관</a>
+            <a href="../privacy.html" class="hover:text-slate-300">개인정보처리방침</a>
+            <a href="../index.html" class="hover:text-slate-300">MLFEE 메인</a>
+        </div>
+        <p>&copy; 2025 MLFEE. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // 스무스 스크롤
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+});
+</script>
+
+</body>
+</html>

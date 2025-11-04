@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- ✨ [SEO 최적화 1] 사용자가 검색할 만한 핵심 키워드를 포함하여 타이틀 수정 -->
+    <title>MLFEE | 메이플랜드 필수 유틸리티 & 공략 도구 모음</title>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8602495420447615"
+            crossorigin="anonymous"></script>
+
+    <!-- ✨ [SEO 최적화 2] 검색 결과에서 클릭을 유도하도록, 도구 이름과 핵심 키워드를 포함하여 설명 수정 -->
+    <meta name="description" content="메이플랜드 공략을 위한 필수 유틸리티 허브. 혼테일 브레이커, 레이드 크로니클, N빵 계산기, 메피 버피 등 당신의 게임 경험을 바꿀 데이터 기반 도구를 만나보세요.">
+    
+    <!-- ✨ [SEO 최적화 3] 소셜 미디어 공유 시에도 최적화된 정보가 표시되도록 OG 태그 수정 -->
+    <meta property="og:title" content="MLFEE | 메이플랜드 필수 유틸리티 & 공략 도구 모음">
+    <meta property="og:description" content="혼테일 브레이커, 레이드 크로니클 등 메이플랜드 공략을 위한 데이터 기반 필수 도구를 만나보세요.">
+    <meta property="og:image" content="images/mlfee-og-journey.png">
+    <link rel="icon" href="images/mlfee-logo.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #0A0A0A;
+            color: #E5E7EB;
+        }
+        .hero-section { position: relative; overflow: hidden; }
+        .hero-background {
+            position: absolute; top: -5%; left: -5%; width: 110%; height: 110%;
+            background-image: linear-gradient(to top, #0A0A0A 15%, transparent 60%), url('https://raw.githubusercontent.com/boy1arthur/mlfee-project/main/images/hyun.jpg');
+            background-size: cover; background-repeat: no-repeat; background-position: center top;
+            transition: transform 0.3s ease-out;
+        }
+        #particle-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; }
+        header {
+            background: rgba(10, 10, 10, 0.7); backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .tool-card {
+            background: rgba(23, 23, 23, 0.7); border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px); transition: all 0.3s ease;
+            height: 100%; display: flex; flex-direction: column;
+        }
+        .tool-card:hover {
+            transform: translateY(-4px); border-color: rgba(167, 139, 250, 0.5); background: rgba(23, 23, 23, 1);
+        }
+        .tool-card-content { flex-grow: 1; }
+        .launch-button {
+            display: block; margin-top: 1rem; color: #a78bfa; /* Indigo-400 */
+            font-weight: 600; transition: color 0.2s;
+        }
+        .launch-button:hover { color: #c4b5fd; }
+
+        .glow-text { text-shadow: 0 0 12px rgba(14, 165, 233, 0.7); }
+        .mini-dashboard {
+            border-radius: 0.5rem; border: 1px solid rgba(56, 189, 248, 0.15);
+            background-color: rgba(2, 4, 10, 0.3); padding: 1rem;
+            margin-top: 1.5rem; flex-grow: 1; display: flex; flex-direction: column;
+        }
+    </style>
+</head>
+<body class="dark">
+
+<header class="sticky top-0 z-50">
+    <div class="container mx-auto px-4 flex justify-between items-center h-16">
+        <a href="/index.html" class="font-serif text-2xl font-bold tracking-wider">MLFEE</a>
+        <nav class="hidden lg:flex items-center gap-6 font-medium text-slate-300">
+            <a href="#tools" class="hover:text-white transition-colors">유틸리티</a>
+            <a href="#journey" class="hover:text-white transition-colors">다음 아이디어</a>
+            <a href="/devlog/index.html" class="hover:text-white transition-colors">개발실록</a>
+        </nav>
+        <button id="mobile-menu-btn" class="lg:hidden text-2xl" aria-label="모바일 메뉴 열기">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+        </button>
+    </div>
+    <div id="mobile-nav" class="lg:hidden hidden border-t border-slate-800 bg-black/95"></div>
+</header>
+
+<main>
+    <!-- HERO -->
+    <section class="hero-section h-screen flex items-end pb-24">
+        <div class="hero-background"></div>
+        <canvas id="particle-canvas"></canvas>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <!-- ✨ [SEO 최적화 4] 페이지의 가장 중요한 제목(H1)에 핵심 키워드를 포함하여 검색엔진에 정체성을 명확히 전달 -->
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight text-white">MLFEE: 메이플랜드<br>필수 유틸리티 허브</h1>
+            <p class="text-lg md:text-xl max-w-2xl mx-auto text-slate-300 mb-8">한 게이머의 불편함에서 시작된 여정, 이제 데이터로 당신의 모든 플레이를 증명합니다.</p>
+            <a href="#tools" class="inline-block px-8 py-3 bg-white text-black font-bold rounded-lg shadow-lg hover:bg-gray-200 transition-transform hover:scale-105 transform">
+                모든 도구 보기
+            </a>
+        </div>
+    </section>
+
+    <!-- Utility Dashboard Section -->
+    <section id="tools" class="container mx-auto px-4 py-20 sm:py-28">
+        <div class="text-center mb-12">
+            <!-- ✨ [SEO 최적화 5] H2 태그에도 키워드를 넣어 페이지 주제의 일관성 강화 -->
+            <h2 class="text-3xl font-bold tracking-tight">메이플랜드 공략을 위한 데이터 기반 유틸리티</h2>
+            <p class="mt-4 text-lg text-slate-400">당신의 게임 경험을 바꿀 MLFEE의 모든 도구들</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <!-- 혼테일 브레이커 -->
+            <a href="./tools/breaker/" title="혼테일 브레이커 바로가기" class="tool-card rounded-xl p-6">
+                <div class="tool-card-content">
+                    <h3 class="font-bold text-xl">혼테일 브레이커</h3>
+                    <p class="text-slate-400 text-sm mt-1">공무, 유혹, 리저렉션, 파티 관리까지. 혈압 오르는 공대 관리를 위한 최종 솔루션.</p>
+                    <div class="mini-dashboard justify-between">
+                        <div class="flex gap-4">
+                            <div class="w-1/2 space-y-2">
+                                <p class="text-xs text-slate-400 font-semibold flex items-center"><i class="fas fa-heart-pulse mr-2 text-red-400"></i>유혹 추적</p>
+                                <p class="text-sm font-bold"><span class="text-slate-400">예측:</span> <span class="text-cyan-300 glow-text">22:18:15</span></p>
+                            </div>
+                            <div class="w-1/2 space-y-2">
+                                <p class="text-xs text-slate-400 font-semibold flex items-center"><i class="fas fa-cross mr-2 text-yellow-400"></i>리저렉션</p>
+                                <div class="space-y-1 text-xs font-mono">
+                                     <div class="flex justify-between"><span>비숍A</span><span class="text-green-400">가능</span></div>
+                                     <div class="flex justify-between"><span>비숍B</span><span class="text-amber-400">12:34</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400 font-semibold mt-3 mb-1"><i class="fas fa-gavel mr-2 text-gray-400"></i>공무 타이머</p>
+                            <div class="w-full bg-slate-700 rounded-full h-1.5"><div class="bg-red-500 h-1.5 rounded-full" style="width: 33%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <span class="launch-button">바로가기 &rarr;</span>
+            </a>
+            
+            <!-- 레이드 크로니클 -->
+            <a href="./tools/raid-chronicle/" title="레이드 크로니클 바로가기" class="tool-card rounded-xl p-6">
+                 <div class="tool-card-content">
+                    <h3 class="font-bold text-xl">레이드 크로니클</h3>
+                    <p class="text-slate-400 text-sm mt-1">혼테일, 자쿰 입장 시간을 추적하고 원정 준비를 완벽하게 끝내세요.</p>
+                    <div class="mini-dashboard justify-between">
+                        <div>
+                            <p class="text-xs text-slate-400 font-semibold mb-1 flex items-center"><i class="fas fa-dragon mr-2 text-cyan-400"></i>혼테일 입장까지</p>
+                            <p class="text-3xl text-center font-mono font-bold text-cyan-300 glow-text">7:42:11</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400 font-semibold mt-3 mb-1"><i class="fas fa-list-check mr-2 text-yellow-400"></i>원정 준비물</p>
+                            <div class="w-full bg-slate-700 rounded-full h-1.5"><div class="bg-yellow-400 h-1.5 rounded-full" style="width: 80%;"></div></div>
+                            <p class="text-xs text-right text-slate-500 mt-1">4/5 완료</p>
+                        </div>
+                    </div>
+                </div>
+                <span class="launch-button">바로가기 &rarr;</span>
+            </a>
+            
+            <!-- N빵 계산기 -->
+            <a href="./tools/calc/" title="N빵 계산기 바로가기" class="tool-card rounded-xl p-6">
+                <div class="tool-card-content">
+                    <h3 class="font-bold text-xl">N빵 계산기</h3>
+                    <p class="text-slate-400 text-sm mt-1">수수료까지 고려한 완벽한 분배. 파티 사냥, 보스 드랍템 정산을 쉽게 처리하세요.</p>
+                    <div class="mini-dashboard justify-center text-center">
+                        <p class="text-xs text-slate-400">총 수익 10,000,000</p>
+                        <div class="my-2 text-purple-400 text-lg"><i class="fas fa-arrow-down"></i> &divide; 6</div>
+                        <p class="text-xs text-slate-400">1인당 정산액 (수수료 5% 포함)</p>
+                        <p class="font-mono text-2xl text-green-400 glow-text">1,583,333</p>
+                    </div>
+                </div>
+                <span class="launch-button">바로가기 &rarr;</span>
+            </a>
+
+            <!-- 메피 버피 -->
+            <a href="./tools/buff/" title="메피 버피 바로가기" class="tool-card rounded-xl p-6">
+                <div class="tool-card-content">
+                    <h3 class="font-bold text-xl">메피 버피</h3>
+                    <p class="text-slate-400 text-sm mt-1">사냥 효율을 데이터로 분석하고, 레벨업까지 남은 시간을 정확하게 예측합니다.</p>
+                    <div class="mini-dashboard justify-between">
+                         <div class="flex items-start justify-between">
+                            <div>
+                                <p class="text-xs text-slate-400">시간당 순수익</p>
+                                <p class="text-xl text-green-400 glow-text font-mono">+ 1.2M</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs text-slate-400">레벨업까지</p>
+                                <p class="text-xl text-cyan-300 glow-text font-mono">4h 32m</p>
+                            </div>
+                        </div>
+                        <div class="relative w-full h-20 flex items-center justify-center mt-2">
+                            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+                                <circle class="stroke-current text-slate-700" stroke-width="5" cx="50" cy="50" r="45" fill="transparent"></circle>
+                                <circle class="stroke-current text-cyan-400 transform -rotate-90 origin-center" stroke-width="5" cx="50" cy="50" r="45" fill="transparent" stroke-dasharray="283" stroke-dashoffset="85" stroke-linecap="round"></circle>
+                            </svg>
+                            <div class="text-center">
+                                <p class="text-xl font-bold text-white">70%</p>
+                                <p class="text-xs text-slate-400">Lv.121</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <span class="launch-button">바로가기 &rarr;</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Journey & Community Section -->
+    <section id="journey" class="container mx-auto px-4 py-20 sm:py-28">
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="text-3xl font-bold tracking-tight">당신의 아이디어가 다음 도구가 됩니다</h2>
+            <p class="mt-4 text-lg text-slate-400">"이런 기능이 있었으면..." 하는 생각이 있으신가요? 커뮤니티에서 당신의 목소리를 들려주세요. 당신의 불편함이 모두의 편안함이 될 수 있습니다.</p>
+            <div class="mt-8">
+                <a href="https://discord.com/users/930037107823636540/" target="_blank" class="inline-block px-8 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold rounded-lg shadow-lg hover:opacity-90 transition-opacity">
+                    커뮤니티에서 아이디어 제안하기
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="border-t border-slate-800 py-12">
+    <div class="container mx-auto px-4 text-center text-sm text-slate-500 space-y-4">
+        <div class="flex justify-center space-x-6">
+            <a href="/about.html" class="hover:text-slate-300">소개</a>
+            <a href="/terms.html" class="hover:text-slate-300">이용약관</a>
+            <a href="/privacy.html" class="hover:text-slate-300">개인정보처리방침</a>
+        </div>
+        <p>&copy; 2025 MLFEE. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // [수정] 앵커 광고(자동 광고)는 헤더의 스크립트만으로 충분하므로, 중복 호출 코드를 제거했습니다.
+        const heroSection = document.querySelector('.hero-section');
+        const heroBackground = document.querySelector('.hero-background');
+        heroSection.addEventListener('mousemove', (e) => {
+            const { clientWidth, clientHeight } = heroSection;
+            const x = (e.clientX / clientWidth) - 0.5;
+            const y = (e.clientY / clientHeight) - 0.5;
+            const intensity = 20;
+            heroBackground.style.transform = `translate3d(${-x * intensity}px, ${-y * intensity}px, 0)`;
+        });
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        class Particle {
+            constructor(x, y, radius, color, velocity) { this.x = x; this.y = y; this.radius = radius; this.color = color; this.velocity = velocity; this.alpha = 1; }
+            draw() { ctx.save(); ctx.globalAlpha = this.alpha; ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false); ctx.fillStyle = this.color; ctx.fill(); ctx.restore(); }
+            update() { this.x += this.velocity.x; this.y += this.velocity.y; this.alpha -= 0.003; this.draw(); }
+        }
+        function initParticles() {
+            particles = []; const particleCount = 200;
+            for (let i = 0; i < particleCount; i++) {
+                const radius = Math.random() * 1.5 + 0.5; const x = Math.random() * canvas.width; const y = Math.random() * canvas.height;
+                const color = `rgba(255, 255, 255, ${Math.random() * 0.4})`;
+                const velocity = { x: (Math.random() - 0.5) * 0.2, y: (Math.random() - 0.5) * 0.2 };
+                particles.push(new Particle(x, y, radius, color, velocity));
+            }
+        }
+        function animateParticles() {
+            requestAnimationFrame(animateParticles); ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((particle, index) => {
+                if (particle.alpha <= 0) { particle.x = Math.random() * canvas.width; particle.y = Math.random() * canvas.height; particle.alpha = 1; }
+                particle.update();
+            });
+        }
+        initParticles(); animateParticles();
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileNav = document.getElementById('mobile-nav');
+        const navItems = document.querySelector('nav.hidden.lg\\:flex').cloneNode(true);
+        mobileNav.appendChild(navItems);
+        mobileMenuBtn.addEventListener('click', () => { mobileNav.classList.toggle('hidden'); });
+    });
+</script>
+</body>
+</html>
+
