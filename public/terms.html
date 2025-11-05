@@ -4,41 +4,104 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이용약관 | MLFEE</title>
+    <meta name="description" content="MLFEE 서비스 이용약관. 서비스 이용 시 필요한 조건과 규정을 확인하세요.">
+    <link rel="icon" href="./images/mlfee-logo.png" type="image/png">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Noto Sans KR', sans-serif; background-color: #121212; color: #E5E7EB; }
-        h2 { font-size: 1.5rem; font-weight: bold; color: #facc15; margin-top: 2rem; margin-bottom: 1rem; }
+        body { 
+            font-family: 'Noto Sans KR', sans-serif; 
+            background-color: #0A0A0A; 
+            color: #E5E7EB; 
+        }
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        h2 { 
+            font-size: 1.5rem; 
+            font-weight: bold; 
+            color: #facc15; 
+            margin-top: 2rem; 
+            margin-bottom: 1rem; 
+        }
     </style>
 </head>
 <body>
-    <div id="nav-placeholder"></div>
-    <main class="container mx-auto px-4 py-16 max-w-4xl">
-        <h1 class="text-4xl font-bold text-yellow-400 mb-8 text-center">이용약관</h1>
-        <div class="text-gray-300">
-            <h2>제1조 (목적)</h2>
-            <p>이 약관은 MLFEE(이하 "사이트")에서 제공하는 모든 서비스(이하 "서비스")의 이용조건 및 절차, 이용자와 사이트의 권리, 의무, 책임사항과 기타 필요한 사항을 규정함을 목적으로 합니다.</p>
 
-            <h2>제2조 (서비스의 제공 및 변경)</h2>
-            <p>1. 사이트는 이용자에게 무료로 다양한 게임 관련 유틸리티 도구를 제공합니다.</p>
-            <p>2. 사이트는 서비스의 내용 및 제공일자를 변경할 수 있으며, 이 경우 공지를 통해 사용자에게 알립니다.</p>
+<!-- Header -->
+<header class="sticky top-0 z-50 bg-gray-900/80 backdrop-blur-xl border-b border-white/10">
+    <div class="container mx-auto px-4 flex justify-between items-center h-16">
+        <a href="./index.html" class="font-display text-3xl font-black tracking-wider text-yellow-400">MLFEE</a>
+        <nav class="hidden md:flex items-center gap-8 font-medium text-slate-300">
+            <a href="./about.html" class="hover:text-yellow-400 transition-colors">소개</a>
+            <a href="./index.html#projects" class="hover:text-yellow-400 transition-colors">프로젝트</a>
+            <a href="./devlog/index.html" class="hover:text-yellow-400 transition-colors">개발실록</a>
+        </nav>
+    </div>
+</header>
 
-            <h2>제3조 (이용자의 의무)</h2>
-            <p>이용자는 본 사이트의 도구를 악의적인 목적이나 불법적인 활동에 사용해서는 안 됩니다.</p>
+<main class="container mx-auto px-4 py-16 max-w-4xl">
+    <h1 class="text-4xl font-bold text-yellow-400 mb-8 text-center font-display">이용약관</h1>
+    <div class="text-gray-300 leading-relaxed space-y-6">
+        <h2>제1조 (목적)</h2>
+        <p>이 약관은 MLFEE(이하 "사이트")에서 제공하는 모든 서비스(이하 "서비스")의 이용조건 및 절차, 이용자와 사이트의 권리, 의무, 책임사항과 기타 필요한 사항을 규정함을 목적으로 합니다.</p>
 
-            <h2>제4조 (면책조항)</h2>
-            <p>1. 사이트에서 제공하는 도구의 계산 결과나 데이터는 약간의 오차가 발생할 수 있으며, 이는 법적 효력을 갖지 않습니다. 모든 결과는 참고용으로만 사용하시기 바랍니다.</p>
-            <p>2. 사이트는 천재지변 또는 이에 준하는 불가항력으로 인하여 서비스를 제공할 수 없는 경우에는 서비스 제공에 관한 책임이 면제됩니다.</p>
+        <h2>제2조 (서비스의 제공 및 변경)</h2>
+        <p>1. 사이트는 이용자에게 무료로 다양한 게임 관련 유틸리티 도구를 제공합니다.</p>
+        <p>2. 사이트는 서비스의 내용 및 제공일자를 변경할 수 있으며, 이 경우 공지를 통해 사용자에게 알립니다.</p>
+        <p>3. 사이트는 천재지변, 시스템 점검, 기타 불가항력적인 사유로 서비스를 일시 중단할 수 있습니다.</p>
 
-            <h2>제5조 (약관의 효력 및 변경)</h2>
-            <p>본 약관의 내용은 사이트에 게시하거나 기타의 방법으로 이용자에게 공지함으로써 효력이 발생합니다. 사이트는 합리적인 사유가 발생될 경우, 본 약관을 변경할 수 있으며, 변경된 약관은 제1항과 같은 방법으로 공지함으로써 효력이 발생합니다.</p>
+        <h2>제3조 (이용자의 의무)</h2>
+        <p>1. 이용자는 본 사이트의 도구를 악의적인 목적이나 불법적인 활동에 사용해서는 안 됩니다.</p>
+        <p>2. 이용자는 서비스 이용 시 다음 각 호의 행위를 해서는 안 됩니다.</p>
+        <ul class="list-disc list-inside ml-4 mt-2 space-y-1">
+            <li>타인의 개인정보를 도용하거나 부정하게 사용하는 행위</li>
+            <li>사이트의 운영을 고의로 방해하는 행위</li>
+            <li>사이트의 정보를 무단으로 변경하는 행위</li>
+            <li>기타 관련 법령에 위배되는 행위</li>
+        </ul>
+
+        <h2>제4조 (면책조항)</h2>
+        <p>1. 사이트에서 제공하는 도구의 계산 결과나 데이터는 약간의 오차가 발생할 수 있으며, 이는 법적 효력을 갖지 않습니다. 모든 결과는 참고용으로만 사용하시기 바랍니다.</p>
+        <p>2. 사이트는 무료로 제공되는 서비스이므로, 서비스 이용으로 인해 발생한 어떠한 손해에 대해서도 책임을 지지 않습니다.</p>
+        <p>3. 사이트는 이용자가 서비스를 이용하여 기대하는 효과나 결과를 얻지 못한 것에 대하여 책임을 지지 않습니다.</p>
+        <p>4. 사이트는 이용자 간 또는 이용자와 제3자 간에 서비스를 매개로 발생한 분쟁에 대해 개입할 의무가 없으며, 이로 인한 손해를 배상할 책임을 지지 않습니다.</p>
+
+        <h2>제5조 (저작권의 귀속 및 이용제한)</h2>
+        <p>1. 사이트가 작성한 저작물에 대한 저작권 기타 지적재산권은 사이트에 귀속합니다.</p>
+        <p>2. 이용자는 사이트를 이용함으로써 얻은 정보 중 사이트에 지적재산권이 귀속된 정보를 사이트의 사전 승낙 없이 복제, 송신, 출판, 배포, 방송 기타 방법에 의하여 영리목적으로 이용하거나 제3자에게 이용하게 하여서는 안됩니다.</p>
+
+        <h2>제6조 (광고게재 및 광고주와의 거래)</h2>
+        <p>1. 사이트는 서비스 운영을 위해 광고를 게재할 수 있습니다.</p>
+        <p>2. 이용자가 본 사이트에 게재된 광고를 통한 광고주의 판촉활동에 참여하거나 교신 또는 거래를 함으로써 발생하는 손실과 손해에 대해 사이트는 책임을 지지 않습니다.</p>
+
+        <h2>제7조 (분쟁해결)</h2>
+        <p>1. 사이트와 이용자 간 발생한 분쟁에 관한 소송은 대한민국 법률을 적용합니다.</p>
+        <p>2. 사이트와 이용자 간 발생한 분쟁에 관한 소송의 관할법원은 민사소송법에 따른 관할법원으로 합니다.</p>
+
+        <h2>제8조 (약관의 효력 및 변경)</h2>
+        <p>1. 이 약관은 서비스를 이용하고자 하는 모든 이용자에 대하여 그 효력을 발생합니다.</p>
+        <p>2. 사이트는 필요한 경우 관련 법령을 위배하지 않는 범위에서 이 약관을 변경할 수 있으며, 약관이 변경되는 경우 지체 없이 공지합니다.</p>
+
+        <div class="mt-12 pt-8 border-t border-gray-700 text-center">
+            <p class="text-sm text-gray-500">시행일자: 2024년 7월 1일</p>
+            <p class="text-sm text-gray-500">최종 수정일: 2025년 1월 4일</p>
         </div>
-    </main>
-    <div id="footer-placeholder"></div>
-    <script>
-        function loadComponent(url, placeholderId) { fetch(url).then(r=>r.text()).then(d=>{ const p = document.getElementById(placeholderId); if(p) p.outerHTML = d; }); }
-        loadComponent('/_includes/navigation.html', 'nav-placeholder');
-        loadComponent('/_includes/footer.html', 'footer-placeholder');
-    </script>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="border-t border-white/10 py-12 bg-black mt-16">
+    <div class="container mx-auto px-4 text-center text-sm text-slate-400 space-y-4">
+        <div class="flex justify-center space-x-6 mb-4">
+            <a href="./about.html" class="hover:text-slate-300">소개</a>
+            <a href="./terms.html" class="hover:text-slate-300">이용약관</a>
+            <a href="./privacy.html" class="hover:text-slate-300">개인정보처리방침</a>
+            <a href="./index.html" class="hover:text-slate-300">메인으로</a>
+        </div>
+        <p>&copy; 2025 MLFEE. All rights reserved.</p>
+    </div>
+</footer>
+
 </body>
 </html>
