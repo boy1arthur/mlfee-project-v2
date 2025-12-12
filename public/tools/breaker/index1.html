@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>혼테일 브레이커 | MLFEE</title>
+    <meta name="description" content="메이플랜드 혼테일 레이드 필수 유틸리티. 공무/유혹 타이머, 파티 관리, 오버레이 인증.">
+    <meta property="og:image" content="../../images/mlfee-og-breaker.png">
+    <link rel="icon" href="../../images/mlfee-logo.png" type="image/png">
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8602495420447615" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        :root { --base-bg: #121212; --card-bg: #1e1e1e; --input-bg: #2a2a2a; --text-color: #e0e0e0; --gold-color: #ffd700; }
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: var(--base-bg); color: var(--text-color); }
+        .main-title { font-size: 2.5rem; font-weight: 700; background: linear-gradient(90deg, #d4af37, #ffd700, #e6bf4a, #ffd700, #d4af37); background-size: 200% auto; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 8s linear infinite; }
+        @keyframes shine { to { background-position: 200% center; } }
+        .card { background-color: var(--card-bg); border-radius: 0.5rem; border: 1px solid #444; }
+        .input-field { background-color: var(--input-bg); border: 1px solid #555; color: var(--text-color); border-radius: 0.375rem; padding: 0.5rem 0.75rem; width: 100%; }
+        .input-field:focus { outline: none; border-color: var(--gold-color); background-color: #333; }
+        .btn { background-color: #333; color: var(--gold-color); font-weight: 600; padding: 0.75rem 1rem; border-radius: 0.375rem; border: 1px solid var(--gold-color); transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .btn:hover:not(:disabled) { background-color: var(--gold-color); color: var(--base-bg); }
+        .btn:disabled { background-color: #2a2a2a; color: #666; border-color: #444; cursor: not-allowed; }
+        .btn.active { background-color: #e53e3e; color: white; border-color: #e53e3e; }
+        .section-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; padding-bottom: 0.5rem; text-align: center; color: var(--gold-color); border-bottom: 1px solid var(--gold-color); }
+        .draggable-item { display: flex; align-items: center; justify-content: space-between; background-color: #2a2a2a; padding: 0.75rem; margin-bottom: 0.5rem; border-radius: 0.375rem; border-left: 4px solid var(--gold-color); cursor: grab; user-select: none; }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .accordion-header.active i { transform: rotate(180deg); }
+        .accordion-header i { transition: transform 0.3s; }
+    </style>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VLQR1NXFFM"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-VLQR1NXFFM');</script>
+</head>
+<body class="dark" data-tool-id="breaker">
+
+<header class="sticky top-0 z-50 bg-gray-900/70 backdrop-blur-lg border-b border-white/10">
+    <div class="container mx-auto px-4 flex justify-between items-center h-16">
+        <a href="../../index.html" class="font-serif text-2xl font-bold tracking-wider text-white">MLFEE</a>
+        <a href="../../index.html#tools" class="text-gray-300 hover:text-white">도구 목록으로</a>
+    </div>
+</header>
+
+<main class="py-8 px-4">
+    <div class="w-full max-w-screen-2xl mx-auto space-y-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-8">
+                
+                <div class="text-center">
+                    <h1 class="main-title">혼테일 브레이커</h1>
+                    <p class="text-lg text-gray-400 mt-2">by 소년아서</p>
+                </div>
+
+                <div class="card w-full text-center p-4 min-h-[100px]">
+                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8602495420447615" data-ad-slot="7934532932" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                </div>
+
+                <div class="card p-6 border-2 border-yellow-500/30 bg-yellow-500/5 relative overflow-hidden group hover:border-yellow-500 transition-all duration-300">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i class="fas fa-lock text-6xl text-yellow-500"></i>
+                    </div>
+                    <div class="relative z-10 flex flex-col items-center justify-center text-center">
+                        <h3 class="text-yellow-400 font-bold text-lg mb-2 flex items-center gap-2">
+                            <i class="fas fa-key"></i> 오버레이 프로그램 인증 코드
+                        </h3>
+                        <div id="auth-code" class="text-5xl font-mono font-bold text-white tracking-[0.2em] my-2 drop-shadow-lg">
+                            ....
+                        </div>
+                        <p class="text-gray-400 text-sm">매일 자정에 코드가 변경됩니다. <span class="text-xs text-gray-500">(프로그램 실행 시 입력)</span></p>
+                    </div>
+                </div>
+
+                <div class="card p-4">
+                    <div class="flex flex-col md:flex-row justify-around items-center text-center gap-4">
+                        <div>
+                            <h3 class="font-bold text-xl text-gray-400 mb-2">현재 시간</h3>
+                            <p id="browser-clock" class="text-3xl font-mono"></p>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-xl text-gray-400 mb-2">혼테일 제한시간</h3>
+                            <p id="countdown-12h-display" class="text-3xl font-mono text-yellow-400"></p>
+                            <button id="start-12h-countdown" class="btn w-48 mt-2 text-md p-2 rounded">시작</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="card accordion-item">
+                        <div class="accordion-header flex justify-between items-center cursor-pointer p-4" data-target="#leader-utils">
+                            <h2 class="text-2xl font-bold text-yellow-400">🛡️ 공대장용 유틸</h2>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div id="leader-utils" class="accordion-content">
+                            <div class="p-4 border-t border-gray-700 space-y-8">
+                                <div>
+                                    <h2 class="section-title">⚔️ 혼테일 공무 타이머</h2>
+                                    <div class="space-y-4 text-center">
+                                        <div class="flex justify-center gap-4">
+                                            <button id="timer-p1" class="btn timer-btn flex-col h-24 w-48"><span class="font-bold text-lg">1페이즈 (좌)</span><span class="time-display" data-time="45">45s</span></button>
+                                            <button id="timer-p2" class="btn timer-btn flex-col h-24 w-48"><span class="font-bold text-lg">2페이즈 (우)</span><span class="time-display" data-time="45">45s</span></button>
+                                        </div>
+                                        <div class="border-t-2 border-dashed border-gray-600 pt-4">
+                                            <h3 class="text-center font-bold mb-2 text-yellow-400">3페이즈 (본체)</h3>
+                                            <div class="flex justify-center gap-4">
+                                                <button id="timer-left" class="btn timer-btn flex-col h-24 flex-1"><span class="font-bold text-3xl">L</span><span class="font-semibold">좌머리</span><span class="time-display" data-time="45">45s</span></button>
+                                                <button id="timer-center" class="btn timer-btn flex-col h-24 flex-1"><span class="font-bold text-3xl">C</span><span class="font-semibold">중앙머리</span><span class="time-display" data-time="45">45s</span></button>
+                                                <button id="timer-right" class="btn timer-btn flex-col h-24 flex-1"><span class="font-bold text-3xl">R</span><span class="font-semibold">우머리</span><span class="time-display" data-time="45">45s</span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h2 class="section-title">✨ 유틸리티 타이머</h2>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                                        <div class="space-y-4 text-center">
+                                            <h3 class="font-bold text-lg">버프 해제</h3>
+                                            <div class="flex gap-4">
+                                                <button id="buff-5m" class="btn timer-btn flex-col h-28 flex-1"><span class="font-bold text-4xl">5</span><span class="font-semibold">5분</span><span class="time-display" data-time="300">5:00</span></button>
+                                                <button id="buff-3m" class="btn timer-btn flex-col h-28 flex-1"><span class="font-bold text-4xl">3</span><span class="font-semibold">3분</span><span class="time-display" data-time="180">3:00</span></button>
+                                            </div>
+                                            <button id="buff-restart" class="btn w-full text-lg">동시 재시작</button>
+                                        </div>
+                                        <div class="space-y-2 text-center">
+                                            <h3 class="font-bold text-lg">만료 시간</h3>
+                                            <div class="p-3 bg-black/20 rounded-md h-28 flex flex-col justify-center">
+                                                <div class="flex justify-between items-center"><span>5분 버프:</span><span id="buff-5m-expire" class="font-bold">--:--:--</span></div>
+                                                <div class="flex justify-between items-center mt-2"><span>3분 버프:</span><span id="buff-3m-expire" class="font-bold">--:--:--</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card accordion-item">
+                        <div class="accordion-header flex justify-between items-center cursor-pointer p-4" data-target="#seduction-team-utils">
+                            <h2 class="text-2xl font-bold text-yellow-400">🎯 유혹조 유틸</h2>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div id="seduction-team-utils" class="accordion-content">
+                            <div class="p-4 border-t border-gray-700">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div class="space-y-4 text-center">
+                                        <h3 class="section-title">스킬 쿨타임</h3>
+                                        <button id="timer-smokescreen" class="btn timer-btn flex-col h-28 w-full"><span class="font-bold text-3xl">연막</span><span class="time-display" data-time="600">10:00</span></button>
+                                        <button id="timer-heroswill" class="btn timer-btn flex-col h-28 w-full mt-4"><span class="font-bold text-3xl">용사의 의지</span><span class="time-display" data-time="600">10:00</span></button>
+                                    </div>
+                                    <div class="space-y-4">
+                                        <h3 class="section-title">실시간 유혹 추적기</h3>
+                                        <div class="p-4 bg-black/20 rounded-lg text-center">
+                                            <p id="seduction-master-status" class="text-lg font-bold h-7">대기 중</p>
+                                            <div class="flex items-center justify-center gap-2">
+                                                <p id="seduction-master-timer" class="text-5xl font-mono text-red-400 my-2">--:--</p>
+                                                <div class="flex flex-col gap-1">
+                                                    <button id="seduction-time-up" class="btn p-2">▲</button>
+                                                    <button id="seduction-time-down" class="btn p-2">▼</button>
+                                                </div>
+                                            </div>
+                                            <p id="seduction-master-eta" class="text-md text-gray-400 font-mono h-6 cursor-pointer" title="클릭하여 복사"></p>
+                                            <div id="seduction-log" class="seduction-log text-left mt-2"></div>
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <button id="seduction-start-btn" class="btn text-lg">레이드 시작</button>
+                                            <button id="seduction-confirm-btn" class="btn text-lg" disabled>개인유혹</button>
+                                        </div>
+                                        <button id="seduction-master-reset" class="btn btn-danger w-full text-lg">초기화</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card accordion-item">
+                        <div class="accordion-header flex justify-between items-center cursor-pointer p-4" data-target="#bishop-utils">
+                            <h2 class="text-2xl font-bold text-yellow-400">💖 비숍용 유틸</h2>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div id="bishop-utils" class="accordion-content">
+                            <div class="p-4 border-t border-gray-700">
+                                <h2 class="section-title">리저렉션 관리</h2>
+                                <div class="flex items-center justify-center gap-4 mb-6">
+                                    <span class="font-semibold">리저렉션 갯수:</span>
+                                    <button id="res-minus" class="btn w-10 h-10 text-2xl font-bold">-</button>
+                                    <span class="text-2xl font-bold w-10 text-center text-yellow-400" id="res-count">1</span>
+                                    <button id="res-plus" class="btn w-10 h-10 text-2xl font-bold">+</button>
+                                </div>
+                                <div id="res-timers-container" class="space-y-2 max-w-lg mx-auto"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card accordion-item">
+                        <div class="accordion-header flex justify-between items-center cursor-pointer p-4" data-target="#party-manager">
+                            <h2 class="text-2xl font-bold">📋 파티 명단 관리</h2>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div id="party-manager" class="accordion-content">
+                            <div class="p-4 border-t border-gray-700">
+                                <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
+                                    <div class="flex items-center gap-4">
+                                        <span class="font-semibold">파티 수:</span>
+                                        <button id="party-minus-btn" class="btn w-10 h-10 text-xl font-bold">-</button>
+                                        <span id="party-count-display" class="text-2xl font-bold w-8 text-center text-yellow-400">4</span>
+                                        <button id="party-plus-btn" class="btn w-10 h-10 text-xl font-bold">+</button>
+                                    </div>
+                                    <div>
+                                        <button id="copy-list-btn" class="btn">파티 명단 복사</button>
+                                        <span id="copy-feedback" class="font-bold ml-2 opacity-0">복사 완료!</span>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                                    <div class="md:col-span-1 flex flex-col">
+                                        <h3 class="font-bold text-lg mb-2 text-center">대기 명단</h3>
+                                        <textarea id="party-list-input" rows="8" class="input-field mb-2" placeholder="명단 붙여넣기..."></textarea>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <button id="generate-list-btn" class="btn w-full">적용</button>
+                                            <button id="reset-list-btn" class="btn btn-danger w-full">초기화</button>
+                                        </div>
+                                        <div id="waiting-list" class="party-list mt-2"></div>
+                                    </div>
+                                    <div id="party-container" class="md:col-span-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card accordion-item">
+                        <div class="accordion-header flex justify-between items-center cursor-pointer p-4" data-target="#memo-pad-container">
+                            <h2 class="text-2xl font-bold">📝 메모장</h2>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div id="memo-pad-container" class="accordion-content">
+                            <div class="p-4 border-t border-gray-700">
+                                <textarea id="memo-pad" class="input-field w-full h-full min-h-[200px]" placeholder="여기에 메모를 입력하세요..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <aside id="ad-sidebar" class="lg:sticky top-24 h-fit card p-6 space-y-4 text-center">
+                <h3 class="font-bold text-xl">소년아서 채널</h3>
+                <i class="fab fa-youtube text-6xl text-red-600"></i>
+                <p class="text-gray-400">개발 이야기와 메이플랜드 꿀팁 영상을 만나보세요!</p>
+                <a href="https://www.youtube.com/channel/UCfjb2gmlEhEsBhutIwSr_gQ" target="_blank" rel="noopener noreferrer" class="btn w-full !bg-red-600 !text-white !border-red-700 hover:!bg-red-700">
+                    <span>구독하고 소식받기</span>
+                </a>
+            </aside>
+        </div>
+        
+        <div class="card p-6">
+            <h2 class="text-2xl font-bold mb-4">이런 도구는 어떠세요?</h2>
+            <div id="related-tools-container" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+        </div>
+    </div>
+</main>
+
+<footer class="bg-gray-900 border-t border-white/10 mt-16">
+    <div class="container mx-auto px-4 py-8 text-center text-slate-400 text-sm">
+        <p>&copy; 2025 MLFEE by 소년아서. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // [중요] 일일 인증 코드 자동 생성 (자바스크립트 버전)
+    // Github Pages/Vercel 호환용 (PHP 제거됨)
+    function updateDailyCode() {
+        const now = new Date();
+        // 무조건 한국 시간(KST)으로 계산 (UTC+9)
+        const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+        const kstGap = 9 * 60 * 60 * 1000;
+        const today = new Date(utc + kstGap);
+
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        
+        // 날짜를 숫자로 (예: 20241213)
+        const dateNum = parseInt(`${year}${month}${day}`);
+        
+        // ★ 파이썬과 동일한 비밀 공식 ★
+        const secretCode = (dateNum * 77 + 1234) % 10000;
+        
+        // 4자리로 표시 (예: 53 -> 0053)
+        const finalCode = String(secretCode).padStart(4, '0');
+        
+        const codeElement = document.getElementById('auth-code');
+        if(codeElement) {
+            codeElement.innerText = finalCode;
+        }
+    }
+    // 페이지 로드 시 즉시 실행
+    updateDailyCode();
+
+    // 기존 로직 시작
+    const CONSTANTS = { HORNTAIL_DURATION: 12 * 60 * 60 * 1000, SEDUCTION_FIRST_DELAY: 2 * 60 * 1000, SEDUCTION_PREDICTION_INTERVAL: 3 * 60 * 1000, DEATH_TIMER_DURATION: 15 * 60 * 1000, RESURRECTION_COOLDOWN: 30 * 60 * 1000, MAX_PARTIES: 8, MIN_PARTIES: 1 };
+    
+    const TEXTS = {
+        tool_calc: 'N빵마스터', tool_calc_tagline: '수수료 걱정 없는 완벽한 분배',
+        tool_timer: '리저 타이머', tool_timer_tagline: '부활과 버프, 놓치지 마세요',
+        tool_breaker: '혼테일 브레이커', tool_breaker_tagline: '최적의 공략 순서 시뮬레이터',
+        tool_buff: '메피 버피', tool_buff_tagline: '최적의 버프 순서와 타이밍'
+    };
+
+    const state = { timers: {}, resurrection: { states: {}, count: 1 }, party: { count: 4 }, deathTimers: {}, seductionMaster: { interval: null, startTime: null, lastSeduceTime: null, count: 0, mode: 'idle' }, countdown12hInterval: null };
+    const ui = { browserClock: document.getElementById('browser-clock'), countdownDisplay: document.getElementById('countdown-12h-display'), start12hBtn: document.getElementById('start-12h-countdown'), resCountEl: document.getElementById('res-count'), resContainer: document.getElementById('res-timers-container'), seductionStatus: document.getElementById('seduction-master-status'), seductionTimer: document.getElementById('seduction-master-timer'), seductionEta: document.getElementById('seduction-master-eta'), seductionLog: document.getElementById('seduction-log'), seductionStartBtn: document.getElementById('seduction-start-btn'), seductionConfirmBtn: document.getElementById('seduction-confirm-btn'), masterResetBtn: document.getElementById('seduction-master-reset'), seductionTimeUp: document.getElementById('seduction-time-up'), seductionTimeDown: document.getElementById('seduction-time-down'), partyCountDisplay: document.getElementById('party-count-display'), waitingList: document.getElementById('waiting-list'), partyContainer: document.getElementById('party-container'), partyListInput: document.getElementById('party-list-input'), copyFeedback: document.getElementById('copy-feedback'), memoPad: document.getElementById('memo-pad') };
+
+    function updateOpenAccordions() {
+        document.querySelectorAll('.accordion-header.active').forEach(header => {
+            const content = header.nextElementSibling;
+            if (content && content.classList.contains('accordion-content')) content.style.maxHeight = content.scrollHeight + "px";
+        });
+    }
+
+    const allTools = [
+        { id: 'calc', url: '../calc/' },
+        { id: 'breaker', url: './' },
+        { id: 'timer', url: '../timer/' },
+        { id: 'buff', url: '../buff/' }
+    ];
+
+    function generateRecommendedTools() {
+        const container = document.getElementById('related-tools-container');
+        const currentToolId = document.body.dataset.toolId;
+        if (!container || !currentToolId) return;
+
+        const otherTools = allTools.filter(tool => tool.id !== currentToolId);
+        const shuffled = otherTools.sort(() => 0.5 - Math.random()).slice(0, 3);
+        
+        container.innerHTML = shuffled.map(tool => {
+            const name = TEXTS[`tool_${tool.id}`] || tool.id;
+            const tagline = TEXTS[`tool_${tool.id}_tagline`] || '';
+            return `<a href="${tool.url}" class="card p-6 hover:border-yellow-400 transition-colors">
+                        <h3 class="font-bold text-xl">${name}</h3>
+                        <p class="text-gray-400 text-sm mt-1">${tagline}</p>
+                    </a>`;
+        }).join('');
+    }
+
+    const TimerManager = { 
+        formatTime(totalSeconds) { 
+            if (totalSeconds >= 60) { 
+                const m = Math.floor(totalSeconds / 60); 
+                const s = totalSeconds % 60; 
+                return `${m}:${String(s).padStart(2, '0')}`; 
+            } 
+            return `${totalSeconds}초`; 
+        }, 
+        start(id, duration, displayEl, buttonEl, onEnd) { 
+            if (state.timers[id]?.interval) clearInterval(state.timers[id].interval); 
+            const endTime = Date.now() + duration * 1000; 
+            let lastVal = ''; 
+            state.timers[id] = { interval: setInterval(() => { 
+                const diff = endTime - Date.now(); 
+                if (diff <= 0) { this.stop(id, duration, displayEl, buttonEl, onEnd); return; } 
+                const newVal = this.formatTime(Math.ceil(diff / 1000)); 
+                if (newVal !== lastVal) { displayEl.textContent = newVal; lastVal = newVal; } 
+            }, 100) }; 
+        }, 
+        stop(id, duration, displayEl, buttonEl, onEnd) { 
+            if (state.timers[id]?.interval) { clearInterval(state.timers[id].interval); delete state.timers[id]; } 
+            displayEl.textContent = this.formatTime(duration); 
+            if (buttonEl) buttonEl.classList.remove('active'); 
+            if (onEnd) onEnd(); 
+        } 
+    };
+
+    const SeductionController = { 
+        runTimer() { 
+            const now = Date.now(); let diff, displayTime; 
+            if (state.seductionMaster.mode === 'initial_countdown') { 
+                diff = (state.seductionMaster.startTime + CONSTANTS.SEDUCTION_FIRST_DELAY) - now; 
+                displayTime = this.formatMS(diff); 
+                if (diff <= 0) this.transitionToMode('tracking'); 
+            } else if (state.seductionMaster.mode === 'tracking') { 
+                diff = now - state.seductionMaster.startTime; 
+                displayTime = this.formatMS(diff); 
+            } else displayTime = '--:--'; 
+            ui.seductionTimer.textContent = displayTime; 
+        }, 
+        transitionToMode(newMode) { 
+            state.seductionMaster.mode = newMode; 
+            state.seductionMaster.startTime = Date.now(); 
+            if (newMode === 'initial_countdown') { ui.seductionStatus.textContent = '첫 유혹 카운트다운'; ui.seductionConfirmBtn.disabled = false; } 
+            else if (newMode === 'tracking') { ui.seductionStatus.textContent = '경과 시간 (스톱워치)'; } 
+        }, 
+        confirmSeduction() { 
+            const now = Date.now(); 
+            state.seductionMaster.count++; 
+            let intervalText = ''; 
+            if (state.seductionMaster.lastSeduceTime) { 
+                const interval = (now - state.seductionMaster.lastSeduceTime) / 1000; 
+                intervalText = ` (+${Math.floor(interval / 60)}m ${Math.round(interval % 60)}s)`; 
+            } 
+            const logEntry = document.createElement('div'); 
+            logEntry.textContent = `[${state.seductionMaster.count}] ${new Date(now).toLocaleTimeString('ko-KR')} ${intervalText}`; 
+            ui.seductionLog.appendChild(logEntry); 
+            ui.seductionLog.scrollTop = ui.seductionLog.scrollHeight; 
+            state.seductionMaster.lastSeduceTime = now; 
+            this.updateETA(now + CONSTANTS.SEDUCTION_PREDICTION_INTERVAL); 
+            this.transitionToMode('tracking'); 
+        }, 
+        updateETA(time) { 
+            if (!time) { ui.seductionEta.textContent = ''; return; } 
+            ui.seductionEta.textContent = `예상: ${new Date(time).toLocaleTimeString('ko-KR', { hour12: false, hour: '2-digit', minute: '2-digit' })}`; 
+        }, 
+        start() { this.reset(); this.transitionToMode('initial_countdown'); if (!state.seductionMaster.interval) state.seductionMaster.interval = setInterval(() => this.runTimer(), 100); }, 
+        reset() { 
+            if (state.seductionMaster.interval) clearInterval(state.seductionMaster.interval); 
+            Object.assign(state.seductionMaster, { interval: null, startTime: null, lastSeduceTime: null, count: 0, mode: 'idle' }); 
+            ui.seductionStatus.textContent = '대기 중'; ui.seductionTimer.textContent = '--:--'; ui.seductionEta.textContent = ''; ui.seductionLog.innerHTML = ''; ui.seductionConfirmBtn.disabled = true; 
+        }, 
+        adjustTime(sec) { if (state.seductionMaster.mode !== 'idle') { state.seductionMaster.startTime += (state.seductionMaster.mode === 'initial_countdown' ? sec * 1000 : -sec * 1000); this.runTimer(); } }, 
+        formatMS(ms) { if (ms < 0) ms = 0; const ts = Math.floor(ms / 1000); return `${String(Math.floor(ts / 60)).padStart(2, '0')}:${String(ts % 60).padStart(2, '0')}`; }, 
+        init() { 
+            ui.seductionStartBtn.addEventListener('click', () => this.start()); 
+            ui.seductionConfirmBtn.addEventListener('click', () => this.confirmSeduction()); 
+            ui.masterResetBtn.addEventListener('click', () => this.reset()); 
+            ui.seductionTimeUp.addEventListener('click', () => this.adjustTime(1)); 
+            ui.seductionTimeDown.addEventListener('click', () => this.adjustTime(-1)); 
+            ui.seductionEta.addEventListener('click', () => { if (ui.seductionEta.textContent) navigator.clipboard.writeText(ui.seductionEta.textContent.match(/\d{2}:\d{2}/)[0]); }); 
+        } 
+    };
+
+    const ResurrectionManager = { 
+        updateUI() { 
+            ui.resContainer.innerHTML = ''; 
+            for (let i = 1; i <= state.resurrection.count; i++) { 
+                const resId = `res-${i}`; 
+                if (!state.resurrection.states[resId]) state.resurrection.states[resId] = { nickname: '', endTime: null, interval: null }; 
+                const s = state.resurrection.states[resId]; 
+                const div = document.createElement('div'); div.className = 'flex items-center gap-2'; 
+                div.innerHTML = `<input type="text" class="input-field w-full" placeholder="비숍 ${i} 닉네임" value="${s.nickname}"><button id="${resId}" class="btn text-lg w-32 flex-shrink-0">사용</button><span id="${resId}-expire" class="font-bold text-center w-28 flex-shrink-0">--:--:--</span>`; 
+                const input = div.querySelector('input'); input.addEventListener('input', e => { s.nickname = e.target.value; this.saveState(); }); 
+                const btn = div.querySelector('button'); const span = div.querySelector('span'); 
+                btn.addEventListener('click', () => this.handleClick(resId, btn, span, input)); 
+                if (s.endTime && s.endTime > Date.now()) this.handleClick(resId, btn, span, input, true); 
+                else { s.endTime = null; btn.textContent = '사용'; span.textContent = '--:--:--'; } 
+                ui.resContainer.appendChild(div); 
+            } 
+            this.saveState(); 
+        }, 
+        handleClick(id, btn, span, input, isRestart = false) { 
+            if (btn.disabled && !isRestart) return; 
+            const s = state.resurrection.states[id]; 
+            if (s.interval) clearInterval(s.interval); 
+            btn.disabled = input.disabled = true; 
+            if (!isRestart) { s.endTime = Date.now() + CONSTANTS.RESURRECTION_COOLDOWN; this.saveState(); } 
+            span.textContent = new Date(s.endTime).toLocaleTimeString('ko-KR', { hour12: false }); 
+            s.interval = setInterval(() => { 
+                const diff = s.endTime - Date.now(); 
+                if (diff <= 0) { clearInterval(s.interval); btn.textContent = '사용'; btn.disabled = input.disabled = false; span.textContent = '--:--:--'; s.endTime = null; this.saveState(); return; } 
+                btn.textContent = `${String(Math.floor(diff / 60000)).padStart(2, '0')}:${String(Math.floor(diff / 1000) % 60).padStart(2, '0')}`; 
+            }, 1000); 
+        }, 
+        changeCount(amt) { const newC = state.resurrection.count + amt; if (newC >= 1 && newC <= 10) { if (amt < 0) clearInterval(state.resurrection.states[`res-${state.resurrection.count}`]?.interval); state.resurrection.count = newC; ui.resCountEl.textContent = newC; this.updateUI(); updateOpenAccordions(); } }, 
+        saveState() { const s = JSON.parse(JSON.stringify(state.resurrection.states)); Object.keys(s).forEach(k => delete s[k].interval); localStorage.setItem('resurrectionStates', JSON.stringify(s)); localStorage.setItem('resurrectionCount', state.resurrection.count); }, 
+        loadState() { state.resurrection.states = JSON.parse(localStorage.getItem('resurrectionStates')) || {}; state.resurrection.count = parseInt(localStorage.getItem('resurrectionCount') || 1); ui.resCountEl.textContent = state.resurrection.count; }, 
+        init() { this.loadState(); this.updateUI(); document.getElementById('res-minus').addEventListener('click', () => this.changeCount(-1)); document.getElementById('res-plus').addEventListener('click', () => this.changeCount(1)); } 
+    };
+
+    const PartyManager = { 
+        updateUI() { 
+            const members = new Map(); 
+            document.querySelectorAll('.draggable-item').forEach(el => members.set(el.dataset.id, { name: el.querySelector('span:first-child').textContent, listId: el.parentElement.id })); 
+            if (document.querySelectorAll('#party-container > div').length > state.party.count) document.querySelectorAll(`#party-${document.querySelectorAll('#party-container > div').length} .draggable-item`).forEach(el => members.get(el.dataset.id).listId = 'waiting-list'); 
+            ui.partyContainer.innerHTML = ''; 
+            for (let i = 1; i <= state.party.count; i++) { 
+                const div = document.createElement('div'); div.className = 'flex flex-col'; 
+                div.innerHTML = `<h3 class="font-bold text-lg mb-2 text-center">${i}파티</h3><div class="party-list" id="party-${i}"></div>`; 
+                ui.partyContainer.appendChild(div); 
+                new Sortable(div.querySelector('.party-list'), { group: 'party', animation: 150, ghostClass: 'sortable-ghost' }); 
+            } 
+            ui.partyContainer.style.gridTemplateColumns = `repeat(${Math.min(ui.partyContainer.children.length, 4)}, 1fr)`; 
+            ui.waitingList.innerHTML = ''; 
+            members.forEach((m, id) => (document.getElementById(m.listId) || ui.waitingList).appendChild(this.createItem(m.name, id))); 
+            ui.partyCountDisplay.textContent = state.party.count; 
+            updateOpenAccordions(); 
+        }, 
+        createItem(name, id) { 
+            const div = document.createElement('div'); div.className = 'draggable-item'; div.dataset.id = id; 
+            div.innerHTML = `<span>${name.trim()}</span><div class="flex items-center"><span class="death-timer-display"></span><button class="btn btn-death p-2">다이</button></div>`; 
+            return div; 
+        }, 
+        init() { 
+            this.updateUI(); new Sortable(ui.waitingList, { group: 'party', animation: 150, ghostClass: 'sortable-ghost' }); 
+            document.getElementById('party-plus-btn').addEventListener('click', () => { if (state.party.count < CONSTANTS.MAX_PARTIES) { state.party.count++; this.updateUI(); } }); 
+            document.getElementById('party-minus-btn').addEventListener('click', () => { if (state.party.count > CONSTANTS.MIN_PARTIES) { state.party.count--; this.updateUI(); } }); 
+            document.getElementById('generate-list-btn').addEventListener('click', () => { ui.partyListInput.value.split('\n').filter(n => n.trim()).forEach(n => ui.waitingList.appendChild(this.createItem(n, `member-${Date.now()}-${Math.random()}`))); ui.partyListInput.value = ''; updateOpenAccordions(); }); 
+            document.getElementById('reset-list-btn').addEventListener('click', () => { ui.waitingList.innerHTML = ''; document.querySelectorAll('.party-list').forEach(l => l.innerHTML = ''); Object.values(state.deathTimers).forEach(t => clearInterval(t.interval)); state.deathTimers = {}; updateOpenAccordions(); }); 
+            document.getElementById('copy-list-btn').addEventListener('click', () => { 
+                let txt = ''; 
+                document.querySelectorAll('#party-container > div').forEach((w, i) => { const m = Array.from(w.querySelector('.party-list').children).map(el => `- ${el.firstChild.textContent}`); if (m.length) txt += `[${i + 1}파티]\n${m.join('\n')}\n\n`; }); 
+                const wm = Array.from(ui.waitingList.children).map(el => `- ${el.firstChild.textContent}`); if (wm.length) txt += `[대기 명단]\n${wm.join('\n')}\n`; 
+                if (txt.trim()) navigator.clipboard.writeText(txt.trim()).then(() => { ui.copyFeedback.style.opacity = '1'; setTimeout(() => ui.copyFeedback.style.opacity = '0', 2000); }); 
+            }); 
+            document.querySelector('.w-full.max-w-screen-2xl').addEventListener('click', e => { 
+                if (e.target.classList.contains('btn-death')) { 
+                    const id = e.target.closest('.draggable-item').dataset.id; const disp = e.target.previousElementSibling; 
+                    if (state.deathTimers[id]) return; 
+                    e.target.disabled = true; const end = Date.now() + CONSTANTS.DEATH_TIMER_DURATION; 
+                    state.deathTimers[id] = { interval: setInterval(() => { const diff = end - Date.now(); if (diff <= 0) { clearInterval(state.deathTimers[id].interval); delete state.deathTimers[id]; disp.textContent = ''; e.target.disabled = false; return; } disp.textContent = `${String(Math.floor(diff / 60000)).padStart(2, '0')}:${String(Math.floor(diff / 1000) % 60).padStart(2, '0')}`; }, 1000) }; 
+                } 
+            }); 
+        } 
+    };
+
+    function initializeApp() { 
+        setInterval(() => ui.browserClock.textContent = new Date().toLocaleTimeString('ko-KR', { hour12: false }), 1000); 
+        ResurrectionManager.init(); PartyManager.init(); SeductionController.init(); generateRecommendedTools();
+        ui.start12hBtn.addEventListener('click', () => { 
+            if (state.countdown12hInterval) clearInterval(state.countdown12hInterval); 
+            const end = Date.now() + CONSTANTS.HORNTAIL_DURATION; 
+            state.countdown12hInterval = setInterval(() => { 
+                const diff = end - Date.now(); 
+                if (diff <= 0) { clearInterval(state.countdown12hInterval); ui.countdownDisplay.textContent = '0:00:00'; return; } 
+                ui.countdownDisplay.textContent = `${Math.floor(diff / 3600000)}:${String(Math.floor(diff / 60000) % 60).padStart(2, '0')}:${String(Math.floor(diff / 1000) % 60).padStart(2, '0')}`; 
+            }, 1000); 
+        }); 
+        document.querySelectorAll('.timer-btn').forEach(btn => { 
+            btn.addEventListener('click', () => { 
+                btn.classList.add('active'); 
+                const sec = parseInt(btn.querySelector('.time-display').dataset.time); 
+                TimerManager.start(btn.id, sec, btn.querySelector('.time-display'), btn, () => { if (btn.id.includes('buff')) document.getElementById(`${btn.id}-expire`).textContent = '--:--:--'; }); 
+                if (btn.id.includes('buff')) document.getElementById(`${btn.id}-expire`).textContent = new Date(Date.now() + sec * 1000).toLocaleTimeString('ko-KR', { hour12: false }); 
+            }); 
+        }); 
+        document.getElementById('buff-restart').addEventListener('click', () => { document.getElementById('buff-5m').click(); document.getElementById('buff-3m').click(); }); 
+        ui.memoPad.value = localStorage.getItem('memoContent') || ''; ui.memoPad.addEventListener('input', () => localStorage.setItem('memoContent', ui.memoPad.value)); 
+        document.querySelectorAll('.accordion-header').forEach(h => h.addEventListener('click', () => { h.classList.toggle('active'); const c = h.nextElementSibling; c.style.maxHeight = h.classList.contains('active') ? c.scrollHeight + "px" : null; })); 
+    }
+    initializeApp();
+});
+</script>
+</body>
+</html>
