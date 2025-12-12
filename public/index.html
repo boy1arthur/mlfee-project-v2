@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,34 +9,44 @@
     <meta property="og:title" content="MLFEE | 게이머를 위한 유틸리티 브랜드">
     <meta property="og:description" content="불편함을 해결하는 데이터 기반 게임 도구. 메이플랜드 프로젝트와 함께 시작하세요.">
     <link rel="icon" href="images/mlfee-logo.png" type="image/png">
-    
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8602495420447615" crossorigin="anonymous"></script>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8602495420447615"
+        crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Playfair+Display:wght@700;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    
+
     <style>
         body {
             font-family: 'Noto Sans KR', sans-serif;
             background: #0A0A0A;
             color: #E5E7EB;
         }
-        
+
         .font-display {
             font-family: 'Playfair Display', serif;
         }
-        
+
         .hero-gradient {
             background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2a 50%, #0a1a1a 100%);
             background-size: 200% 200%;
             animation: gradient-shift 15s ease infinite;
         }
-        
+
         @keyframes gradient-shift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
         }
-        
+
         .project-card {
             background: rgba(30, 30, 30, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -44,26 +55,26 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .project-card::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, transparent, rgba(255,215,0,0.1), transparent);
+            background: linear-gradient(135deg, transparent, rgba(255, 215, 0, 0.1), transparent);
             opacity: 0;
             transition: opacity 0.4s;
         }
-        
+
         .project-card:hover::before {
             opacity: 1;
         }
-        
+
         .project-card:hover {
             transform: translateY(-12px) scale(1.02);
             border-color: rgba(255, 215, 0, 0.4);
             box-shadow: 0 25px 50px rgba(255, 215, 0, 0.15);
         }
-        
+
         .featured-badge {
             background: linear-gradient(135deg, #ffd700, #ffed4e);
             color: #000;
@@ -74,18 +85,18 @@
             display: inline-block;
             box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
         }
-        
+
         .glow-text {
             text-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
         }
-        
+
         .stat-number {
             background: linear-gradient(135deg, #ffd700, #ffed4e);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
+
         #particle-canvas {
             position: absolute;
             top: 0;
@@ -94,7 +105,7 @@
             height: 100%;
             pointer-events: none;
         }
-        
+
         .coming-soon-overlay {
             position: absolute;
             inset: 0;
@@ -106,324 +117,338 @@
             opacity: 0;
             transition: opacity 0.3s;
         }
-        
+
         .project-card:hover .coming-soon-overlay {
             opacity: 1;
         }
     </style>
-    
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VLQR1NXFFM"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-VLQR1NXFFM');
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-VLQR1NXFFM');
     </script>
 </head>
+
 <body>
 
-<header class="sticky top-0 z-50 bg-gray-900/80 backdrop-blur-xl border-b border-white/10">
-    <div class="container mx-auto px-4 flex justify-between items-center h-16">
-        <a href="/" class="font-display text-3xl font-black tracking-wider text-yellow-400">MLFEE</a>
-        <nav class="hidden md:flex items-center gap-8 font-medium text-slate-300">
-            <a href="#projects" class="hover:text-yellow-400 transition-colors">프로젝트</a>
-            <a href="#about" class="hover:text-yellow-400 transition-colors">소개</a>
-        </nav>
-    </div>
-</header>
-
-<main>
-    <section class="hero-gradient relative min-h-screen flex items-center justify-center overflow-hidden">
-        <canvas id="particle-canvas"></canvas>
-        <div class="container mx-auto px-4 text-center relative z-10">
-            <div class="mb-8">
-                <div class="inline-block featured-badge mb-6">
-                    GAME UTILITY BRAND
-                </div>
-            </div>
-            <h1 class="font-display text-6xl md:text-8xl font-black mb-8 glow-text text-yellow-400 leading-tight">
-                MLFEE
-            </h1>
-            <p class="text-2xl md:text-3xl text-gray-300 max-w-3xl mx-auto mb-6 leading-relaxed">
-                게이머의 불편함을 해결하는<br>데이터 기반 유틸리티 브랜드
-            </p>
-            <p class="text-lg text-gray-400 max-w-2xl mx-auto mb-12">
-                한 게이머의 불편함에서 시작된 여정.<br>
-                이제 더 많은 게임, 더 많은 플레이어를 위한 도구로 확장됩니다.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#projects" class="inline-block px-10 py-4 bg-yellow-500 hover:bg-yellow-600 text-black font-bold rounded-lg text-lg transition-all transform hover:scale-105 shadow-lg">
-                    프로젝트 둘러보기
-                </a>
-                <a href="./mapleland/" class="inline-block px-10 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-lg text-lg transition-all border border-white/20">
-                    메이플랜드 도구 →
-                </a>
-            </div>
+    <header class="sticky top-0 z-50 bg-gray-900/80 backdrop-blur-xl border-b border-white/10">
+        <div class="container mx-auto px-4 flex justify-between items-center h-16">
+            <a href="/" class="font-display text-3xl font-black tracking-wider text-yellow-400">MLFEE</a>
+            <nav class="hidden md:flex items-center gap-8 font-medium text-slate-300">
+                <a href="#projects" class="hover:text-yellow-400 transition-colors">프로젝트</a>
+                <a href="#about" class="hover:text-yellow-400 transition-colors">소개</a>
+            </nav>
         </div>
-    </section>
+    </header>
 
-    <section class="py-16 border-y border-white/10 bg-black/30">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
-                <div class="text-center">
-                    <div class="text-5xl font-black stat-number mb-2">1+</div>
-                    <div class="text-gray-400 text-sm font-medium">활성 프로젝트</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-5xl font-black stat-number mb-2">5+</div>
-                    <div class="text-gray-400 text-sm font-medium">유틸리티 도구</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-5xl font-black stat-number mb-2">24/7</div>
-                    <div class="text-gray-400 text-sm font-medium">무료 이용</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-5xl font-black stat-number mb-2">∞</div>
-                    <div class="text-gray-400 text-sm font-medium">확장 가능성</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="projects" class="py-24 container mx-auto px-4">
-        <div class="text-center mb-16">
-            <h2 class="font-display text-5xl font-black text-white mb-4">프로젝트</h2>
-            <p class="text-xl text-gray-400 max-w-2xl mx-auto">
-                각 게임의 고유한 문제를 해결하는 맞춤형 도구들
-            </p>
-        </div>
-
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <a href="./mapleland/" class="project-card rounded-2xl p-8 block md:col-span-2">
-                <div class="flex items-start justify-between mb-6">
-                    <div class="w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
-                        🍁
+    <main>
+        <section class="hero-gradient relative min-h-screen flex items-center justify-center overflow-hidden">
+            <canvas id="particle-canvas"></canvas>
+            <div class="container mx-auto px-4 text-center relative z-10">
+                <div class="mb-8">
+                    <div class="inline-block featured-badge mb-6">
+                        GAME UTILITY BRAND
                     </div>
-                    <span class="featured-badge">현재 활성</span>
                 </div>
-                <h3 class="font-display text-4xl font-black text-white mb-4">메이플랜드</h3>
-                <p class="text-gray-400 text-lg mb-6 leading-relaxed">
-                    레이드 공략부터 정산까지, 메이플랜드 플레이어를 위한 필수 유틸리티 모음. 
-                    혼테일 브레이커, N빵마스터, 레이드 크로니클 등 5가지 핵심 도구를 제공합니다.
+                <h1 class="font-display text-6xl md:text-8xl font-black mb-8 glow-text text-yellow-400 leading-tight">
+                    MLFEE
+                </h1>
+                <p class="text-2xl md:text-3xl text-gray-300 max-w-3xl mx-auto mb-6 leading-relaxed">
+                    게이머의 불편함을 해결하는<br>데이터 기반 유틸리티 브랜드
                 </p>
-                <div class="flex flex-wrap gap-2 mb-6">
-                    <span class="text-xs bg-yellow-500/20 text-yellow-300 px-3 py-1.5 rounded-full font-semibold">레이드 관리</span>
-                    <span class="text-xs bg-yellow-500/20 text-yellow-300 px-3 py-1.5 rounded-full font-semibold">정산 계산기</span>
-                    <span class="text-xs bg-yellow-500/20 text-yellow-300 px-3 py-1.5 rounded-full font-semibold">효율 분석</span>
-                </div>
-                <div class="text-yellow-400 font-bold text-lg flex items-center gap-2">
-                    허브 페이지 바로가기 <i class="fas fa-arrow-right"></i>
-                </div>
-            </a>
-
-            <div class="project-card rounded-2xl p-8 block relative">
-                <div class="w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-800 rounded-2xl flex items-center justify-center text-3xl shadow-lg mb-6">
-                    🎮
-                </div>
-                <h3 class="font-display text-3xl font-black text-gray-500 mb-4">다음 프로젝트</h3>
-                <p class="text-gray-600 text-lg mb-6">
-                    새로운 게임, 새로운 도전이 준비 중입니다. 
-                    곧 공개될 예정입니다.
-                </p>
-                <div class="coming-soon-overlay">
-                    <div class="text-center">
-                        <div class="text-4xl mb-3">🚀</div>
-                        <div class="text-2xl font-bold text-white mb-2">Coming Soon</div>
-                        <div class="text-gray-400">기획 단계</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card rounded-2xl p-8 block relative">
-                <div class="w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-800 rounded-2xl flex items-center justify-center text-3xl shadow-lg mb-6">
-                    🎯
-                </div>
-                <h3 class="font-display text-3xl font-black text-gray-500 mb-4">프로젝트 슬롯</h3>
-                <p class="text-gray-600 text-lg mb-6">
-                    여러분의 아이디어가 이곳을 채울 수 있습니다.
-                </p>
-                <div class="coming-soon-overlay">
-                    <div class="text-center">
-                        <div class="text-4xl mb-3">💡</div>
-                        <div class="text-2xl font-bold text-white mb-2">제안하기</div>
-                        <div class="text-gray-400">아이디어 모집 중</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card rounded-2xl p-8 block relative">
-                <div class="w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-800 rounded-2xl flex items-center justify-center text-3xl shadow-lg mb-6">
-                    ⚡
-                </div>
-                <h3 class="font-display text-3xl font-black text-gray-500 mb-4">확장 영역</h3>
-                <p class="text-gray-600 text-lg mb-6">
-                    끊임없는 확장과 발전이 이어집니다.
-                </p>
-                <div class="coming-soon-overlay">
-                    <div class="text-center">
-                        <div class="text-4xl mb-3">∞</div>
-                        <div class="text-2xl font-bold text-white mb-2">무한 확장</div>
-                        <div class="text-gray-400">진행 중</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="about" class="py-24 bg-gradient-to-b from-transparent to-black/50">
-        <div class="container mx-auto px-4">
-            <div class="max-w-4xl mx-auto">
-                <div class="text-center mb-16">
-                    <h2 class="font-display text-5xl font-black text-white mb-4">브랜드 철학</h2>
-                    <p class="text-xl text-gray-400">데이터와 경험이 만나는 곳</p>
-                </div>
-                
-                <div class="grid md:grid-cols-3 gap-8 mb-16">
-                    <div class="text-center p-8 bg-gray-900/50 backdrop-blur rounded-xl border border-gray-800">
-                        <div class="text-5xl mb-4">🎯</div>
-                        <h3 class="text-xl font-bold text-white mb-3">문제 해결</h3>
-                        <p class="text-gray-400 leading-relaxed">
-                            실제 플레이어가 겪는 불편함을 찾아 해결합니다
-                        </p>
-                    </div>
-                    
-                    <div class="text-center p-8 bg-gray-900/50 backdrop-blur rounded-xl border border-gray-800">
-                        <div class="text-5xl mb-4">📊</div>
-                        <h3 class="text-xl font-bold text-white mb-3">데이터 기반</h3>
-                        <p class="text-gray-400 leading-relaxed">
-                            감이 아닌 정확한 계산과 분석을 제공합니다
-                        </p>
-                    </div>
-                    
-                    <div class="text-center p-8 bg-gray-900/50 backdrop-blur rounded-xl border border-gray-800">
-                        <div class="text-5xl mb-4">🚀</div>
-                        <h3 class="text-xl font-bold text-white mb-3">지속 확장</h3>
-                        <p class="text-gray-400 leading-relaxed">
-                            하나의 게임에서 멈추지 않고 계속 성장합니다
-                        </p>
-                    </div>
-                </div>
-
-                <div class="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/20 rounded-2xl p-12 text-center">
-                    <h3 class="font-display text-3xl font-black text-white mb-4">여정의 시작</h3>
-                    <p class="text-gray-300 text-lg leading-relaxed mb-8">
-                        2024년, 한 게이머의 불편함에서 시작되었습니다.<br>
-                        혼테일 레이드 중 복잡한 타이머 관리, 정산의 어려움...<br>
-                        이 작은 불편함들이 모여 MLFEE가 탄생했습니다.
-                    </p>
-                    <p class="text-yellow-400 font-bold text-xl">
-                        지금은 메이플랜드, 다음은?
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-24">
-        <div class="container mx-auto px-4 text-center">
-            <div class="max-w-3xl mx-auto">
-                <h2 class="font-display text-4xl font-black text-white mb-6">
-                    당신의 아이디어가<br>다음 프로젝트가 됩니다
-                </h2>
-                <p class="text-xl text-gray-400 mb-12">
-                    플레이하면서 느낀 불편함이 있나요?<br>
-                    "이런 도구가 있었으면..." 하는 생각을 해보셨나요?
+                <p class="text-lg text-gray-400 max-w-2xl mx-auto mb-12">
+                    한 게이머의 불편함에서 시작된 여정.<br>
+                    이제 더 많은 게임, 더 많은 플레이어를 위한 도구로 확장됩니다.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="https://discord.com/users/930037107823636540/" target="_blank" class="px-10 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold rounded-lg text-lg transition-all transform hover:scale-105 shadow-lg">
-                        아이디어 제안하기
+                    <a href="#projects"
+                        class="inline-block px-10 py-4 bg-yellow-500 hover:bg-yellow-600 text-black font-bold rounded-lg text-lg transition-all transform hover:scale-105 shadow-lg">
+                        프로젝트 둘러보기
+                    </a>
+                    <a href="./mapleland/"
+                        class="inline-block px-10 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-lg text-lg transition-all border border-white/20">
+                        메이플랜드 도구 →
                     </a>
                 </div>
             </div>
-        </div>
-    </section>
-</main>
+        </section>
 
-<footer class="border-t border-white/10 py-12 bg-black">
-    <div class="container mx-auto px-4 text-center text-sm text-slate-400 space-y-4">
-        <div class="flex justify-center space-x-6 mb-4">
-            <a href="./terms" class="hover:text-slate-300">이용약관</a>
-            <a href="./privacy" class="hover:text-slate-300">개인정보처리방침</a>
-        </div>
-        <p>&copy; 2025 MLFEE. All rights reserved.</p>
-        <p class="text-xs text-gray-600">게이머의 불편함을 해결하는 데이터 기반 유틸리티 브랜드</p>
-    </div>
-</footer>
+        <section class="py-16 border-y border-white/10 bg-black/30">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
+                    <div class="text-center">
+                        <div class="text-5xl font-black stat-number mb-2">1+</div>
+                        <div class="text-gray-400 text-sm font-medium">활성 프로젝트</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-5xl font-black stat-number mb-2">4+</div>
+                        <div class="text-gray-400 text-sm font-medium">유틸리티 도구</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-5xl font-black stat-number mb-2">24/7</div>
+                        <div class="text-gray-400 text-sm font-medium">무료 이용</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-5xl font-black stat-number mb-2">∞</div>
+                        <div class="text-gray-400 text-sm font-medium">확장 가능성</div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    // 파티클 애니메이션
-    const canvas = document.getElementById('particle-canvas');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-    
-    class Particle {
-        constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 2;
-            this.speedX = (Math.random() - 0.5) * 0.5;
-            this.speedY = (Math.random() - 0.5) * 0.5;
-            this.opacity = Math.random() * 0.5;
-        }
-        
-        update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-            
-            if (this.x > canvas.width) this.x = 0;
-            if (this.x < 0) this.x = canvas.width;
-            if (this.y > canvas.height) this.y = 0;
-            if (this.y < 0) this.y = canvas.height;
-        }
-        
-        draw() {
-            ctx.fillStyle = `rgba(255, 215, 0, ${this.opacity})`;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
-        }
-    }
-    
-    function init() {
-        particles = [];
-        const numberOfParticles = Math.floor((canvas.width * canvas.height) / 15000);
-        for (let i = 0; i < numberOfParticles; i++) {
-            particles.push(new Particle());
-        }
-    }
-    
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(particle => {
-            particle.update();
-            particle.draw();
-        });
-        requestAnimationFrame(animate);
-    }
-    
-    init();
-    animate();
-    
-    // 스무스 스크롤
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth' });
+        <section id="projects" class="py-24 container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="font-display text-5xl font-black text-white mb-4">프로젝트</h2>
+                <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+                    각 게임의 고유한 문제를 해결하는 맞춤형 도구들
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <a href="./mapleland/" class="project-card rounded-2xl p-8 block md:col-span-2">
+                    <div class="flex items-start justify-between mb-6">
+                        <div
+                            class="w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                            🍁
+                        </div>
+                        <span class="featured-badge">현재 활성</span>
+                    </div>
+                    <h3 class="font-display text-4xl font-black text-white mb-4">메이플랜드</h3>
+                    <p class="text-gray-400 text-lg mb-6 leading-relaxed">
+                        레이드 공략부터 정산까지, 메이플랜드 플레이어를 위한 필수 유틸리티 모음.
+                        혼테일 브레이커, N빵마스터, 메피 버피, 자쿰 타이머 등 4가지 핵심 도구를 제공합니다.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span
+                            class="text-xs bg-yellow-500/20 text-yellow-300 px-3 py-1.5 rounded-full font-semibold">레이드
+                            관리</span>
+                        <span class="text-xs bg-yellow-500/20 text-yellow-300 px-3 py-1.5 rounded-full font-semibold">정산
+                            계산기</span>
+                        <span class="text-xs bg-yellow-500/20 text-yellow-300 px-3 py-1.5 rounded-full font-semibold">효율
+                            분석</span>
+                    </div>
+                    <div class="text-yellow-400 font-bold text-lg flex items-center gap-2">
+                        허브 페이지 바로가기 <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <div class="project-card rounded-2xl p-8 block relative">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-800 rounded-2xl flex items-center justify-center text-3xl shadow-lg mb-6">
+                        🎮
+                    </div>
+                    <h3 class="font-display text-3xl font-black text-gray-500 mb-4">다음 프로젝트</h3>
+                    <p class="text-gray-600 text-lg mb-6">
+                        새로운 게임, 새로운 도전이 준비 중입니다.
+                        곧 공개될 예정입니다.
+                    </p>
+                    <div class="coming-soon-overlay">
+                        <div class="text-center">
+                            <div class="text-4xl mb-3">🚀</div>
+                            <div class="text-2xl font-bold text-white mb-2">Coming Soon</div>
+                            <div class="text-gray-400">기획 단계</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card rounded-2xl p-8 block relative">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-800 rounded-2xl flex items-center justify-center text-3xl shadow-lg mb-6">
+                        🎯
+                    </div>
+                    <h3 class="font-display text-3xl font-black text-gray-500 mb-4">프로젝트 슬롯</h3>
+                    <p class="text-gray-600 text-lg mb-6">
+                        여러분의 아이디어가 이곳을 채울 수 있습니다.
+                    </p>
+                    <div class="coming-soon-overlay">
+                        <div class="text-center">
+                            <div class="text-4xl mb-3">💡</div>
+                            <div class="text-2xl font-bold text-white mb-2">제안하기</div>
+                            <div class="text-gray-400">아이디어 모집 중</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card rounded-2xl p-8 block relative">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-800 rounded-2xl flex items-center justify-center text-3xl shadow-lg mb-6">
+                        ⚡
+                    </div>
+                    <h3 class="font-display text-3xl font-black text-gray-500 mb-4">확장 영역</h3>
+                    <p class="text-gray-600 text-lg mb-6">
+                        끊임없는 확장과 발전이 이어집니다.
+                    </p>
+                    <div class="coming-soon-overlay">
+                        <div class="text-center">
+                            <div class="text-4xl mb-3">∞</div>
+                            <div class="text-2xl font-bold text-white mb-2">무한 확장</div>
+                            <div class="text-gray-400">진행 중</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-24 bg-gradient-to-b from-transparent to-black/50">
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto">
+                    <div class="text-center mb-16">
+                        <h2 class="font-display text-5xl font-black text-white mb-4">브랜드 철학</h2>
+                        <p class="text-xl text-gray-400">데이터와 경험이 만나는 곳</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-8 mb-16">
+                        <div class="text-center p-8 bg-gray-900/50 backdrop-blur rounded-xl border border-gray-800">
+                            <div class="text-5xl mb-4">🎯</div>
+                            <h3 class="text-xl font-bold text-white mb-3">문제 해결</h3>
+                            <p class="text-gray-400 leading-relaxed">
+                                실제 플레이어가 겪는 불편함을 찾아 해결합니다
+                            </p>
+                        </div>
+
+                        <div class="text-center p-8 bg-gray-900/50 backdrop-blur rounded-xl border border-gray-800">
+                            <div class="text-5xl mb-4">📊</div>
+                            <h3 class="text-xl font-bold text-white mb-3">데이터 기반</h3>
+                            <p class="text-gray-400 leading-relaxed">
+                                감이 아닌 정확한 계산과 분석을 제공합니다
+                            </p>
+                        </div>
+
+                        <div class="text-center p-8 bg-gray-900/50 backdrop-blur rounded-xl border border-gray-800">
+                            <div class="text-5xl mb-4">🚀</div>
+                            <h3 class="text-xl font-bold text-white mb-3">지속 확장</h3>
+                            <p class="text-gray-400 leading-relaxed">
+                                하나의 게임에서 멈추지 않고 계속 성장합니다
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/20 rounded-2xl p-12 text-center">
+                        <h3 class="font-display text-3xl font-black text-white mb-4">여정의 시작</h3>
+                        <p class="text-gray-300 text-lg leading-relaxed mb-8">
+                            2024년, 한 게이머의 불편함에서 시작되었습니다.<br>
+                            혼테일 레이드 중 복잡한 타이머 관리, 정산의 어려움...<br>
+                            이 작은 불편함들이 모여 MLFEE가 탄생했습니다.
+                        </p>
+                        <p class="text-yellow-400 font-bold text-xl">
+                            지금은 메이플랜드, 다음은?
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-24">
+            <div class="container mx-auto px-4 text-center">
+                <div class="max-w-3xl mx-auto">
+                    <h2 class="font-display text-4xl font-black text-white mb-6">
+                        당신의 아이디어가<br>다음 프로젝트가 됩니다
+                    </h2>
+                    <p class="text-xl text-gray-400 mb-12">
+                        플레이하면서 느낀 불편함이 있나요?<br>
+                        "이런 도구가 있었으면..." 하는 생각을 해보셨나요?
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="https://discord.com/users/930037107823636540/" target="_blank"
+                            class="px-10 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold rounded-lg text-lg transition-all transform hover:scale-105 shadow-lg">
+                            아이디어 제안하기
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="border-t border-white/10 py-12 bg-black">
+        <div class="container mx-auto px-4 text-center text-sm text-slate-400 space-y-4">
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="./terms" class="hover:text-slate-300">이용약관</a>
+                <a href="./privacy" class="hover:text-slate-300">개인정보처리방침</a>
+            </div>
+            <p>&copy; 2025 MLFEE. All rights reserved.</p>
+            <p class="text-xs text-gray-600">게이머의 불편함을 해결하는 데이터 기반 유틸리티 브랜드</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 파티클 애니메이션
+            const canvas = document.getElementById('particle-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
             }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2;
+                    this.speedX = (Math.random() - 0.5) * 0.5;
+                    this.speedY = (Math.random() - 0.5) * 0.5;
+                    this.opacity = Math.random() * 0.5;
+                }
+
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+
+                    if (this.x > canvas.width) this.x = 0;
+                    if (this.x < 0) this.x = canvas.width;
+                    if (this.y > canvas.height) this.y = 0;
+                    if (this.y < 0) this.y = canvas.height;
+                }
+
+                draw() {
+                    ctx.fillStyle = `rgba(255, 215, 0, ${this.opacity})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            function init() {
+                particles = [];
+                const numberOfParticles = Math.floor((canvas.width * canvas.height) / 15000);
+                for (let i = 0; i < numberOfParticles; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(particle => {
+                    particle.update();
+                    particle.draw();
+                });
+                requestAnimationFrame(animate);
+            }
+
+            init();
+            animate();
+
+            // 스무스 스크롤
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
         });
-    });
-});
-</script>
+    </script>
 
 </body>
+
 </html>
