@@ -1,9 +1,0 @@
-RewriteEngine On
-
-# /tools/breaker/ 경로로 들어오는 모든 요청을
-# /tools/raid-chronicle/ 로 영구적으로(301) 이동시킵니다.
-RewriteRule ^tools/breaker/?$ /tools/raid-chronicle/ [R=301,L]
-
-# /tools/timer/ 경로로 들어오는 모든 요청을
-# /tools/raid-chronicle/ 로 영구적으로(301) 이동시킵니다.
-RewriteRule ^tools/timer/?$ /tools/raid-chronicle/ [R=301,L]
