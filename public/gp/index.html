@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,29 +13,60 @@
     <!-- Babel (브라우저가 리액트 코드를 이해하도록 번역) -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <!-- 구글 폰트 (고급스러운 명조체 적용) -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Sans+KR:wght@300;400;700&display=swap"
+        rel="stylesheet">
+
     <style>
         /* 기본 폰트 설정 */
-        body { font-family: 'Noto Sans KR', sans-serif; }
-        /* 제목용 고급 명조체 */
-        h1, h2, h3, .font-serif { font-family: 'Cinzel', serif; }
-        
-        /* 애니메이션 정의 */
-        .animate-fade-in-up { animation: fadeInUp 1s ease-out; }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
         }
-        
+
+        /* 제목용 고급 명조체 */
+        h1,
+        h2,
+        h3,
+        .font-serif {
+            font-family: 'Cinzel', serif;
+        }
+
+        /* 애니메이션 정의 */
+        .animate-fade-in-up {
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         /* 입장 버튼 반짝임 효과 */
-        .animate-pulse-slow { animation: pulseSlow 3s infinite; }
+        .animate-pulse-slow {
+            animation: pulseSlow 3s infinite;
+        }
+
         @keyframes pulseSlow {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
         }
     </style>
 </head>
+
 <body class="bg-black text-white">
     <div id="root"></div>
 
@@ -52,14 +84,14 @@
         const Icons = {
             Play: (props) => <Icon {...props} path={<polygon points="5 3 19 12 5 21 5 3"></polygon>} fill={props.fill || "none"} />,
             Info: (props) => <Icon {...props} path={<><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></>} />,
-            Ticket: (props) => <Icon {...props} path={<><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></>} />,
-            ShoppingBag: (props) => <Icon {...props} path={<><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></>} />,
-            Globe: (props) => <Icon {...props} path={<><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></>} />,
-            Users: (props) => <Icon {...props} path={<><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></>} />,
-            TrendingUp: (props) => <Icon {...props} path={<><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></>} />,
-            ChevronRight: (props) => <Icon {...props} path={<polyline points="9 18 15 12 9 6"/>} />,
-            Menu: (props) => <Icon {...props} path={<><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/></>} />,
-            X: (props) => <Icon {...props} path={<><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></>} />,
+            Ticket: (props) => <Icon {...props} path={<><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" /><path d="M13 5v2" /><path d="M13 17v2" /><path d="M13 11v2" /></>} />,
+            ShoppingBag: (props) => <Icon {...props} path={<><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" /><line x1="3" y1="6" x2="21" y2="6" /><path d="M16 10a4 4 0 0 1-8 0" /></>} />,
+            Globe: (props) => <Icon {...props} path={<><circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></>} />,
+            Users: (props) => <Icon {...props} path={<><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></>} />,
+            TrendingUp: (props) => <Icon {...props} path={<><polyline points="23 6 13.5 15.5 8.5 10.5 1 18" /><polyline points="17 6 23 6 23 12" /></>} />,
+            ChevronRight: (props) => <Icon {...props} path={<polyline points="9 18 15 12 9 6" />} />,
+            Menu: (props) => <Icon {...props} path={<><line x1="4" y1="12" x2="20" y2="12" /><line x1="4" y1="6" x2="20" y2="6" /><line x1="4" y1="18" x2="20" y2="18" /></>} />,
+            X: (props) => <Icon {...props} path={<><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></>} />,
             SkipForward: (props) => <Icon {...props} path={<><polygon points="5 4 15 12 5 20 5 4" /><line x1="19" y1="5" x2="19" y2="19" /></>} />
         };
 
@@ -67,7 +99,7 @@
         const GoldenPhoenixSite = () => {
             const [isMenuOpen, setIsMenuOpen] = useState(false);
             const [scrolled, setScrolled] = useState(false);
-            
+
             // --- [Intro State] 오프닝 영상 상태 관리 ---
             const [hasEntered, setHasEntered] = useState(false); // [CTO Logic] 사용자가 입장 버튼을 눌렀는지 확인 (소리 재생용)
             const [showIntro, setShowIntro] = useState(true);
@@ -183,15 +215,15 @@
             if (!hasEntered) {
                 return (
                     <div className="fixed inset-0 bg-black z-[200] flex flex-col items-center justify-center text-center cursor-pointer" onClick={handleEnterStudio}>
-                         <div className="w-20 h-20 mb-8 bg-gradient-to-tr from-yellow-600 via-yellow-400 to-yellow-700 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(234,179,8,0.6)] animate-pulse-slow">
-                             <span className="text-black font-bold text-3xl font-serif">G</span>
+                        <div className="w-20 h-20 mb-8 bg-gradient-to-tr from-yellow-600 via-yellow-400 to-yellow-700 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(234,179,8,0.6)] animate-pulse-slow">
+                            <span className="text-black font-bold text-3xl font-serif">G</span>
                         </div>
                         <h1 className="text-3xl md:text-5xl font-serif text-transparent bg-clip-text bg-gradient-to-b from-yellow-200 via-yellow-500 to-yellow-700 tracking-widest mb-4">
                             GOLDEN PHOENIX
                         </h1>
                         <p className="text-gray-400 text-xs md:text-sm tracking-[0.5em] uppercase mb-12">Global Entertainment & Production</p>
-                        
-                        <button 
+
+                        <button
                             onClick={handleEnterStudio}
                             className="group border border-yellow-600/50 text-yellow-500 px-8 py-3 rounded-full hover:bg-yellow-600 hover:text-black transition-all duration-500 flex items-center gap-3 font-bold tracking-widest text-sm"
                         >
@@ -204,21 +236,21 @@
             // 2. 입장 후 메인 렌더링
             return (
                 <div className="min-h-screen bg-black text-white font-sans overflow-x-hidden selection:bg-yellow-500 selection:text-black">
-                
+
                     {/* --- [인트로 오버레이] --- */}
                     {/* showIntro가 true일 때만 영상 보여줌. false가 되면 사라짐 */}
                     {showIntro && (
                         <div className={`fixed inset-0 z-[100] bg-black flex items-center justify-center transition-opacity duration-1000 ${introFading ? 'opacity-0' : 'opacity-100'}`}>
                             {/* 영상 배경 */}
                             <div className="absolute inset-0 overflow-hidden">
-                                <video 
-                                    autoPlay 
+                                <video
+                                    autoPlay
                                     muted={false} /* [소리 켜기] 사용자가 클릭했으므로 이제 소리 켤 수 있음 */
-                                    playsInline 
+                                    playsInline
                                     className="w-full h-full object-cover"
                                     onEnded={handleSkipIntro}
                                 >
-                                    <source src="./golden.mp4" type="video/mp4" />
+                                    <source src="golden.mp4" type="video/mp4" />
                                     {/* 로컬 파일이 없을 때 나오는 예비용 온라인 영상 */}
                                     <source src="https://videos.pexels.com/video-files/3129957/3129957-hd_1920_1080_25fps.mp4" type="video/mp4" />
                                 </video>
@@ -226,13 +258,13 @@
                                 <div className="absolute top-0 left-0 w-full h-[10vh] bg-black z-10"></div>
                                 <div className="absolute bottom-0 left-0 w-full h-[10vh] bg-black z-10"></div>
                             </div>
-                            
+
                             {/* [수정 사항] 글씨 겹침 해결을 위해 오버레이 텍스트(h2) 제거함.
                                 오직 영상만 깨끗하게 나옵니다.
                             */}
 
                             {/* 스킵 버튼은 유지 (UX 편의성) */}
-                            <button 
+                            <button
                                 onClick={handleSkipIntro}
                                 className="absolute bottom-12 right-12 z-30 flex items-center gap-2 text-white/50 hover:text-white text-xs font-bold tracking-widest uppercase transition-colors border border-white/20 px-4 py-2 rounded-full backdrop-blur-sm"
                             >
@@ -291,7 +323,7 @@
                                     Global Entertainment & Production
                                 </p>
                                 <h1 className="text-5xl md:text-8xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-yellow-100 via-yellow-400 to-yellow-800 drop-shadow-[0_0_30px_rgba(234,179,8,0.4)] mb-8 leading-tight">
-                                    GOLDEN<br/>PHOENIX
+                                    GOLDEN<br />PHOENIX
                                 </h1>
                                 <div className="flex flex-col md:flex-row gap-4 justify-center items-center mt-8">
                                     <button className="bg-yellow-600 text-black px-8 py-4 rounded-sm font-bold tracking-wider hover:bg-yellow-400 hover:scale-105 transition-all duration-300 flex items-center gap-2 shadow-[0_0_20px_rgba(234,179,8,0.3)]">
@@ -322,14 +354,14 @@
                                         <div key={movie.id} className="group relative h-[500px] overflow-hidden rounded-sm cursor-pointer border border-gray-900 hover:border-yellow-600/50 transition-all duration-500">
                                             <div className={`absolute inset-0 bg-gradient-to-br ${movie.color} opacity-60 group-hover:opacity-80 transition-opacity duration-500`}></div>
                                             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30"></div>
-                                            
+
                                             <div className="absolute inset-0 p-8 flex flex-col justify-end transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                                                 <span className="text-yellow-400 text-xs font-bold tracking-widest mb-2 uppercase">{movie.genre}</span>
                                                 <h3 className="text-3xl font-serif font-bold text-white mb-2 leading-none">{movie.title}</h3>
                                                 <p className="text-gray-300 text-sm mb-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
                                                     {movie.description}
                                                 </p>
-                                                
+
                                                 <div className="flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
                                                     <button className="flex-1 bg-yellow-600 text-black py-2 font-bold text-xs hover:bg-yellow-400 transition-colors flex justify-center items-center gap-2">
                                                         <Icons.Ticket size={14} /> TICKET
@@ -400,11 +432,11 @@
                                             최신 개봉작 정보와 한정판 굿즈 출시 소식, 투자 정보를 가장 먼저 받아보세요.
                                         </p>
                                         <div className="flex gap-0">
-                                            <input type="email" placeholder="Enter your email" className="bg-gray-900 border border-gray-800 text-white px-4 py-3 w-full focus:outline-none focus:border-yellow-600 transition-colors"/>
+                                            <input type="email" placeholder="Enter your email" className="bg-gray-900 border border-gray-800 text-white px-4 py-3 w-full focus:outline-none focus:border-yellow-600 transition-colors" />
                                             <button className="bg-yellow-600 text-black px-6 font-bold hover:bg-yellow-500 transition-colors">SUBSCRIBE</button>
                                         </div>
                                     </div>
-                                    
+
                                     <div className="grid grid-cols-2 md:grid-cols-3 gap-12 text-sm text-gray-400">
                                         <div>
                                             <h5 className="text-white font-bold mb-4 uppercase tracking-widest">Studio</h5>
@@ -430,7 +462,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div className="border-t border-gray-900 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600">
                                     <p>&copy; 2025 GOLDEN PHOENIX ENTERTAINMENT. ALL RIGHTS RESERVED.</p>
                                     <div className="flex gap-4 mt-4 md:mt-0">
@@ -450,4 +482,5 @@
         root.render(<GoldenPhoenixSite />);
     </script>
 </body>
+
 </html>
