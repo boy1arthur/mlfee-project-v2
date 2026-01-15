@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golden Roc Holdings | Vision for Eternity</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Noto+Serif+KR:wght@300;500;700&family=Noto+Sans+KR:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            100: '#F9F1D8',
+                            200: '#EEDC9A',
+                            300: '#E8D48E',
+                            400: '#D4AF37',
+                            500: '#C5A028',
+                            600: '#A38218',
+                            700: '#856910',
+                            800: '#634D09',
+                            900: '#423306',
+                        },
+                        navy: {
+                            800: '#1a2035',
+                            900: '#0B1120',
+                            950: '#050810',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Noto Serif KR', 'serif'],
+                        display: ['Cinzel', 'serif'],
+                        sans: ['Noto Sans KR', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 1.2s ease-out forwards',
+                        'pulse-slow': 'pulseSlow 4s infinite',
+                        'draw-line': 'drawLine 2s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        pulseSlow: {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.6' },
+                        },
+                        drawLine: {
+                            '0%': { height: '0%' },
+                            '100%': { height: '100%' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #050810;
+            color: #E2E8F0;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #050810;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #423306;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
+
+        .text-gradient-gold {
+            background: linear-gradient(135deg, #F9F1D8 0%, #D4AF37 50%, #856910 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @media (min-width: 1024px) {
+            .tree-line-horizontal {
+                position: absolute;
+                height: 1px;
+                background: #D4AF37;
+                top: -32px;
+                left: 10%;
+                width: 80%;
+                z-index: 0;
+            }
+
+            .tree-connector-up {
+                position: absolute;
+                width: 1px;
+                height: 32px;
+                background: #D4AF37;
+                top: -32px;
+                left: 50%;
+                z-index: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const Icon = ({ path, ...props }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
+                {path}
+            </svg>
+        );
+
+        const Icons = {
+            Menu: (props) => <Icon {...props} path={<><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" /></>} />,
+            X: (props) => <Icon {...props} path={<><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></>} />,
+            ArrowRight: (props) => <Icon {...props} path={<><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></>} />,
+            Globe: (props) => <Icon {...props} path={<><circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></>} />,
+            Building: (props) => <Icon {...props} path={<><rect x="4" y="2" width="16" height="20" rx="2" ry="2" /><line x1="9" y1="22" x2="9" y2="22.01" /><line x1="15" y1="22" x2="15" y2="22.01" /><line x1="12" y1="22" x2="12" y2="22.01" /><line x1="12" y1="2" x2="12" y2="22" /><line x1="4" y1="10" x2="20" y2="10" /><line x1="4" y1="16" x2="20" y2="16" /></>} />,
+            TrendingUp: (props) => <Icon {...props} path={<><polyline points="23 6 13.5 15.5 8.5 10.5 1 18" /><polyline points="17 6 23 6 23 12" /></>} />,
+            ChevronDown: (props) => <Icon {...props} path={<polyline points="6 9 12 15 18 9" />} />,
+            Film: (props) => <Icon {...props} path={<><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18" /><line x1="7" y1="2" x2="7" y2="22" /><line x1="17" y1="2" x2="17" y2="22" /><line x1="2" y1="12" x2="22" y2="12" /><line x1="2" y1="7" x2="7" y2="7" /><line x1="2" y1="17" x2="7" y2="17" /><line x1="17" y1="17" x2="22" y2="17" /><line x1="17" y1="7" x2="22" y2="7" /></>} />,
+            GoldBar: (props) => <Icon {...props} path={<><path d="M6 4L2 8h20l-4-4H6z" /><rect x="2" y="8" width="20" height="12" rx="1" /></>} />
+        };
+
+        const GoldenRocHoldings = () => {
+            const [isMenuOpen, setIsMenuOpen] = useState(false);
+            const [scrolled, setScrolled] = useState(false);
+            const [introComplete, setIntroComplete] = useState(false);
+            const canvasRef = useRef(null);
+
+            useEffect(() => {
+                const timer = setTimeout(() => setIntroComplete(true), 4000);
+                return () => clearTimeout(timer);
+            }, []);
+
+            useEffect(() => {
+                const handleScroll = () => setScrolled(window.scrollY > 50);
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            useEffect(() => {
+                const canvas = canvasRef.current;
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                let animationFrameId;
+
+                const resizeCanvas = () => {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                };
+                window.addEventListener('resize', resizeCanvas);
+                resizeCanvas();
+
+                const particles = [];
+                const particleCount = 60;
+
+                class Particle {
+                    constructor() { this.reset(); }
+                    reset() {
+                        this.x = Math.random() * canvas.width;
+                        this.y = canvas.height + Math.random() * 100;
+                        this.size = Math.random() * 2 + 0.5;
+                        this.speedY = Math.random() * 0.5 + 0.2;
+                        this.speedX = (Math.random() - 0.5) * 0.3;
+                        this.alpha = 0;
+                        this.life = 0;
+                        this.maxLife = Math.random() * 300 + 200;
+                    }
+                    update() {
+                        this.y -= this.speedY;
+                        this.x += this.speedX;
+                        this.life++;
+                        if (this.life < 50) this.alpha = this.life / 50 * 0.5;
+                        else if (this.life > this.maxLife - 50) this.alpha = (this.maxLife - this.life) / 50 * 0.5;
+                        if (this.life >= this.maxLife || this.y < -10) this.reset();
+                    }
+                    draw() {
+                        ctx.fillStyle = '#D4AF37';
+                        ctx.globalAlpha = this.alpha;
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+
+                for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+
+                const animate = () => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    const gradient = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, canvas.width);
+                    gradient.addColorStop(0, '#0B1120');
+                    gradient.addColorStop(1, '#050810');
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    particles.forEach(p => { p.update(); p.draw(); });
+                    animationFrameId = requestAnimationFrame(animate);
+                };
+                animate();
+
+                return () => {
+                    window.removeEventListener('resize', resizeCanvas);
+                    cancelAnimationFrame(animationFrameId);
+                };
+            }, []);
+
+            if (!introComplete) {
+                return (
+                    <div className="fixed inset-0 z-[100] bg-navy-950 flex flex-col items-center justify-center">
+                        <div className="animate-pulse-slow">
+                            <svg className="w-24 h-24 mb-6 text-gold-400 opacity-80" viewBox="0 0 100 100" fill="currentColor">
+                                <path d="M50 0 C50 0 70 40 100 40 C70 50 60 70 50 100 C40 70 30 50 0 40 C30 40 50 0 50 0 Z" />
+                            </svg>
+                        </div>
+                        <h1 className="font-display text-3xl text-gold-200 tracking-[0.5em] animate-fade-in-up">GOLDEN ROC</h1>
+                        <div className="mt-4 h-[1px] w-24 bg-gradient-to-r from-transparent via-gold-500 to-transparent animate-pulse"></div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="min-h-screen bg-navy-950 text-slate-300 font-sans selection:bg-gold-500 selection:text-black">
+
+                    <nav className={`fixed w-full z-50 transition-all duration-700 ${scrolled ? 'bg-navy-950/90 backdrop-blur-lg border-b border-white/5 py-4' : 'bg-transparent py-8'}`}>
+                        <div className="container mx-auto px-6 flex justify-between items-center">
+                            <div className="flex items-center gap-3 cursor-pointer group">
+                                <div className="w-8 h-8 rounded-full border border-gold-400/30 flex items-center justify-center group-hover:border-gold-400 transition-colors">
+                                    <span className="font-display font-bold text-gold-400 text-lg">R</span>
+                                </div>
+                                <span className="font-display font-bold tracking-widest text-lg text-white group-hover:text-gold-200 transition-colors">GOLDEN ROC</span>
+                            </div>
+
+                            <div className="hidden md:flex items-center gap-10 text-xs font-bold tracking-[0.2em] uppercase text-slate-400">
+                                <a href="#philosophy" className="hover:text-gold-400 transition-colors">Philosophy</a>
+                                <a href="#governance" className="hover:text-gold-400 transition-colors">Governance</a>
+                                <a href="#" className="hover:text-gold-400 transition-colors">IR</a>
+                                <button className="border border-gold-600/50 text-gold-500 px-6 py-2 hover:bg-gold-600 hover:text-black transition-all duration-300">Contact</button>
+                            </div>
+
+                            <button className="md:hidden text-gold-400" onClick={() => setIsMenuOpen(true)}><Icons.Menu /></button>
+                        </div>
+                    </nav>
+
+                    {isMenuOpen && (
+                        <div className="fixed inset-0 z-[60] bg-navy-950 flex flex-col items-center justify-center gap-8 animate-fade-in-up">
+                            <button className="absolute top-8 right-6 text-slate-400" onClick={() => setIsMenuOpen(false)}><Icons.X size={32} /></button>
+                            {['Philosophy', 'Governance', 'Contact'].map((item) => (
+                                <a key={item} href={`#${item.toLowerCase()}`} className="font-display text-3xl text-gold-100 hover:text-gold-400 transition-colors" onClick={() => setIsMenuOpen(false)}>{item}</a>
+                            ))}
+                        </div>
+                    )}
+
+                    <section className="relative h-screen flex items-center justify-center overflow-hidden">
+                        <canvas ref={canvasRef} className="absolute inset-0 z-0 pointer-events-none" />
+                        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto mt-20">
+                            <div className="mb-6 flex justify-center animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+                                <span className="px-4 py-1 rounded-full border border-gold-500/30 text-gold-400 text-[10px] tracking-[0.3em] uppercase bg-gold-900/10 backdrop-blur-sm">Global Investment Holdings</span>
+                            </div>
+                            <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-medium leading-tight mb-8 text-white animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                                <span className="block text-gradient-gold">THE WINGS OF</span>
+                                <span className="block opacity-90">LEGEND</span>
+                            </h1>
+                            <p className="font-serif text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+                                날개를 펴면 태양을 가리고, 코끼리를 낚아채 비상하는 전설의 새 로크(Roc).<br className="hidden md:block" />
+                                우리는 그 압도적인 날개 아래 자회사들을 품고, 흔들리지 않는 토대를 제공합니다.
+                            </p>
+                            <div className="animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+                                <a href="#governance" className="inline-flex flex-col items-center gap-2 text-gold-500 text-xs tracking-[0.2em] uppercase hover:text-gold-300 transition-colors opacity-70 hover:opacity-100">
+                                    Explore Structure
+                                    <Icons.ChevronDown className="animate-bounce" />
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section className="py-24 border-t border-white/5 bg-navy-900/30 backdrop-blur-sm">
+                        <div className="container mx-auto px-6">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+                                <div className="p-6 border-r border-white/5 last:border-0">
+                                    <div className="text-4xl md:text-5xl font-display text-gold-400 mb-2">∞</div>
+                                    <div className="text-sm font-bold tracking-widest uppercase text-slate-500">Unlimited Vision</div>
+                                </div>
+                                <div className="p-6 border-r border-white/5 last:border-0">
+                                    <div className="text-4xl md:text-5xl font-display text-gold-400 mb-2">$500M+</div>
+                                    <div className="text-sm font-bold tracking-widest uppercase text-slate-500">Assets Under Management</div>
+                                </div>
+                                <div className="p-6 border-r border-white/5 last:border-0">
+                                    <div className="text-4xl md:text-5xl font-display text-gold-400 mb-2">Global</div>
+                                    <div className="text-sm font-bold tracking-widest uppercase text-slate-500">Network Presence</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="governance" className="py-32 bg-navy-950 relative overflow-hidden">
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gold-900/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+                        <div className="container mx-auto px-6 relative z-10">
+                            <div className="text-center mb-20">
+                                <span className="text-gold-500 text-xs font-bold tracking-[0.3em] uppercase block mb-4">Structure</span>
+                                <h2 className="font-display text-4xl md:text-5xl text-white mb-6">Corporate Governance</h2>
+                                <p className="font-serif text-slate-400 text-lg max-w-2xl mx-auto">한국 인베스트먼트를 중심으로 금(Gold), 부동산, 엔터테인먼트, 글로벌 확장의 4대 축을 완성했습니다.</p>
+                            </div>
+
+                            <div className="max-w-6xl mx-auto relative">
+
+                                <div className="flex justify-center mb-24 relative">
+                                    <div className="relative z-10 bg-gradient-to-br from-navy-800 to-black border-2 border-gold-400 px-12 py-8 rounded-sm shadow-[0_0_40px_rgba(212,175,55,0.15)] text-center min-w-[320px]">
+                                        <div className="absolute -top-3 -right-3 w-6 h-6 border-t-2 border-r-2 border-gold-500"></div>
+                                        <div className="absolute -bottom-3 -left-3 w-6 h-6 border-b-2 border-l-2 border-gold-500"></div>
+                                        <span className="text-xs text-gold-300 font-bold tracking-widest uppercase mb-1 block">Control Tower</span>
+                                        <h3 className="font-display text-2xl text-white font-bold tracking-widest mb-2">한국 인베스트먼트</h3>
+                                        <p className="text-xs text-slate-400 uppercase tracking-[0.2em] mb-4">Golden Roc Holdings</p>
+                                        <div className="inline-block bg-gold-600/20 border border-gold-500/50 px-3 py-1 rounded-full text-[10px] text-gold-300 font-bold tracking-wider">그룹 전체 전략 지휘</div>
+                                    </div>
+                                    <div className="absolute h-12 w-px bg-gold-500 bottom-[-48px] left-1/2 -translate-x-1/2"></div>
+                                </div>
+
+                                <div className="relative">
+                                    <div className="hidden lg:block tree-line-horizontal"></div>
+
+                                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 relative">
+
+                                        {/* Pillar 1: Gold */}
+                                        <div className="relative flex flex-col items-center">
+                                            <div className="hidden lg:block tree-connector-up"></div>
+                                            <div className="bg-navy-900 border border-gold-500/30 px-6 py-4 rounded-sm text-center w-full mb-6 relative">
+                                                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-navy-950 px-2 text-gold-400"><Icons.GoldBar size={20} /></div>
+                                                <h4 className="font-display text-lg text-white mt-2">원자재 가공/유통</h4>
+                                                <p className="text-[10px] text-slate-500 uppercase tracking-wider">Gold & Resources</p>
+                                            </div>
+                                            <div className="w-full space-y-4">
+                                                <div className="bg-white/5 border-l-2 border-gold-500 p-4 hover:bg-white/10 transition-colors">
+                                                    <div className="flex justify-between items-center mb-1"><span className="text-white font-bold text-sm">한국 금 제련소</span><span className="text-[9px] bg-gold-500 text-black px-1 font-bold rounded">100%</span></div>
+                                                    <p className="text-xs text-slate-400">금 제련 및 가공 사업</p>
+                                                </div>
+                                                <div className="bg-white/5 border-l-2 border-gold-500 p-4 hover:bg-white/10 transition-colors">
+                                                    <div className="flex justify-between items-center mb-1"><span className="text-white font-bold text-sm">한국 금 거래소</span><span className="text-[9px] bg-gold-500 text-black px-1 font-bold rounded">100%</span></div>
+                                                    <p className="text-xs text-slate-400">유통 및 판매 플랫폼</p>
+                                                </div>
+                                                <div className="bg-white/5 border-l-2 border-gold-500 p-4 hover:bg-white/10 transition-colors">
+                                                    <div className="flex justify-between items-center mb-1"><span className="text-white font-bold text-sm">튀르키예 금제련소</span><span className="text-[9px] bg-gold-500 text-black px-1 font-bold rounded">100%</span></div>
+                                                    <p className="text-xs text-slate-400">해외 실물 자산 확보</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Pillar 2: Real Estate */}
+                                        <div className="relative flex flex-col items-center">
+                                            <div className="hidden lg:block tree-connector-up"></div>
+                                            <div className="bg-navy-900 border border-gold-500/30 px-6 py-4 rounded-sm text-center w-full mb-6 relative">
+                                                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-navy-950 px-2 text-gold-400"><Icons.Building size={20} /></div>
+                                                <h4 className="font-display text-lg text-white mt-2">자산 운용/부동산</h4>
+                                                <p className="text-[10px] text-slate-500 uppercase tracking-wider">Asset Management</p>
+                                            </div>
+                                            <div className="w-full space-y-4">
+                                                <div className="bg-white/5 border-l-2 border-gold-500 p-4 hover:bg-white/10 transition-colors">
+                                                    <div className="flex justify-between items-center mb-1"><span className="text-white font-bold text-sm">부동산 매매법인</span><span className="text-[9px] bg-gold-500 text-black px-1 font-bold rounded">100%</span></div>
+                                                    <p className="text-xs text-slate-400">Cash Cow (안정적 현금흐름)</p>
+                                                </div>
+                                                <div className="bg-white/5 border-l-2 border-gold-500 p-4 hover:bg-white/10 transition-colors">
+                                                    <div className="flex justify-between items-center mb-1"><span className="text-white font-bold text-sm">시행/건설사</span><span className="text-[9px] bg-gold-500 text-black px-1 font-bold rounded">100%</span></div>
+                                                    <p className="text-xs text-slate-400">부동산 개발 및 시행</p>
+                                                </div>
+                                                <div className="bg-white/5 border-l-2 border-gold-500 p-4 hover:bg-white/10 transition-colors">
+                                                    <div className="flex justify-between items-center mb-1"><span className="text-white font-bold text-sm">호텔업</span><span className="text-[9px] bg-gold-500 text-black px-1 font-bold rounded">100%</span></div>
+                                                    <p className="text-xs text-slate-400">숙박 및 서비스 운영</p>
+                                                </div>
+                                                <div className="bg-white/5 border-l-2 border-gold-500 p-4 hover:bg-white/10 transition-colors">
+                                                    <div className="flex justify-between items-center mb-1"><span className="text-white font-bold text-sm">해외 리조트</span><span className="text-[9px] bg-gold-500 text-black px-1 font-bold rounded">100%</span></div>
+                                                    <p className="text-xs text-slate-400">필리핀 보홀 풀빌라</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Pillar 3: Entertainment */}
+                                        <div className="relative flex flex-col items-center">
+                                            <div className="hidden lg:block tree-connector-up"></div>
+                                            <div className="bg-navy-900 border border-gold-500/30 px-6 py-4 rounded-sm text-center w-full mb-6 relative">
+                                                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-navy-950 px-2 text-gold-400"><Icons.Film size={20} /></div>
+                                                <h4 className="font-display text-lg text-white mt-2">IP 및 콘텐츠</h4>
+                                                <p className="text-[10px] text-slate-500 uppercase tracking-wider">Entertainment</p>
+                                            </div>
+                                            <div className="w-full space-y-4">
+                                                <div className="bg-white/5 border-l-2 border-gold-500 p-4 hover:bg-white/10 transition-colors">
+                                                    <div className="flex justify-between items-center mb-1"><span className="text-white font-bold text-sm">한국 엔터테인먼트</span><span className="text-[9px] bg-gold-500 text-black px-1 font-bold rounded">100%</span></div>
+                                                    <p className="text-xs text-slate-400">K-콘텐츠 제작 및 IP 관리</p>
+                                                </div>
+                                                <a href="/gp/" className="block bg-white/5 border-l-2 border-gold-500 p-4 hover:bg-gold-500/20 transition-colors group">
+                                                    <div className="flex justify-between items-center mb-1">
+                                                        <span className="text-white font-bold text-sm group-hover:text-gold-300">미국 엔터테인먼트</span>
+                                                        <span className="text-[9px] bg-gold-500 text-black px-1 font-bold rounded">100%</span>
+                                                    </div>
+                                                    <p className="text-xs text-slate-400">헐리우드 콘텐츠 제작</p>
+                                                    <span className="text-[10px] text-gold-400 mt-2 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">VISIT STUDIO <Icons.ArrowRight size={12} /></span>
+                                                </a>
+                                                <div className="bg-white/5 border-l-2 border-gold-500 p-4 hover:bg-white/10 transition-colors">
+                                                    <div className="flex justify-between items-center mb-1"><span className="text-white font-bold text-sm">극장 사업</span><span className="text-[9px] bg-gold-500 text-black px-1 font-bold rounded">100%</span></div>
+                                                    <p className="text-xs text-slate-400">콘텐츠 상영 플랫폼</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Pillar 4: Global */}
+                                        <div className="relative flex flex-col items-center">
+                                            <div className="hidden lg:block tree-connector-up"></div>
+                                            <div className="bg-navy-900 border border-gold-500/30 px-6 py-4 rounded-sm text-center w-full mb-6 relative">
+                                                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-navy-950 px-2 text-gold-400"><Icons.Globe size={20} /></div>
+                                                <h4 className="font-display text-lg text-white mt-2">글로벌 확장 기지</h4>
+                                                <p className="text-[10px] text-slate-500 uppercase tracking-wider">Global Investment</p>
+                                            </div>
+                                            <div className="w-full space-y-4">
+                                                <div className="bg-white/5 border-l-2 border-gold-500 p-4 hover:bg-white/10 transition-colors">
+                                                    <div className="flex justify-between items-center mb-1"><span className="text-white font-bold text-sm">미국 인베스트먼트</span><span className="text-[9px] bg-gold-500 text-black px-1 font-bold rounded">100%</span></div>
+                                                    <p className="text-xs text-slate-400">해외 투자 및 확장 거점</p>
+                                                </div>
+                                                <div className="p-4 text-center border border-white/5 rounded bg-white/[0.02]">
+                                                    <p className="text-xs text-slate-500">Connecting Seoul, Hollywood, and Turkey</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="philosophy" className="py-32 bg-gradient-to-b from-navy-950 to-black">
+                        <div className="container mx-auto px-6">
+                            <div className="flex flex-col lg:flex-row gap-20">
+                                <div className="lg:w-1/2">
+                                    <span className="text-gold-500 text-xs font-bold tracking-[0.3em] uppercase block mb-6">Chairman's Message</span>
+                                    <h2 className="font-display text-4xl md:text-5xl text-white leading-tight mb-8">
+                                        "우리는 단순한 투자가 아닌,<br />
+                                        <span className="text-serif italic text-gold-400">전설을 설계합니다.</span>"
+                                    </h2>
+                                    <p className="font-serif text-slate-400 text-lg leading-loose mb-8">
+                                        로크(Roc)가 한 번의 날개짓으로 대양을 건너듯, 우리는 세대를 뛰어넘는 긴 호흡으로 투자합니다. 전설 속에서나 가능했던 일들을 현실로 만드는 힘, 그것이 Golden Roc의 본질입니다.
+                                    </p>
+                                    <div className="h-px w-20 bg-gold-600 mb-8"></div>
+                                    <p className="text-white font-display text-xl">The Chairman</p>
+                                </div>
+                                <div className="lg:w-1/2 grid grid-cols-1 gap-6">
+                                    <div className="bg-white/5 p-8 border border-white/10 hover:bg-white/10 transition-colors cursor-pointer">
+                                        <div className="flex justify-between items-start mb-4">
+                                            <Icons.TrendingUp className="text-gold-400" size={32} />
+                                            <span className="text-xs text-slate-500 font-bold uppercase">2025 Q4</span>
+                                        </div>
+                                        <h3 className="text-2xl font-display text-white mb-2">Financial Highlights</h3>
+                                        <p className="text-slate-400 text-sm mb-4">지주사 전환 이후 첫 분기 실적 및 성장 지표 보고서</p>
+                                        <span className="text-gold-500 text-xs font-bold tracking-widest uppercase border-b border-gold-500 pb-1">Download PDF</span>
+                                    </div>
+                                    <div className="bg-white/5 p-8 border border-white/10 hover:bg-white/10 transition-colors cursor-pointer">
+                                        <div className="flex justify-between items-start mb-4">
+                                            <Icons.Globe className="text-gold-400" size={32} />
+                                            <span className="text-xs text-slate-500 font-bold uppercase">Strategy</span>
+                                        </div>
+                                        <h3 className="text-2xl font-display text-white mb-2">Global Expansion 2030</h3>
+                                        <p className="text-slate-400 text-sm mb-4">북미 및 아시아 시장 동시 공략을 위한 중장기 로드맵</p>
+                                        <span className="text-gold-500 text-xs font-bold tracking-widest uppercase border-b border-gold-500 pb-1">Read More</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <footer className="bg-black border-t border-gold-900/30 pt-20 pb-10">
+                        <div className="container mx-auto px-6">
+                            <div className="flex flex-col md:flex-row justify-between items-start gap-12 mb-16">
+                                <div>
+                                    <h2 className="font-display text-2xl text-white mb-2">GOLDEN ROC</h2>
+                                    <p className="text-xs text-gold-500 tracking-[0.3em] uppercase">Holdings</p>
+                                </div>
+                                <div className="flex gap-12 text-sm text-slate-400">
+                                    <div className="flex flex-col gap-4">
+                                        <span className="text-white font-bold uppercase tracking-widest mb-2">Company</span>
+                                        <a href="#" className="hover:text-gold-400">About</a>
+                                        <a href="#" className="hover:text-gold-400">Leadership</a>
+                                        <a href="#" className="hover:text-gold-400">History</a>
+                                    </div>
+                                    <div className="flex flex-col gap-4">
+                                        <span className="text-white font-bold uppercase tracking-widest mb-2">Business</span>
+                                        <a href="#governance" className="hover:text-gold-400">Governance</a>
+                                        <a href="#" className="hover:text-gold-400">Investment</a>
+                                        <a href="#" className="hover:text-gold-400">Partners</a>
+                                    </div>
+                                    <div className="flex flex-col gap-4">
+                                        <span className="text-white font-bold uppercase tracking-widest mb-2">Legal</span>
+                                        <a href="#" className="hover:text-gold-400">Privacy Policy</a>
+                                        <a href="#" className="hover:text-gold-400">Ethics</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-600">
+                                <p>&copy; 2026 GOLDEN ROC HOLDINGS. ALL RIGHTS RESERVED.</p>
+                                <p className="mt-2 md:mt-0 font-display">THE LEGEND BEGINS</p>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<GoldenRocHoldings />);
+    </script>
+</body>
+
+</html>

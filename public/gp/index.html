@@ -288,6 +288,7 @@
                                 </div>
 
                                 <div className="hidden md:flex items-center gap-8 text-sm font-medium tracking-widest text-gray-300">
+                                    <a href="/grh/" className="hover:text-yellow-400 transition-colors">HOLDINGS</a>
                                     <a href="#" className="hover:text-yellow-400 transition-colors">MOVIES</a>
                                     <a href="#" className="hover:text-yellow-400 transition-colors">STUDIO</a>
                                     <a href="#" className="hover:text-yellow-400 transition-colors">INVESTORS</a>
@@ -306,7 +307,8 @@
                         {/* 모바일 메뉴 */}
                         {isMenuOpen && (
                             <div className="fixed inset-0 z-40 bg-black flex flex-col items-center justify-center gap-8 md:hidden">
-                                <a href="#" className="text-2xl text-yellow-500 font-serif" onClick={() => setIsMenuOpen(false)}>MOVIES</a>
+                                <a href="/grh/" className="text-2xl text-yellow-500 font-serif" onClick={() => setIsMenuOpen(false)}>HOLDINGS</a>
+                                <a href="#" className="text-2xl text-white font-serif" onClick={() => setIsMenuOpen(false)}>MOVIES</a>
                                 <a href="#" className="text-2xl text-white font-serif" onClick={() => setIsMenuOpen(false)}>STUDIO</a>
                                 <a href="#" className="text-2xl text-white font-serif" onClick={() => setIsMenuOpen(false)}>INVESTORS</a>
                                 <a href="#" className="text-2xl text-white font-serif" onClick={() => setIsMenuOpen(false)}>STORE</a>
